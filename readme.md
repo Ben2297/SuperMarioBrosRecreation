@@ -1,5 +1,6 @@
-# Project Title
+# Recreating a Classic Arcade Game
 A *brief* paragraph explaining your project and what it does should be written here. The idea is to give readers an overview of what it is that you've built.
+The game is a 2D platformer based around the mechanics of something like Super Mario Bros.
 
 ## Getting Started (Software Based)
 You should write a bit about **how** I can get your project working, It's good to think in terms of the following sections:
@@ -54,7 +55,7 @@ What versioning statergy are you using for your project, something like [semanti
 
 ## Authors
 Provide your names here
-* Fred Bloggs - UI Design
+* Benjamin Sweeney
 
 ## References
 * [Gitlab Markdown Guide](https://docs.gitlab.com/ee/user/markdown.html)
