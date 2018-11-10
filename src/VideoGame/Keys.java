@@ -19,18 +19,18 @@ public class Keys extends KeyAdapter implements Controller {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
-            case KeyEvent.VK_UP:
+            /*case KeyEvent.VK_UP:
                 action.thrust = 1;
-                break;
+                break;*/
             case KeyEvent.VK_LEFT:
                 action.move = -1;
                 break;
             case KeyEvent.VK_RIGHT:
-                action.move = +1;
+                action.move = 1;
                 break;
             case KeyEvent.VK_SPACE:
                 if(System.currentTimeMillis() - lastPressProcessed > 500) {
-                    action.shoot = true;
+                    action.jump = true;
                     lastPressProcessed = System.currentTimeMillis();
                     break;
                 }
@@ -40,9 +40,9 @@ public class Keys extends KeyAdapter implements Controller {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
-            case KeyEvent.VK_UP:
+            /*case KeyEvent.VK_UP:
                 action.thrust = 0;
-                break;
+                break;*/
             case KeyEvent.VK_LEFT:
                 action.move = 0;
                 break;
@@ -50,7 +50,7 @@ public class Keys extends KeyAdapter implements Controller {
                 action.move = 0;
                 break;
             case KeyEvent.VK_SPACE:
-                action.shoot = false;
+                action.jump = false;
                 break;
         }
     }
