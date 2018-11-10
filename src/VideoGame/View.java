@@ -24,12 +24,12 @@ public class View extends JComponent {
             for (GameObject object : game.objects) {
                 object.draw(g);
             }
-            g.setColor(Color.blue);
+            /*g.setColor(Color.blue);
             g.setFont(new Font("Impact", Font.PLAIN, 22));
             g.drawString(("Score: " + Integer.toString(game.getScore())), 30, 30);
             g.drawString(("Lives: " + Integer.toString(game.lives)), FRAME_WIDTH - 100, 30);
             g.setFont(new Font("Impact", Font.PLAIN, 26));
-            g.drawString(("Level " + Integer.toString(game.level)), (FRAME_WIDTH / 2) - 20, 30);
+            g.drawString(("Level " + Integer.toString(game.level)), (FRAME_WIDTH / 2) - 20, 30);*/
         }
     }
 

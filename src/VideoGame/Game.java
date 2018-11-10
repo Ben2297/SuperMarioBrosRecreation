@@ -16,22 +16,22 @@ public class Game {
     private int currentAsteroids = 3;
     public List<GameObject> objects;
     private Player player;
-    private List<Asteroid> asteroids;
+    //private List<Asteroid> asteroids;
     private Keys ctrl;
     private int score = 0;
     public int lives = 3;
-    private Asteroid ranAsteroid;
+    //private Asteroid ranAsteroid;
     public int level = 1;
     private static BufferedImage myImage;
 
     // Sets up the game
     private Game() {
         objects = new ArrayList<>();
-        asteroids = new ArrayList<>();
+        //asteroids = new ArrayList<>();
         ctrl = new Keys();
         player = new Player(ctrl);
         objects.add(player);
-        for (int i = 0; i < N_INITIAL_ASTEROIDS; i++) {
+        /*for (int i = 0; i < N_INITIAL_ASTEROIDS; i++) {
             ranAsteroid = Asteroid.makeRandomAsteroid();
             while (ranAsteroid.position.x <= (player.position.x + player.radius) && ranAsteroid.position.y <= (player.position.y + player.radius)
                     && ranAsteroid.position.x >= (player.position.x) && ranAsteroid.position.y <= (player.position.y + player.radius)) {
@@ -39,7 +39,7 @@ public class Game {
             }
             objects.add(ranAsteroid);
             asteroids.add(ranAsteroid);
-        }
+        }*/
     }
 
     // The main method which calls the update method to keep the game running
@@ -74,14 +74,14 @@ public class Game {
                 alive.add(o);
             }
         }
-        for (GameObject o : objects) {
+        /*for (GameObject o : objects) {
             if (o.dead && o.getClass() == Asteroid.class) {
                 if (!player.dead) {
                     incScore();
                 }
                 asteroids.add((Asteroid) o);
             }
-        }
+        }*/
         if (player.dead) {
             if (lives > 0) {
                 lives -= 1;
@@ -91,7 +91,7 @@ public class Game {
                 System.exit(0);
             }
         }
-        for (Asteroid a : asteroids) {
+        /*for (Asteroid a : asteroids) {
             for (Asteroid b : a.spawnedAsteroids) {
                 if (b != null) {
                     alive.add(b);
@@ -120,7 +120,7 @@ public class Game {
         if (player.bullet != null) {
             alive.add(player.bullet);
             player.bullet = null;
-        }
+        }*/
 
         if (score != 0 && score % 10000 == 0) {
             lives += 1;
@@ -128,7 +128,7 @@ public class Game {
         synchronized (Game.class) {
             objects.clear();
             objects.addAll(alive);
-            asteroids.clear();
+            ///asteroids.clear();
         }
     }
 

@@ -21,13 +21,9 @@ public class Player extends GameObject {
 
     private static final Color COLOR = Color.cyan;
 
-    private int[] XP = new int[] {-11, 0, 11, 0};
-    private int[] YP = new int[] {11, -11, 11, 0};
-    private int[] XPTHRUST = new int[] {-11, 11, 0};
-    private int[] YPTHRUST = new int[] {12, 12, 20};
     private Vector2D direction;
     private boolean thrusting;
-    public Bullet bullet = null;
+    //public Bullet bullet = null;
 
     // controller which provides an Action object in each frame
     private Controller ctrl;
@@ -50,36 +46,36 @@ public class Player extends GameObject {
     }
 
     // Creates a new bullet
-    private void mkBullet() {
+    /*private void mkBullet() {
         bullet = new Bullet(new Vector2D(position), new Vector2D(velocity));
         bullet.position.set(position);
         bullet.position.addScaled(direction , 8);
         bullet.velocity.addScaled(direction, 200);
         SoundManager.fire();
-    }
+    }*/
 
     // Calls the game object hit method
     public void hit() {
         super.hit();
-        SoundManager.play(SoundManager.bangSmall);
+        //SoundManager.play(SoundManager.bangSmall);
     }
 
     // Updates the direction and state of ship (thrusting, firing, etc.)
     public void update() {
         super.update();
         VideoGame.Action action = ctrl.action();
-        direction.rotate(action.turn * STEER_RATE * DT);
+        //direction.rotate(action.turn * STEER_RATE * DT);
         velocity.addScaled(direction, (MAG_ACC * DT * action.thrust));
         velocity.mult(DRAG);
         if (action.thrust == 1) {
             thrusting = true;
-            SoundManager.startThrust();
+            //SoundManager.startThrust();
         } else {
             thrusting = false;
-            SoundManager.stopThrust();
+            //SoundManager.stopThrust();
         }
         if (action.shoot) {
-            mkBullet();
+            //mkBullet();
             action.shoot = false;
         }
     }
@@ -92,11 +88,7 @@ public class Player extends GameObject {
         g.rotate(rot);
         g.scale(1, 1);
         g.setColor(COLOR);
-        g.fillPolygon(XP, YP, XP.length);
-        if (thrusting) {
-            g.setColor(Color.red);
-            g.fillPolygon(XPTHRUST, YPTHRUST, XPTHRUST.length);
-        }
+        g.fillRect(400, 400, 100, 100);
         g.setTransform(at);
     }
 }
