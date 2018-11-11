@@ -35,7 +35,7 @@ public abstract class GameObject {
         }
     }
 
-    // updates general game object position and implements the force field effect to the object
+    // updates general game object position
     public void update() {
         position.addScaled(velocity, DT);
         position.wrap(FRAME_WIDTH, FRAME_HEIGHT);

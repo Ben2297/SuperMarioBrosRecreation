@@ -14,15 +14,22 @@ public class Player extends GameObject {
     private static final double STEER_RATE = 2* Math.PI;
 
     // acceleration when thrust is applied
-    private static final double MAG_ACC = 200;
+    private static final double MAG_ACC = 500;
 
     // constant speed loss factor
-    private static final double DRAG = 0.98;
+    private static final double DRAG = 0.97;
+
+    public static final double JUMP_STRENGTH = 20;
+
+    public static final double GRAVITY = 0.5;
+
+    public static final double FLOOR = 740;
 
     private static final Color COLOR = Color.cyan;
 
     private Vector2D direction;
-    private boolean thrusting;
+    private Vector2D jumpDirection;
+    private boolean jumping;
     //public Bullet bullet = null;
 
     // controller which provides an Action object in each frame
@@ -34,14 +41,17 @@ public class Player extends GameObject {
         Vector2D pos = new Vector2D();
         Vector2D vel = new Vector2D();
         direction = new Vector2D();
+        jumpDirection = new Vector2D();
         //pos.set(FRAME_WIDTH / 2, FRAME_HEIGHT / 2);
         pos.set(60, 740);
         vel.set(0, 0);
         direction.set(1, 0);
+        jumpDirection.set(0, -1);
         position = new Vector2D();
         position.set(pos);
         velocity = new Vector2D();
         velocity.set(vel);
+        jumping = false;
         dead = false;
         radius = RADIUS;
     }
@@ -56,7 +66,7 @@ public class Player extends GameObject {
     }*/
 
     private void jump() {
-
+        velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
     }
 
     // Calls the game object hit method
@@ -71,17 +81,28 @@ public class Player extends GameObject {
         VideoGame.Action action = ctrl.action();
         //direction.rotate(action.turn * STEER_RATE * DT);
         velocity.addScaled(direction, (MAG_ACC * DT * action.move));
+        if (position.y < FLOOR)
+        {
+            velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+        } else {
+            if (!action.jump)
+            {
+                velocity.y = 0;
+                jumping = false;
+            }
+        }
         velocity.mult(DRAG);
         if (action.move == 1) {
-            thrusting = true;
+            //thrusting = true;
             //SoundManager.startThrust();
         } else {
-            thrusting = false;
+            //thrusting = false;
             //SoundManager.stopThrust();
         }
-        if (action.jump) {
-            //mkBullet();
+        if (action.jump && !jumping) {
+            jump();
             action.jump = false;
+            jumping = true;
         }
     }
 
