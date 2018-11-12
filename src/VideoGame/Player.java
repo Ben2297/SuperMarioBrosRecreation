@@ -10,9 +10,6 @@ import static VideoGame.Constants.*;
 public class Player extends GameObject {
     private static final int RADIUS = 20;
 
-    // rotation velocity in radians per second
-    private static final double STEER_RATE = 2* Math.PI;
-
     // acceleration when thrust is applied
     private static final double MAG_ACC = 500;
 
@@ -23,7 +20,7 @@ public class Player extends GameObject {
 
     public static final double GRAVITY = 0.5;
 
-    public static final double FLOOR = 740;
+    public static final double FLOOR = 800;
 
     private static final Color COLOR = Color.cyan;
 
@@ -36,19 +33,18 @@ public class Player extends GameObject {
     private Controller ctrl;
 
     // Constructs ship object, initialises fields
-    public Player(Controller ctrl) {
+    public Player(Controller ctrl, Vector2D posit) {
         this.ctrl = ctrl;
         Vector2D pos = new Vector2D();
         Vector2D vel = new Vector2D();
         direction = new Vector2D();
         jumpDirection = new Vector2D();
-        //pos.set(FRAME_WIDTH / 2, FRAME_HEIGHT / 2);
-        pos.set(60, 740);
+        pos.set(60, (FLOOR - RADIUS * 2));
         vel.set(0, 0);
         direction.set(1, 0);
         jumpDirection.set(0, -1);
         position = new Vector2D();
-        position.set(pos);
+        position.set(posit);
         velocity = new Vector2D();
         velocity.set(vel);
         jumping = false;
@@ -81,7 +77,7 @@ public class Player extends GameObject {
         VideoGame.Action action = ctrl.action();
         //direction.rotate(action.turn * STEER_RATE * DT);
         velocity.addScaled(direction, (MAG_ACC * DT * action.move));
-        if (position.y < FLOOR)
+        if (position.y < (FLOOR - RADIUS * 2))
         {
             velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
         } else {

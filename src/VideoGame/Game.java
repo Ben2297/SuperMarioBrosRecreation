@@ -1,6 +1,7 @@
 package VideoGame;
 
 import Utilities.JEasyFrame;
+import Utilities.Vector2D;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static VideoGame.Constants.DELAY;
+import static VideoGame.Constants.FRAME_HEIGHT;
+import static VideoGame.Constants.FRAME_WIDTH;
 
 public class Game {
     private static final int N_INITIAL_ASTEROIDS = 3;
@@ -23,14 +26,21 @@ public class Game {
     //private Asteroid ranAsteroid;
     public int level = 1;
     private static BufferedImage myImage;
+    private Vector2D[][] grid;
 
     // Sets up the game
     private Game() {
         objects = new ArrayList<>();
         //asteroids = new ArrayList<>();
         ctrl = new Keys();
-        player = new Player(ctrl);
+        grid = new Vector2D[30][30];
+        constructGrid();
+        player = new Player(ctrl, grid[0][0]);
         objects.add(player);
+        Vector2D blockPosition = new Vector2D();
+        blockPosition.set(500, 770);
+        Block block = new Block(blockPosition);
+        objects.add(block);
         /*for (int i = 0; i < N_INITIAL_ASTEROIDS; i++) {
             ranAsteroid = Asteroid.makeRandomAsteroid();
             while (ranAsteroid.position.x <= (player.position.x + player.radius) && ranAsteroid.position.y <= (player.position.y + player.radius)
@@ -140,5 +150,32 @@ public class Game {
     // Returns the current score
     public int getScore() {
         return score;
+    }
+
+    private void constructGrid() {
+        double xValue;
+        double yValue;
+        double xTotal = 0;
+        double yTotal = 0;
+        xValue = FRAME_WIDTH / 30;
+        yValue = FRAME_HEIGHT / 30;
+
+        for (int x = 0; x < 30; x++)
+        {
+            for (int y = 0; y < 30; y++)
+            {
+                grid[x][y] = new Vector2D();
+            }
+        }
+
+        for (int x = 0; x < 30; x++)
+        {
+            xTotal += xValue;
+            for (int y = 0; y < 30; y++)
+            {
+                yTotal += yValue;
+                grid[x][y].set(xTotal, yTotal);
+            }
+        }
     }
 }

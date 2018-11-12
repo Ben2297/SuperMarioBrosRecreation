@@ -12,7 +12,7 @@ public abstract class GameObject {
     public boolean dead;
     public double radius;
 
-    // Constructs a new game object and initialises the force field object
+    // Constructs a new game object
     public GameObject() {
         super();
     }
@@ -29,10 +29,15 @@ public abstract class GameObject {
 
     // Checks if game object is hit
     public void collisionHandling(GameObject other) {
-        if (this.getClass() != other.getClass() && this.overlap(other)) {
+        /*if (this.getClass() != other.getClass() && this.overlap(other)) {
             this.hit();
             other.hit();
+        }*/
+        if (this.overlap(other) && other.getClass().equals(Block.class))
+        {
+
         }
+
     }
 
     // updates general game object position
