@@ -33,10 +33,10 @@ public abstract class GameObject {
             this.hit();
             other.hit();
         }*/
-        if (this.overlap(other) && other.getClass().equals(Block.class))
+        /*if (this.overlap(other) && other.getClass().equals(Block.class))
         {
 
-        }
+        }*/
 
     }
 

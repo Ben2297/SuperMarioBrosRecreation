@@ -19,6 +19,7 @@ public class Game {
     private int currentAsteroids = 3;
     public List<GameObject> objects;
     private Player player;
+    private Block block;
     //private List<Asteroid> asteroids;
     private Keys ctrl;
     private int score = 0;
@@ -33,13 +34,11 @@ public class Game {
         objects = new ArrayList<>();
         //asteroids = new ArrayList<>();
         ctrl = new Keys();
-        grid = new Vector2D[30][30];
+        grid = new Vector2D[24][19];
         constructGrid();
-        player = new Player(ctrl, grid[0][0]);
+        player = new Player(ctrl, grid[0][18]);
         objects.add(player);
-        Vector2D blockPosition = new Vector2D();
-        blockPosition.set(500, 770);
-        Block block = new Block(blockPosition);
+        block = new Block(grid[3][17]);
         objects.add(block);
         /*for (int i = 0; i < N_INITIAL_ASTEROIDS; i++) {
             ranAsteroid = Asteroid.makeRandomAsteroid();
@@ -153,29 +152,28 @@ public class Game {
     }
 
     private void constructGrid() {
-        double xValue;
-        double yValue;
+        double xValue = FRAME_WIDTH / 25;
+        double yValue = FRAME_HEIGHT / 20;
         double xTotal = 0;
         double yTotal = 0;
-        xValue = FRAME_WIDTH / 30;
-        yValue = FRAME_HEIGHT / 30;
 
-        for (int x = 0; x < 30; x++)
+        for (int x = 0; x < 24; x++)
         {
-            for (int y = 0; y < 30; y++)
+            for (int y = 0; y < 19; y++)
             {
                 grid[x][y] = new Vector2D();
             }
         }
 
-        for (int x = 0; x < 30; x++)
+        for (int x = 0; x < 24; x++)
         {
             xTotal += xValue;
-            for (int y = 0; y < 30; y++)
+            for (int y = 0; y < 19; y++)
             {
                 yTotal += yValue;
                 grid[x][y].set(xTotal, yTotal);
             }
+            yTotal = 0;
         }
     }
 }
