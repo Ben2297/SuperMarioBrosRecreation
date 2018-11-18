@@ -11,6 +11,8 @@ public abstract class GameObject {
     public Vector2D velocity;
     public boolean dead;
     public double radius;
+    public double prevX;
+    public double prevY;
 
     // Constructs a new game object
     public GameObject() {
@@ -23,25 +25,24 @@ public abstract class GameObject {
     }
 
     // Checks for overlap between two game objects
-    private boolean overlap(GameObject other){
+    public boolean overlap(GameObject other){
         return ((position.dist(other.position) - (radius + other.radius)) <= 0);
     }
 
     // Checks if game object is hit
     public void collisionHandling(GameObject other) {
         /*if (this.getClass() != other.getClass() && this.overlap(other)) {
-            this.hit();
-            other.hit();
+            //this.hit();
+            //other.hit();
+            System.out.println("hit");
         }*/
-        /*if (this.overlap(other) && other.getClass().equals(Block.class))
-        {
-
-        }*/
-
     }
 
     // updates general game object position
-    public void update() {
+    public void update()
+    {
+        prevX = position.x;
+        prevY = position.y;
         position.addScaled(velocity, DT);
         position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
     }

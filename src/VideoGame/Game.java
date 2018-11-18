@@ -4,22 +4,20 @@ import Utilities.JEasyFrame;
 import Utilities.Vector2D;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static VideoGame.Constants.DELAY;
-import static VideoGame.Constants.FRAME_HEIGHT;
-import static VideoGame.Constants.FRAME_WIDTH;
+import static VideoGame.Constants.*;
 
 public class Game {
     private static final int N_INITIAL_ASTEROIDS = 3;
     private int currentAsteroids = 3;
     public List<GameObject> objects;
     private Player player;
-    private Block block;
     //private List<Asteroid> asteroids;
     private Keys ctrl;
     private int score = 0;
@@ -34,12 +32,17 @@ public class Game {
         objects = new ArrayList<>();
         //asteroids = new ArrayList<>();
         ctrl = new Keys();
-        grid = new Vector2D[24][19];
+        grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
         constructGrid();
-        player = new Player(ctrl, grid[0][18]);
+        Vector2D playerStartPosition = new Vector2D();
+        playerStartPosition.set(grid[0][0]);
+        player = new Player(ctrl, playerStartPosition);
         objects.add(player);
-        block = new Block(grid[3][17]);
+        Vector2D blockPosition = new Vector2D();
+        blockPosition.set(grid[5][0]);
+        Block block = new Block(blockPosition, Color.red);
         objects.add(block);
+        Level level = new Level(1);
         /*for (int i = 0; i < N_INITIAL_ASTEROIDS; i++) {
             ranAsteroid = Asteroid.makeRandomAsteroid();
             while (ranAsteroid.position.x <= (player.position.x + player.radius) && ranAsteroid.position.y <= (player.position.y + player.radius)
@@ -71,8 +74,10 @@ public class Game {
     // Updates the game, deletes dead objects, adds new asteroids, changes level, updates player lives, score, etc.
     private void update() {
         boolean asteroidsDead = true;
-        for (GameObject o : objects) {
-            for (GameObject g : objects) {
+        for (GameObject o : objects)
+        {
+            for (GameObject g : objects)
+            {
                 o.collisionHandling(g);
             }
         }
@@ -157,18 +162,18 @@ public class Game {
         double xTotal = 0;
         double yTotal = 0;
 
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < GRID_WIDTH; x++)
         {
-            for (int y = 0; y < 19; y++)
+            for (int y = 0; y < GRID_HEIGHT; y++)
             {
                 grid[x][y] = new Vector2D();
             }
         }
 
-        for (int x = 0; x < 24; x++)
+        for (int x = 0; x < GRID_WIDTH; x++)
         {
             xTotal += xValue;
-            for (int y = 0; y < 19; y++)
+            for (int y = GRID_HEIGHT - 1; y >= 0; y--)
             {
                 yTotal += yValue;
                 grid[x][y].set(xTotal, yTotal);

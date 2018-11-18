@@ -1,7 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
@@ -16,9 +15,9 @@ public class Player extends GameObject {
     // constant speed loss factor
     private static final double DRAG = 0.97;
 
-    public static final double JUMP_STRENGTH = 20;
+    public static final double JUMP_STRENGTH = 40;
 
-    public static final double GRAVITY = 0.5;
+    public static final double GRAVITY = 0.9;
 
     public static final double FLOOR = 800;
 
@@ -27,27 +26,26 @@ public class Player extends GameObject {
     private Vector2D direction;
     private Vector2D jumpDirection;
     private boolean jumping;
-    //public Bullet bullet = null;
+    private boolean moving;
 
     // controller which provides an Action object in each frame
     private Controller ctrl;
 
     // Constructs ship object, initialises fields
-    public Player(Controller ctrl, Vector2D posit) {
+    public Player(Controller ctrl, Vector2D pos) {
         this.ctrl = ctrl;
-        Vector2D pos = new Vector2D();
         Vector2D vel = new Vector2D();
-        direction = new Vector2D();
-        jumpDirection = new Vector2D();
-        pos.set(60, (FLOOR - RADIUS * 2));
         vel.set(0, 0);
+        direction = new Vector2D();
         direction.set(1, 0);
+        jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
         position = new Vector2D();
-        position.set(posit);
+        position.set(pos);
         velocity = new Vector2D();
         velocity.set(vel);
         jumping = false;
+        moving = false;
         dead = false;
         radius = RADIUS;
     }
@@ -71,15 +69,14 @@ public class Player extends GameObject {
         //SoundManager.play(SoundManager.bangSmall);
     }
 
-    // Updates the direction and state of ship (thrusting, firing, etc.)
+    // Updates the direction and state of player (moving, jumping, etc.)
     public void update() {
         super.update();
         VideoGame.Action action = ctrl.action();
-        //direction.rotate(action.turn * STEER_RATE * DT);
         velocity.addScaled(direction, (MAG_ACC * DT * action.move));
-        if (position.y < (FLOOR - RADIUS * 2))
+        if ((position.y + radius * 2) < FLOOR)
         {
-            velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+            applyGravity();
         } else {
             if (!action.jump)
             {
@@ -88,18 +85,49 @@ public class Player extends GameObject {
             }
         }
         velocity.mult(DRAG);
-        if (action.move == 1) {
-            //thrusting = true;
-            //SoundManager.startThrust();
+        if (action.move == 1 || action.move == -1) {
+            moving = true;
         } else {
-            //thrusting = false;
-            //SoundManager.stopThrust();
+            moving = false;
         }
         if (action.jump && !jumping) {
             jump();
             action.jump = false;
             jumping = true;
         }
+    }
+
+    public void collisionHandling(GameObject other) {
+        if (!(other instanceof Player) && ((position.x + radius) >= (other.position.x - other.radius) &&
+                (position.x + radius) <= (other.position.x + other.radius)) &&
+                ((position.y + radius) >= (other.position.y - radius)))
+        {
+            position.x = prevX;
+            velocity.x = 0;
+        }
+
+        if (!(other instanceof Player) && ((position.x - radius) >= (other.position.x - other.radius) &&
+                (position.x - radius) <= (other.position.x + other.radius)) &&
+                ((position.y + radius) >= (other.position.y - radius)))
+        {
+            position.x = prevX;
+            velocity.x = 0;
+        }
+
+        if (!(other instanceof Player) && ((position.y + radius) >= (other.position.y - other.radius) &&
+                ((position.x - radius) <= (other.position.x + other.radius)) &&
+                ((position.x - radius) >= (other.position.x - radius))) ||
+                (((position.x + radius) >= (other.position.x - radius)) &&
+                        ((position.x + radius) <= (other.position.x + radius))))
+        {
+            //position.y += 1;
+            //velocity.y = 0;
+        }
+    }
+
+    private void applyGravity()
+    {
+        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
     }
 
     // Draws the player using coordinates
