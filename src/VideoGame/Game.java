@@ -39,9 +39,15 @@ public class Game {
         player = new Player(ctrl, playerStartPosition);
         objects.add(player);
         Vector2D blockPosition = new Vector2D();
-        blockPosition.set(grid[5][0]);
+        blockPosition.set(grid[7][2]);
         Block block = new Block(blockPosition, Color.red);
         objects.add(block);
+        blockPosition.set(grid[10][4]);
+        Block block2 = new Block(blockPosition, Color.red);
+        objects.add(block2);
+        blockPosition.set(grid[14][7]);
+        Block block3 = new Block(blockPosition, Color.red);
+        objects.add(block3);
         Level level = new Level(1);
         /*for (int i = 0; i < N_INITIAL_ASTEROIDS; i++) {
             ranAsteroid = Asteroid.makeRandomAsteroid();
@@ -60,7 +66,7 @@ public class Game {
         try {
             myImage = ImageIO.read(new File("space-background.jpg"));
         } catch (IOException e) {
-            System.out.println("Incorrect file name");
+            //System.out.println("Incorrect file name");
         }
         View view = new View(game, myImage);
         new JEasyFrame(view, "Basic Game").addKeyListener(game.ctrl);
@@ -74,6 +80,9 @@ public class Game {
     // Updates the game, deletes dead objects, adds new asteroids, changes level, updates player lives, score, etc.
     private void update() {
         boolean asteroidsDead = true;
+        for (GameObject o : objects) {
+            o.resetCollisions();
+        }
         for (GameObject o : objects)
         {
             for (GameObject g : objects)

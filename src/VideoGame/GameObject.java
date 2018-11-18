@@ -13,6 +13,8 @@ public abstract class GameObject {
     public double radius;
     public double prevX;
     public double prevY;
+    public boolean falling;
+    public boolean onPlatform;
 
     // Constructs a new game object
     public GameObject() {
@@ -45,6 +47,11 @@ public abstract class GameObject {
         prevY = position.y;
         position.addScaled(velocity, DT);
         position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
+    }
+
+    public void resetCollisions()
+    {
+        onPlatform = false;
     }
 
     public abstract void draw(Graphics2D g);

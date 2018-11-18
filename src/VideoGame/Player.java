@@ -15,7 +15,7 @@ public class Player extends GameObject {
     // constant speed loss factor
     private static final double DRAG = 0.97;
 
-    public static final double JUMP_STRENGTH = 40;
+    public static final double JUMP_STRENGTH = 60;
 
     public static final double GRAVITY = 0.9;
 
@@ -48,6 +48,8 @@ public class Player extends GameObject {
         moving = false;
         dead = false;
         radius = RADIUS;
+        falling = false;
+        onPlatform = false;
     }
 
     // Creates a new bullet
@@ -74,7 +76,7 @@ public class Player extends GameObject {
         super.update();
         VideoGame.Action action = ctrl.action();
         velocity.addScaled(direction, (MAG_ACC * DT * action.move));
-        if ((position.y + radius * 2) < FLOOR)
+        if (((position.y + radius * 2) < FLOOR) && !onPlatform)
         {
             applyGravity();
         } else {
@@ -114,14 +116,15 @@ public class Player extends GameObject {
             velocity.x = 0;
         }
 
-        if (!(other instanceof Player) && ((position.y + radius) >= (other.position.y - other.radius) &&
-                ((position.x - radius) <= (other.position.x + other.radius)) &&
+        if (!(other instanceof Player) && ((position.y + radius + 0.5) >= (other.position.y - other.radius) &&
+                ((((position.x - radius) <= (other.position.x + other.radius)) &&
                 ((position.x - radius) >= (other.position.x - radius))) ||
                 (((position.x + radius) >= (other.position.x - radius)) &&
-                        ((position.x + radius) <= (other.position.x + radius))))
+                        ((position.x + radius) <= (other.position.x + radius))))))
         {
-            //position.y += 1;
-            //velocity.y = 0;
+            position.y = prevY;
+            velocity.y = 0;
+            onPlatform = true;
         }
     }
 
