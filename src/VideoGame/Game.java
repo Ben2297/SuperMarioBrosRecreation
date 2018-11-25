@@ -39,7 +39,7 @@ public class Game {
         player = new Player(ctrl, playerStartPosition);
         objects.add(player);
         Vector2D blockPosition = new Vector2D();
-        blockPosition.set(grid[7][2]);
+        blockPosition.set(grid[7][0]);
         Block block = new Block(blockPosition, Color.red);
         objects.add(block);
         blockPosition.set(grid[10][4]);

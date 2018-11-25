@@ -17,7 +17,7 @@ public class Player extends GameObject {
 
     public static final double JUMP_STRENGTH = 60;
 
-    public static final double GRAVITY = 0.9;
+    public static final double GRAVITY = 0.92;
 
     public static final double FLOOR = 800;
 
@@ -51,15 +51,6 @@ public class Player extends GameObject {
         falling = false;
         onPlatform = false;
     }
-
-    // Creates a new bullet
-    /*private void mkBullet() {
-        bullet = new Bullet(new Vector2D(position), new Vector2D(velocity));
-        bullet.position.set(position);
-        bullet.position.addScaled(direction , 8);
-        bullet.velocity.addScaled(direction, 200);
-        SoundManager.fire();
-    }*/
 
     private void jump() {
         velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
@@ -100,31 +91,50 @@ public class Player extends GameObject {
     }
 
     public void collisionHandling(GameObject other) {
-        if (!(other instanceof Player) && ((position.x + radius) >= (other.position.x - other.radius) &&
-                (position.x + radius) <= (other.position.x + other.radius)) &&
-                ((position.y + radius) >= (other.position.y - radius)))
+        if (!(other instanceof Player) && ((position.x + radius + 0.2) >= (other.position.x - other.radius) &&
+                (position.x + radius + 0.2) <= (other.position.x + other.radius)) &&
+                ((((position.y + radius) >= (other.position.y - radius)) &&
+                ((position.y + radius) <= (other.position.y + radius))) ||
+                (((position.y - radius) >= (other.position.y - radius)) &&
+                ((position.y - radius) <= (other.position.y + radius)))))
         {
             position.x = prevX;
             velocity.x = 0;
         }
 
-        if (!(other instanceof Player) && ((position.x - radius) >= (other.position.x - other.radius) &&
-                (position.x - radius) <= (other.position.x + other.radius)) &&
-                ((position.y + radius) >= (other.position.y - radius)))
+        if (!(other instanceof Player) && ((position.x - radius - 0.2) >= (other.position.x - other.radius) &&
+                (position.x - radius - 0.2) <= (other.position.x + other.radius)) &&
+                ((((position.y + radius) >= (other.position.y - radius)) &&
+                ((position.y + radius) <= (other.position.y + radius))) ||
+                (((position.y - radius) >= (other.position.y - radius)) &&
+                ((position.y - radius) <= (other.position.y + radius)))))
         {
             position.x = prevX;
             velocity.x = 0;
         }
 
-        if (!(other instanceof Player) && ((position.y + radius + 0.5) >= (other.position.y - other.radius) &&
+        if (!(other instanceof Player) && ((((position.y + radius + 0.5) >= (other.position.y - other.radius)) &&
+                ((position.y + radius) < (other.position.y + other.radius))) &&
                 ((((position.x - radius) <= (other.position.x + other.radius)) &&
                 ((position.x - radius) >= (other.position.x - radius))) ||
                 (((position.x + radius) >= (other.position.x - radius)) &&
                         ((position.x + radius) <= (other.position.x + radius))))))
         {
+            onPlatform = true;
+            jumping = false;
             position.y = prevY;
             velocity.y = 0;
-            onPlatform = true;
+        }
+
+        if (!(other instanceof Player) && ((((position.y - radius - 0.5) <= (other.position.y + other.radius)) &&
+                ((position.y - radius) > (other.position.y - other.radius))) &&
+                ((((position.x - radius) <= (other.position.x + other.radius)) &&
+                        ((position.x - radius) >= (other.position.x - radius))) ||
+                        (((position.x + radius) >= (other.position.x - radius)) &&
+                                ((position.x + radius) <= (other.position.x + radius))))))
+        {
+            position.y = prevY;
+            velocity.y = 0;
         }
     }
 
