@@ -15,6 +15,7 @@ public abstract class GameObject {
     public double prevY;
     public boolean falling;
     public boolean onPlatform;
+    public double delta;
 
     // Constructs a new game object
     public GameObject() {

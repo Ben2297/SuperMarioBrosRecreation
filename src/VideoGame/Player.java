@@ -31,7 +31,7 @@ public class Player extends GameObject {
     // controller which provides an Action object in each frame
     private Controller ctrl;
 
-    // Constructs ship object, initialises fields
+    // Constructs player object, initialises fields
     public Player(Controller ctrl, Vector2D pos) {
         this.ctrl = ctrl;
         Vector2D vel = new Vector2D();
