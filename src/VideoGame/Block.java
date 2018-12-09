@@ -1,17 +1,14 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class Block extends GameObject {
     private static final int RADIUS = 20;
-
     private static final Color COLOR = Color.red;
 
     private Vector2D direction;
-
     private Color blockColor;
 
     public Block(Vector2D pos, Color col)

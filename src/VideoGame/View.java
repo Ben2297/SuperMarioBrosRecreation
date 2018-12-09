@@ -3,8 +3,6 @@ package VideoGame;
 import javax.swing.*;
 import java.awt.*;
 
-import static VideoGame.Constants.FRAME_WIDTH;
-
 public class View extends JComponent {
     private Game game;
     private Image image;

@@ -15,9 +15,9 @@ public class Player extends GameObject {
     // constant speed loss factor
     private static final double DRAG = 0.97;
 
-    public static final double JUMP_STRENGTH = 60;
+    public static final double JUMP_STRENGTH = 100;
 
-    public static final double GRAVITY = 0.92;
+    public static final double GRAVITY = 1;
 
     public static final double FLOOR = 800;
 
