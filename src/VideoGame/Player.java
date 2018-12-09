@@ -1,8 +1,13 @@
 package VideoGame;
 
 import Utilities.Vector2D;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import static VideoGame.Constants.*;
 
@@ -27,6 +32,7 @@ public class Player extends GameObject {
     private Vector2D jumpDirection;
     private boolean jumping;
     private boolean moving;
+    BufferedImage image;
 
     // controller which provides an Action object in each frame
     private Controller ctrl;
@@ -50,6 +56,14 @@ public class Player extends GameObject {
         radius = RADIUS;
         falling = false;
         onPlatform = false;
+        try
+        {
+            image = ImageIO.read(new File("Sprite.png"));
+        } catch (IOException ie)
+        {
+
+        }
+
     }
 
     private void jump() {
@@ -65,6 +79,7 @@ public class Player extends GameObject {
     // Updates the direction and state of player (moving, jumping, etc.)
     public void update() {
         super.update();
+        position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
         VideoGame.Action action = ctrl.action();
         velocity.addScaled(direction, (MAG_ACC * DT * action.move));
         if (((position.y + radius * 2) < FLOOR) && !onPlatform)
@@ -153,5 +168,6 @@ public class Player extends GameObject {
         g.setColor(COLOR);
         g.fillRect(0, 0, (int)radius * 2, (int)radius * 2);
         g.setTransform(at);
+        g.drawImage(image, (int)position.x - 40, (int)position.y, null);
     }
 }

@@ -15,7 +15,6 @@ public abstract class GameObject {
     public double prevY;
     public boolean falling;
     public boolean onPlatform;
-    public double delta;
 
     // Constructs a new game object
     public GameObject() {
@@ -47,7 +46,6 @@ public abstract class GameObject {
         prevX = position.x;
         prevY = position.y;
         position.addScaled(velocity, DT);
-        position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
     }
 
     public void resetCollisions()

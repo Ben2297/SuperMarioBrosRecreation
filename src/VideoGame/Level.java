@@ -1,15 +1,13 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-import jdk.nashorn.internal.runtime.Debug;
-
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import static VideoGame.Constants.*;
 
 public class Level {
     private int levelNumber;
@@ -41,23 +39,44 @@ public class Level {
     private void levelLoader()
     {
         int i;
-        int x = 3;
-        int y = 3;
-        String tempString;
+        int x = 0;
+        int y = GRID_HEIGHT - 1;
+        Vector2D blockPosition = new Vector2D();
 
         try {
             while ((i = fileReader.read()) != -1)
             {
                 System.out.print((char) i);
-                if (i == 1)
+                if (Character.isDigit((char)i))
                 {
-                    Vector2D blockPosition = new Vector2D();
-                    blockPosition.set(grid[x][y]);
-                    Block block = new Block(blockPosition, Color.red);
-                    blocks.add(block);
-                    x += 1;
+                    if ((char)i == '1')
+                    {
+                        blockPosition.set(grid[x][y]);
+                        Block block = new Block(blockPosition, Color.red);
+                        blocks.add(block);
+                    }
+                    if (x < 24)
+                    {
+                        x += 1;
+                    } else
+                    {
+                        if (y > 0)
+                        {
+                            y -= 1;
+                            x = 0;
+                        }
+                    }
                 }
+
+
             }
+        } catch (IOException ie)
+        {
+
+        }
+        try
+        {
+            fileReader.close();
         } catch (IOException ie)
         {
 

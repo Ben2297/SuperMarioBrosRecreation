@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static VideoGame.Constants.*;
 
 public class Game {
@@ -36,13 +35,13 @@ public class Game {
         Vector2D blockPosition = new Vector2D();
         blockPosition.set(grid[7][0]);
         Block block = new Block(blockPosition, Color.red);
-        objects.add(block);
+        //objects.add(block);
         blockPosition.set(grid[10][4]);
         Block block2 = new Block(blockPosition, Color.red);
-        objects.add(block2);
-        blockPosition.set(grid[14][7]);
+        //objects.add(block2);
+        blockPosition.set(grid[24][19]);
         Block block3 = new Block(blockPosition, Color.red);
-        objects.add(block3);
+        //objects.add(block3);
         level = new Level(1, grid);
         buildLevel();
     }
@@ -62,27 +61,21 @@ public class Game {
         final int FPS = 60;
         final int SKIP_TICKS = 1000 / FPS;
         final int MAX_FRAMESKIP = 10;
-
         double next_game_tick = System.currentTimeMillis();
         int loops;
 
         boolean game_is_running = true;
 
         while (game_is_running) {
-
             loops = 0;
             while( System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) {
                 game.update();
-
                 next_game_tick += SKIP_TICKS;
                 loops++;
             }
-
             view.repaint();
         }
     }
-
-
 
     // Updates the game, deletes dead objects, adds new enemies, changes level, updates player lives, score, etc.
     private void update() {
@@ -132,9 +125,9 @@ public class Game {
     }
 
     private void constructGrid() {
-        double xValue = FRAME_WIDTH / 25;
-        double yValue = FRAME_HEIGHT / 20;
-        double xTotal = 0;
+        double xValue = FRAME_WIDTH / GRID_WIDTH ;
+        double yValue = FRAME_HEIGHT / GRID_HEIGHT;
+        double xTotal = 40;
         double yTotal = 0;
 
         for (int x = 0; x < GRID_WIDTH; x++)
@@ -145,14 +138,17 @@ public class Game {
             }
         }
 
-        for (int x = 0; x < GRID_WIDTH; x++)
+        for (int x = 0; x <= GRID_WIDTH - 1; x++)
         {
-            xTotal += xValue;
+            //xTotal += xValue;
             for (int y = GRID_HEIGHT - 1; y >= 0; y--)
             {
-                yTotal += yValue;
                 grid[x][y].set(xTotal, yTotal);
+                System.out.println(xTotal);
+                System.out.println(yTotal);
+                yTotal += yValue;
             }
+            xTotal += xValue;
             yTotal = 0;
         }
     }
