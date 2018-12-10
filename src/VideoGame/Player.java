@@ -15,18 +15,18 @@ public class Player extends GameObject {
     private static final int RADIUS = 20;
 
     // acceleration when thrust is applied
-    private static final double MAG_ACC = 500;
+    private static final double MAG_ACC = 800;
 
     // constant speed loss factor
-    private static final double DRAG = 0.97;
+    private static final double DRAG = 0.94;
 
-    public static final double JUMP_STRENGTH = 100;
+    public static final double JUMP_STRENGTH = 110;
 
-    public static final double GRAVITY = 1;
+    public static final double GRAVITY = 1.5;
 
     public static final double FLOOR = 800;
 
-    private static final Color COLOR = Color.cyan;
+    private static final Color COLOR = Color.red;
 
     private Vector2D direction;
     private Vector2D jumpDirection;
@@ -102,10 +102,13 @@ public class Player extends GameObject {
             jump();
             action.jump = false;
             jumping = true;
+            onPlatform = false;
         }
+
+        System.out.println(onPlatform);
     }
 
-    public void collisionHandling(GameObject other) {
+    public boolean collisionHandling(GameObject other) {
         if (!(other instanceof Player) && ((position.x + radius + 0.2) >= (other.position.x - other.radius) &&
                 (position.x + radius + 0.2) <= (other.position.x + other.radius)) &&
                 ((((position.y + radius) >= (other.position.y - radius)) &&
@@ -128,7 +131,7 @@ public class Player extends GameObject {
             velocity.x = 0;
         }
 
-        if (!(other instanceof Player) && ((((position.y + radius + 0.5) >= (other.position.y - other.radius)) &&
+        if (!(other instanceof Player) && ((((position.y + radius + 1) >= (other.position.y - other.radius)) &&
                 ((position.y + radius) < (other.position.y + other.radius))) &&
                 ((((position.x - radius) <= (other.position.x + other.radius)) &&
                 ((position.x - radius) >= (other.position.x - radius))) ||
@@ -141,7 +144,7 @@ public class Player extends GameObject {
             velocity.y = 0;
         }
 
-        if (!(other instanceof Player) && ((((position.y - radius - 0.5) <= (other.position.y + other.radius)) &&
+        if (!(other instanceof Player) && ((((position.y - radius - 1) <= (other.position.y + other.radius)) &&
                 ((position.y - radius) > (other.position.y - other.radius))) &&
                 ((((position.x - radius) <= (other.position.x + other.radius)) &&
                         ((position.x - radius) >= (other.position.x - radius))) ||
@@ -151,6 +154,7 @@ public class Player extends GameObject {
             position.y = prevY;
             velocity.y = 0;
         }
+        return onPlatform;
     }
 
     private void applyGravity()
@@ -168,6 +172,11 @@ public class Player extends GameObject {
         g.setColor(COLOR);
         g.fillRect(0, 0, (int)radius * 2, (int)radius * 2);
         g.setTransform(at);
-        g.drawImage(image, (int)position.x - 40, (int)position.y, null);
+        //g.drawImage(image, (int)position.x - 40, (int)position.y, null);
+    }
+
+    public void resetOnPlatform()
+    {
+        onPlatform = false;
     }
 }

@@ -52,7 +52,7 @@ public class Level {
                     if ((char)i == '1')
                     {
                         blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, Color.red);
+                        Block block = new Block(blockPosition, Color.orange);
                         blocks.add(block);
                     }
                     if (x < 24)

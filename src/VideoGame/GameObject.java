@@ -32,12 +32,13 @@ public abstract class GameObject {
     }
 
     // Checks if game object is hit
-    public void collisionHandling(GameObject other) {
+    public boolean collisionHandling(GameObject other) {
         /*if (this.getClass() != other.getClass() && this.overlap(other)) {
             //this.hit();
             //other.hit();
             System.out.println("hit");
         }*/
+        return false;
     }
 
     // updates general game object position

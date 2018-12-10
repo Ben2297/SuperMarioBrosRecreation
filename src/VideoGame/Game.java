@@ -51,9 +51,9 @@ public class Game {
         Game game = new Game();
 
         try {
-            myImage = ImageIO.read(new File("space-background.jpg"));
+            myImage = ImageIO.read(new File("Background.png"));
         } catch (IOException e) {
-            //System.out.println("Incorrect file name");
+            System.out.println("Incorrect file name");
         }
         View view = new View(game, myImage);
         new JEasyFrame(view, "CE301 Game").addKeyListener(game.ctrl);
@@ -80,15 +80,24 @@ public class Game {
     // Updates the game, deletes dead objects, adds new enemies, changes level, updates player lives, score, etc.
     private void update() {
         for (GameObject o : objects) {
-            o.resetCollisions();
+            //o.resetCollisions();
         }
+        boolean isCollision = false;
         for (GameObject o : objects)
         {
             for (GameObject g : objects)
             {
-                o.collisionHandling(g);
+                if (o.collisionHandling(g))
+                {
+                    isCollision = true;
+                }
             }
         }
+        if (!isCollision)
+        {
+            player.resetOnPlatform();
+        }
+
         List<GameObject> alive = new ArrayList<>();
         for (GameObject o : objects) {
             o.update();
