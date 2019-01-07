@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class Block extends GameObject {
     private static final int RADIUS = 20;
-    private static final Color COLOR = Color.ORANGE;
     private Vector2D direction;
     private Color blockColor;
     BufferedImage image;
@@ -40,11 +39,12 @@ public class Block extends GameObject {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
         double rot = direction.angle() + Math.PI / 2;
-        g.rotate(rot);
+        //g.rotate(rot);
         g.scale(1, 1);
         g.setColor(blockColor);
-        g.fillRect(0, 0, (int)radius * 2, (int)radius * 2);
+        //g.fillRect(0, 0, (int)radius * 2, (int)radius * 2);
         g.setTransform(at);
-        g.drawImage(image, (int)position.x - 40, (int)position.y, null);
+        g.drawImage(image, (int)position.x, (int)position.y, null);
+        g.draw(getBounds());
     }
 }

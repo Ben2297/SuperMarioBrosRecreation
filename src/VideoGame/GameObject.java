@@ -13,8 +13,6 @@ public abstract class GameObject {
     public double radius;
     public double prevX;
     public double prevY;
-    public boolean falling;
-    public boolean onPlatform;
 
     // Constructs a new game object
     public GameObject() {
@@ -41,17 +39,53 @@ public abstract class GameObject {
         return false;
     }
 
+    public Rectangle getBounds()
+    {
+        return new Rectangle((int)position.x, (int)position.y, (int)radius*2, (int)radius*2);
+    }
+
+    public Rectangle getBoundsTop() {
+        return new Rectangle(
+                (int)position.x,
+                (int)position.y,
+                (int)(radius*2),
+                (int)((radius * 2) * 0.1f)
+        );
+    }
+
+    public Rectangle getBoundsBottom() {
+        return new Rectangle(
+                (int)position.x,
+                (int)(position.y + (radius * 2) - ((radius * 2) * 0.1f)),
+                (int)(radius*2),
+                (int)((radius * 2) * 0.1f)
+        );
+    }
+
+    public Rectangle getBoundsLeft() {
+        return new Rectangle(
+                (int)(position.x),
+                (int)(position.y + 4),
+                (int)((radius*2) * 0.1f),
+                (int)((radius*2) - 8)
+        );
+    }
+
+    public Rectangle getBoundsRight() {
+        return new Rectangle(
+                (int)(position.x + (radius * 2) - ((radius * 2) * 0.1f)),
+                (int)(position.y + 4),
+                (int)((radius*2) * 0.1f),
+                (int)((radius*2) - 8)
+        );
+    }
+
     // updates general game object position
     public void update()
     {
         prevX = position.x;
         prevY = position.y;
         position.addScaled(velocity, DT);
-    }
-
-    public void resetCollisions()
-    {
-        onPlatform = false;
     }
 
     public abstract void draw(Graphics2D g);

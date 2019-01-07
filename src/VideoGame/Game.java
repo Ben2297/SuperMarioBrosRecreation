@@ -3,7 +3,6 @@ package VideoGame;
 import Utilities.JEasyFrame;
 import Utilities.Vector2D;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +12,7 @@ import static VideoGame.Constants.*;
 
 public class Game {
     public List<GameObject> objects;
+    public List<Block> blocks;
     private Player player;
     private Keys ctrl;
     private int score = 0;
@@ -22,31 +22,20 @@ public class Game {
     private Vector2D[][] grid;
     private Level level;
 
-    // Sets up the game
     private Game() {
         objects = new ArrayList<>();
+        blocks = new ArrayList<>();
         ctrl = new Keys();
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
-        playerStartPosition.set(grid[0][0]);
-        player = new Player(ctrl, playerStartPosition);
+        playerStartPosition.set(grid[0][2]);
+        player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
-        Vector2D blockPosition = new Vector2D();
-        blockPosition.set(grid[7][0]);
-        Block block = new Block(blockPosition, Color.red);
-        //objects.add(block);
-        blockPosition.set(grid[10][4]);
-        Block block2 = new Block(blockPosition, Color.red);
-        //objects.add(block2);
-        blockPosition.set(grid[24][19]);
-        Block block3 = new Block(blockPosition, Color.red);
-        //objects.add(block3);
         level = new Level(1, grid);
         buildLevel();
     }
 
-    // The main method which calls the update method to keep the game running
     public static void main(String[] args) throws Exception {
         Game game = new Game();
 
@@ -77,28 +66,9 @@ public class Game {
         }
     }
 
-    // Updates the game, deletes dead objects, adds new enemies, changes level, updates player lives, score, etc.
     private void update() {
-        for (GameObject o : objects) {
-            //o.resetCollisions();
-        }
-        boolean isCollision = false;
-        for (GameObject o : objects)
-        {
-            for (GameObject g : objects)
-            {
-                if (o.collisionHandling(g))
-                {
-                    isCollision = true;
-                }
-            }
-        }
-        if (!isCollision)
-        {
-            player.resetOnPlatform();
-        }
-
         List<GameObject> alive = new ArrayList<>();
+
         for (GameObject o : objects) {
             o.update();
             if (!o.dead) {
@@ -123,16 +93,6 @@ public class Game {
         }
     }
 
-    // Increases score
-    private void incScore() {
-        score += 100;
-    }
-
-    // Returns the current score
-    public int getScore() {
-        return score;
-    }
-
     private void constructGrid() {
         double xValue = FRAME_WIDTH / GRID_WIDTH ;
         double yValue = FRAME_HEIGHT / GRID_HEIGHT;
@@ -149,7 +109,6 @@ public class Game {
 
         for (int x = 0; x <= GRID_WIDTH - 1; x++)
         {
-            //xTotal += xValue;
             for (int y = GRID_HEIGHT - 1; y >= 0; y--)
             {
                 grid[x][y].set(xTotal, yTotal);
@@ -167,6 +126,7 @@ public class Game {
         for (int i = 0; i < level.getBlocks().size(); i++)
         {
             objects.add(level.getBlocks().get(i));
+            blocks.add(level.getBlocks().get(i));
         }
     }
 }

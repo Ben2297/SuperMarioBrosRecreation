@@ -1,7 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -14,15 +13,13 @@ import static VideoGame.Constants.*;
 public class Player extends GameObject {
     private static final int RADIUS = 20;
 
-    // acceleration when thrust is applied
-    private static final double MAG_ACC = 800;
+    private static final double MAG_ACC = 1000;
 
-    // constant speed loss factor
     private static final double DRAG = 0.94;
 
-    public static final double JUMP_STRENGTH = 110;
+    public static final double JUMP_STRENGTH = 200;
 
-    public static final double GRAVITY = 1.5;
+    public static final double GRAVITY = 1.8;
 
     public static final double FLOOR = 800;
 
@@ -32,13 +29,14 @@ public class Player extends GameObject {
     private Vector2D jumpDirection;
     private boolean jumping;
     private boolean moving;
+    private boolean falling;
+    public boolean canJump;
     BufferedImage image;
+    Game game;
 
-    // controller which provides an Action object in each frame
     private Controller ctrl;
 
-    // Constructs player object, initialises fields
-    public Player(Controller ctrl, Vector2D pos) {
+    public Player(Controller ctrl, Vector2D pos, Game game) {
         this.ctrl = ctrl;
         Vector2D vel = new Vector2D();
         vel.set(0, 0);
@@ -54,8 +52,9 @@ public class Player extends GameObject {
         moving = false;
         dead = false;
         radius = RADIUS;
-        falling = false;
-        onPlatform = false;
+        falling = true;
+        this.game = game;
+
         try
         {
             image = ImageIO.read(new File("Sprite.png"));
@@ -70,91 +69,94 @@ public class Player extends GameObject {
         velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
     }
 
-    // Calls the game object hit method
     public void hit() {
         super.hit();
-        //SoundManager.play(SoundManager.bangSmall);
     }
 
-    // Updates the direction and state of player (moving, jumping, etc.)
     public void update() {
-        super.update();
+        //super.update();
+
+        prevX = position.x;
+        prevY = position.y;
+        //position.addScaled(velocity, DT);
+
+        if (!hasHorizontalCollision()) position.x += (velocity.x * DT);
+        if (!hasVerticalCollision()) position.y += (velocity.y * DT);
+
         position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
         VideoGame.Action action = ctrl.action();
         velocity.addScaled(direction, (MAG_ACC * DT * action.move));
-        if (((position.y + radius * 2) < FLOOR) && !onPlatform)
+        velocity.mult(DRAG);
+
+        if (falling)
         {
             applyGravity();
-        } else {
-            if (!action.jump)
-            {
-                velocity.y = 0;
-                jumping = false;
-            }
         }
-        velocity.mult(DRAG);
+
         if (action.move == 1 || action.move == -1) {
             moving = true;
         } else {
             moving = false;
         }
-        if (action.jump && !jumping) {
+
+        if (action.jump && canJump) {
             jump();
             action.jump = false;
-            jumping = true;
-            onPlatform = false;
+            canJump = false;
         }
 
-        System.out.println(onPlatform);
+        //System.out.println(falling);
     }
 
-    public boolean collisionHandling(GameObject other) {
-        if (!(other instanceof Player) && ((position.x + radius + 0.2) >= (other.position.x - other.radius) &&
-                (position.x + radius + 0.2) <= (other.position.x + other.radius)) &&
-                ((((position.y + radius) >= (other.position.y - radius)) &&
-                ((position.y + radius) <= (other.position.y + radius))) ||
-                (((position.y - radius) >= (other.position.y - radius)) &&
-                ((position.y - radius) <= (other.position.y + radius)))))
+    public boolean hasVerticalCollision()
+    {
+        for (int i = 0; i < game.blocks.size(); i++)
         {
-            position.x = prevX;
-            velocity.x = 0;
+            Block b = game.blocks.get(i);
+            if (getBounds().intersects(b.getBoundsTop()) && velocity.y > 0)
+            {
+                canJump = true;
+                falling = false;
+                velocity.y = 0;
+                //position.y = b.position.y - radius*2;
+                System.out.println("Colliding");
+                return true;
+            } else
+            {
+                falling = true;
+            }
+
+            if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
+            {
+                velocity.y = 0;
+                return true;
+            }
         }
 
-        if (!(other instanceof Player) && ((position.x - radius - 0.2) >= (other.position.x - other.radius) &&
-                (position.x - radius - 0.2) <= (other.position.x + other.radius)) &&
-                ((((position.y + radius) >= (other.position.y - radius)) &&
-                ((position.y + radius) <= (other.position.y + radius))) ||
-                (((position.y - radius) >= (other.position.y - radius)) &&
-                ((position.y - radius) <= (other.position.y + radius)))))
+        return false;
+    }
+
+    public boolean hasHorizontalCollision()
+    {
+        for (int i = 0; i < game.blocks.size(); i++)
         {
-            position.x = prevX;
-            velocity.x = 0;
+            Block b = game.blocks.get(i);
+            if (getBounds().intersects(b.getBoundsRight()) && velocity.x < 0)
+            {
+                velocity.x = 0;
+                position.x = b.position.x + (this.radius * 2);
+                return true;
+            }
+
+            if (getBounds().intersects(b.getBoundsLeft()) && velocity.x > 0)
+            {
+                velocity.x = 0;
+                position.x = b.position.x - (this.radius * 2);
+                return true;
+            }
         }
 
-        if (!(other instanceof Player) && ((((position.y + radius + 1) >= (other.position.y - other.radius)) &&
-                ((position.y + radius) < (other.position.y + other.radius))) &&
-                ((((position.x - radius) <= (other.position.x + other.radius)) &&
-                ((position.x - radius) >= (other.position.x - radius))) ||
-                (((position.x + radius) >= (other.position.x - radius)) &&
-                        ((position.x + radius) <= (other.position.x + radius))))))
-        {
-            onPlatform = true;
-            jumping = false;
-            position.y = prevY;
-            velocity.y = 0;
-        }
-
-        if (!(other instanceof Player) && ((((position.y - radius - 1) <= (other.position.y + other.radius)) &&
-                ((position.y - radius) > (other.position.y - other.radius))) &&
-                ((((position.x - radius) <= (other.position.x + other.radius)) &&
-                        ((position.x - radius) >= (other.position.x - radius))) ||
-                        (((position.x + radius) >= (other.position.x - radius)) &&
-                                ((position.x + radius) <= (other.position.x + radius))))))
-        {
-            position.y = prevY;
-            velocity.y = 0;
-        }
-        return onPlatform;
+        return false;
     }
 
     private void applyGravity()
@@ -162,21 +164,21 @@ public class Player extends GameObject {
         velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
     }
 
-    // Draws the player using coordinates
     public void draw(Graphics2D g) {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
         double rot = direction.angle() + Math.PI / 2;
-        g.rotate(rot);
+        //g.rotate(rot);
         g.scale(1, 1);
         g.setColor(COLOR);
         g.fillRect(0, 0, (int)radius * 2, (int)radius * 2);
         g.setTransform(at);
+        g.setColor(Color.ORANGE);
+        //g.draw(getBounds());
+        g.draw(getBoundsRight());
+        g.draw(getBoundsLeft());
+        g.draw(getBoundsTop());
+        g.draw(getBoundsBottom());
         //g.drawImage(image, (int)position.x - 40, (int)position.y, null);
-    }
-
-    public void resetOnPlatform()
-    {
-        onPlatform = false;
     }
 }

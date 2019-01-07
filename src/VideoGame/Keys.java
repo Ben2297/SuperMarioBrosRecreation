@@ -3,7 +3,6 @@ package VideoGame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-// Handles keyboard input from the user
 public class Keys extends KeyAdapter implements Controller {
     private long lastPressProcessed = 0;
 
@@ -44,7 +43,7 @@ public class Keys extends KeyAdapter implements Controller {
                 action.move = 0;
                 break;
             case KeyEvent.VK_SPACE:
-                action.jump = false;
+                //action.jump = false;
                 break;
         }
     }
