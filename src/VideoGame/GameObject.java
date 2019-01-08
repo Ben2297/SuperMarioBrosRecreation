@@ -45,7 +45,7 @@ public abstract class GameObject {
         return new Rectangle(
                 (int)(position.x + velocity.x * DT),
                 (int)(position.y + velocity.y * DT),
-                (int)width,
+                (int)(width),
                 (int)(height * 0.1f)
         );
     }
@@ -54,7 +54,7 @@ public abstract class GameObject {
         return new Rectangle(
                 (int)(position.x + velocity.x * DT),
                 (int)((position.y + velocity.y * DT) + height - (height * 0.1f)),
-                (int)width,
+                (int)(width),
                 (int)(height * 0.1f)
         );
     }

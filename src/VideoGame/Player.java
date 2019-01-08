@@ -27,13 +27,15 @@ public class Player extends GameObject {
 
     private Vector2D direction;
     private Vector2D jumpDirection;
-    private boolean jumping;
     private boolean moving;
     private boolean falling;
     public boolean canJump;
     BufferedImage runRightImage;
     BufferedImage runLeftImage;
+    BufferedImage jumpRightImage;
+    BufferedImage jumpLeftImage;
     BufferedImage currentImage;
+    VideoGame.Action action;
     Game game;
 
     private Controller ctrl;
@@ -50,7 +52,6 @@ public class Player extends GameObject {
         position.set(pos);
         velocity = new Vector2D();
         velocity.set(vel);
-        jumping = false;
         moving = false;
         dead = false;
         height = HEIGHT;
@@ -62,6 +63,9 @@ public class Player extends GameObject {
         {
             runRightImage = ImageIO.read(new File("MarioRunRight.png"));
             runLeftImage = ImageIO.read(new File("MarioRunLeft.png"));
+            jumpRightImage = ImageIO.read(new File("MarioJumpRight.png"));
+            jumpLeftImage = ImageIO.read(new File("MarioJumpLeft.png"));
+
         } catch (IOException ie)
         {
 
@@ -72,6 +76,13 @@ public class Player extends GameObject {
 
     private void jump() {
         velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+        if (currentImage == runRightImage)
+        {
+            currentImage = jumpRightImage;
+        } else if (currentImage == runLeftImage)
+        {
+            currentImage = jumpLeftImage;
+        }
     }
 
     public void hit() {
@@ -82,19 +93,14 @@ public class Player extends GameObject {
         prevX = position.x;
         prevY = position.y;
 
-        if (!hasHorizontalCollision())
-        {
-            position.x += (velocity.x * DT);
-            if (!hasVerticalCollision()) {
-                position.y += (velocity.y * DT);
-            }
-        }
+        if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
+        if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
 
 
 
 
         position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
-        VideoGame.Action action = ctrl.action();
+        action = ctrl.action();
         velocity.addScaled(direction, (MAG_ACC * DT * action.move));
         velocity.mult(DRAG);
 
@@ -109,18 +115,26 @@ public class Player extends GameObject {
             moving = false;
         }
 
-        if (action.move == 1)
+        if (action.move == 1 && canJump)
         {
             currentImage = runRightImage;
-        } else if (action.move == -1)
+        } else if (action.move == -1 && canJump)
         {
             currentImage = runLeftImage;
+        } else if (action.move == 1 && !canJump)
+        {
+            currentImage = jumpRightImage;
+        } else if (action.move == -1 && !canJump)
+        {
+            currentImage = jumpLeftImage;
         }
 
         if (action.jump && canJump) {
             jump();
             canJump = false;
         }
+
+        System.out.println(falling);
     }
 
     public boolean hasVerticalCollision()
@@ -128,11 +142,18 @@ public class Player extends GameObject {
         for (int i = 0; i < game.blocks.size(); i++)
         {
             Block b = game.blocks.get(i);
-            if (getBounds().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
+            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
             {
                 canJump = true;
                 falling = false;
                 velocity.y = 0;
+                if (currentImage == jumpRightImage)
+                {
+                    currentImage = runRightImage;
+                } else if (currentImage == jumpLeftImage)
+                {
+                    currentImage = runLeftImage;
+                }
                 //position.y = b.position.y - height;
                 return true;
             } else
@@ -140,7 +161,7 @@ public class Player extends GameObject {
                 falling = true;
             }
 
-            if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
+            if (getBoundsTop().intersects(b.getBoundsBottom()) && velocity.y < 0)
             {
                 velocity.y = 0;
                 return true;
@@ -157,7 +178,7 @@ public class Player extends GameObject {
             if (getBounds().intersects(b.getBoundsRight()) && velocity.x < 0)
             {
                 velocity.x = 0;
-                position.x = b.position.x + width;
+                position.x = b.position.x + b.width;
                 System.out.println("L collision");
                 return true;
             }
@@ -190,10 +211,10 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
         //g.draw(getBounds());
-        g.draw(getBoundsRight());
-        g.draw(getBoundsLeft());
-        g.draw(getBoundsTop());
-        g.draw(getBoundsBottom());
+        //g.draw(getBoundsRight());
+        //g.draw(getBoundsLeft());
+        //g.draw(getBoundsTop());
+        //g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }
 }
