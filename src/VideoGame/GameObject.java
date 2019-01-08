@@ -11,6 +11,8 @@ public abstract class GameObject {
     public Vector2D velocity;
     public boolean dead;
     public double radius;
+    public double height;
+    public double width;
     public double prevX;
     public double prevY;
 
@@ -22,11 +24,6 @@ public abstract class GameObject {
     // Updates a hit game object to dead
     public void hit() {
         dead = true;
-    }
-
-    // Checks for overlap between two game objects
-    public boolean overlap(GameObject other){
-        return ((position.dist(other.position) - (radius + other.radius)) <= 0);
     }
 
     // Checks if game object is hit
@@ -41,42 +38,42 @@ public abstract class GameObject {
 
     public Rectangle getBounds()
     {
-        return new Rectangle((int)position.x, (int)position.y, (int)radius*2, (int)radius*2);
+        return new Rectangle((int)(position.x + velocity.x * DT), (int)(position.y + velocity.y * DT), (int)width, (int)height);
     }
 
     public Rectangle getBoundsTop() {
         return new Rectangle(
-                (int)position.x,
-                (int)position.y,
-                (int)(radius*2),
-                (int)((radius * 2) * 0.1f)
+                (int)(position.x + velocity.x * DT),
+                (int)(position.y + velocity.y * DT),
+                (int)width,
+                (int)(height * 0.1f)
         );
     }
 
     public Rectangle getBoundsBottom() {
         return new Rectangle(
-                (int)position.x,
-                (int)(position.y + (radius * 2) - ((radius * 2) * 0.1f)),
-                (int)(radius*2),
-                (int)((radius * 2) * 0.1f)
+                (int)(position.x + velocity.x * DT),
+                (int)((position.y + velocity.y * DT) + height - (height * 0.1f)),
+                (int)width,
+                (int)(height * 0.1f)
         );
     }
 
     public Rectangle getBoundsLeft() {
         return new Rectangle(
-                (int)(position.x),
-                (int)(position.y + 4),
-                (int)((radius*2) * 0.1f),
-                (int)((radius*2) - 8)
+                (int)(position.x + velocity.x * DT),
+                (int)(position.y + (height * 0.1) + velocity.y * DT),
+                (int)(width * 0.1f),
+                (int)(height - ((height * 0.1) * 2))
         );
     }
 
     public Rectangle getBoundsRight() {
         return new Rectangle(
-                (int)(position.x + (radius * 2) - ((radius * 2) * 0.1f)),
-                (int)(position.y + 4),
-                (int)((radius*2) * 0.1f),
-                (int)((radius*2) - 8)
+                (int)(position.x + width - (width * 0.1f) + velocity.x * DT),
+                (int)(position.y + (height * 0.1) + velocity.y * DT),
+                (int)(width * 0.1f),
+                (int)(height - ((height * 0.1) * 2))
         );
     }
 
