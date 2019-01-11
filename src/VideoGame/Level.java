@@ -12,13 +12,17 @@ import static VideoGame.Constants.*;
 public class Level {
     private int levelNumber;
     private List<Block> blocks;
+    private List<Enemy> enemies;
     private String levelString;
     private FileReader fileReader;
     private Vector2D[][] grid;
+    Game game;
 
-    public Level (int levelNumber, Vector2D[][] grid)
+    public Level (int levelNumber, Vector2D[][] grid, Game game)
     {
+        this.game = game;
         blocks = new ArrayList<>();
+        enemies = new ArrayList<>();
         this.levelNumber = levelNumber;
         String levelNumString = Integer.toString(levelNumber);
         levelString = "Level" + levelNumString + ".txt";
@@ -42,6 +46,7 @@ public class Level {
         int x = 0;
         int y = GRID_HEIGHT - 1;
         Vector2D blockPosition = new Vector2D();
+        Vector2D enemyPosition = new Vector2D();
 
         try {
             while ((i = fileReader.read()) != -1)
@@ -54,6 +59,11 @@ public class Level {
                         blockPosition.set(grid[x][y]);
                         Block block = new Block(blockPosition, Color.orange);
                         blocks.add(block);
+                    } else if ((char)i == '2')
+                    {
+                        enemyPosition.set(grid[x][y]);
+                        Enemy enemy = new Enemy(enemyPosition, game);
+                        enemies.add(enemy);
                     }
                     if (x < 24)
                     {
@@ -87,5 +97,10 @@ public class Level {
     public List<Block> getBlocks()
     {
         return blocks;
+    }
+
+    public List<Enemy> getEnemies()
+    {
+        return enemies;
     }
 }

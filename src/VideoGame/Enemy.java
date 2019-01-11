@@ -20,11 +20,13 @@ public class Enemy extends GameObject{
 
     private static final double GRAVITY = 1.8;
 
+    private long lastAnimationProcessed = 0;
     private Vector2D direction;
     private Vector2D jumpDirection;
     private boolean falling;
     private BufferedImage currentImage;
     private BufferedImage goombaImage1;
+    private BufferedImage goombaImage2;
 
     Game game;
 
@@ -46,6 +48,7 @@ public class Enemy extends GameObject{
         try
         {
             goombaImage1 = ImageIO.read(new File("Goomba1.png"));
+            goombaImage2 = ImageIO.read(new File("Goomba2.png"));
         } catch (IOException ie)
         {
             System.out.println("Image read failed");
@@ -59,6 +62,17 @@ public class Enemy extends GameObject{
     public void update() {
         prevX = position.x;
         prevY = position.y;
+
+        if(System.currentTimeMillis() - lastAnimationProcessed > 300) {
+            if (currentImage == goombaImage1)
+            {
+                currentImage = goombaImage2;
+            } else if (currentImage == goombaImage2)
+            {
+                currentImage = goombaImage1;
+            }
+            lastAnimationProcessed = System.currentTimeMillis();
+        }
 
         if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
         if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
@@ -109,20 +123,20 @@ public class Enemy extends GameObject{
             Block b = game.blocks.get(i);
             if (getBoundsLeft().intersects(b.getBoundsRight()))
             {
-                velocity.x = 0;
+                //velocity.x = 0;
+                velocity.x = velocity.x * -1;
                 direction.mult(-1);
                 position.x = b.position.x + b.width;
-                System.out.println("L collision");
 
                 return true;
             }
 
             if (getBoundsRight().intersects(b.getBoundsLeft()))
             {
-                velocity.x = 0;
+                //velocity.x = 0;
+                velocity.x = velocity.x * -1;
                 direction.mult(-1);
                 position.x = b.position.x - width;
-                System.out.println("R collision");
                 return true;
             }
         }

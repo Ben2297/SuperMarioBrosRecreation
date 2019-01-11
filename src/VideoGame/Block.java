@@ -31,7 +31,7 @@ public class Block extends GameObject {
         blockColor = col;
         try
         {
-            image = ImageIO.read(new File("Brickblock.png"));
+            image = ImageIO.read(new File("Bricks.png"));
         } catch (IOException ie)
         {
 
@@ -48,9 +48,9 @@ public class Block extends GameObject {
         g.setTransform(at);
         g.drawImage(image, (int)position.x, (int)position.y, null);
         //g.draw(getBounds());
-        g.draw(getBoundsRight());
-        g.draw(getBoundsLeft());
-        g.draw(getBoundsTop());
-        g.draw(getBoundsBottom());
+//        g.draw(getBoundsRight());
+//        g.draw(getBoundsLeft());
+//        g.draw(getBoundsTop());
+//        g.draw(getBoundsBottom());
     }
 }

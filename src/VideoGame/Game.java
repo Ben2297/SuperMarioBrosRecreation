@@ -14,7 +14,6 @@ public class Game {
     public List<GameObject> objects;
     public List<Block> blocks;
     private Player player;
-    private Enemy enemy;
     private Keys ctrl;
     private int score = 0;
     public int lives = 3;
@@ -33,12 +32,7 @@ public class Game {
         playerStartPosition.set(grid[0][2]);
         player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
-        Vector2D enemyStartPosition = new Vector2D();
-        enemyStartPosition.set(grid[3][3]);
-        enemy = new Enemy(enemyStartPosition, this);
-        objects.add(enemy);
-
-        level = new Level(1, grid);
+        level = new Level(1, grid, this);
         buildLevel();
     }
 
@@ -133,6 +127,11 @@ public class Game {
         {
             objects.add(level.getBlocks().get(i));
             blocks.add(level.getBlocks().get(i));
+        }
+
+        for (int i = 0; i < level.getEnemies().size(); i++)
+        {
+            objects.add(level.getEnemies().get(i));
         }
     }
 }
