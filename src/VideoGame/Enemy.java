@@ -1,6 +1,7 @@
 package VideoGame;
 
 import Utilities.Vector2D;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -8,36 +9,26 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static VideoGame.Constants.*;
+import static VideoGame.Constants.DT;
+import static VideoGame.Constants.FRAME_HEIGHT;
+import static VideoGame.Constants.FRAME_WIDTH;
 
-public class Player extends GameObject {
-    private static final double MAG_ACC = 1500;
+public class Enemy extends GameObject{
+    private static final double MAG_ACC = 700;
 
     private static final double DRAG = 0.93;
 
-    private static final double JUMP_STRENGTH = 150;
-
     private static final double GRAVITY = 1.8;
-
-    private static final Color COLOR = Color.red;
 
     private Vector2D direction;
     private Vector2D jumpDirection;
-    private boolean moving;
     private boolean falling;
-    private boolean canJump;
-    private BufferedImage runRightImage;
-    private BufferedImage runLeftImage;
-    private BufferedImage jumpRightImage;
-    private BufferedImage jumpLeftImage;
     private BufferedImage currentImage;
-    private VideoGame.Action action;
+    private BufferedImage goombaImage1;
+
     Game game;
 
-    private Controller ctrl;
-
-    public Player(Controller ctrl, Vector2D pos, Game game) {
-        this.ctrl = ctrl;
+    public Enemy(Vector2D pos, Game game) {
         Vector2D vel = new Vector2D();
         vel.set(0, 0);
         direction = new Vector2D();
@@ -48,41 +39,21 @@ public class Player extends GameObject {
         position.set(pos);
         velocity = new Vector2D();
         velocity.set(vel);
-        moving = false;
         dead = false;
         falling = true;
         this.game = game;
 
         try
         {
-            runRightImage = ImageIO.read(new File("MarioRunRight.png"));
-            runLeftImage = ImageIO.read(new File("MarioRunLeft.png"));
-            jumpRightImage = ImageIO.read(new File("MarioJumpRight.png"));
-            jumpLeftImage = ImageIO.read(new File("MarioJumpLeft.png"));
-
+            goombaImage1 = ImageIO.read(new File("Goomba1.png"));
         } catch (IOException ie)
         {
-
+            System.out.println("Image read failed");
         }
 
-        currentImage = runRightImage;
+        currentImage = goombaImage1;
         height = currentImage.getHeight();
         width = currentImage.getWidth();
-    }
-
-    private void jump() {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
-        if (currentImage == runRightImage)
-        {
-            currentImage = jumpRightImage;
-        } else if (currentImage == runLeftImage)
-        {
-            currentImage = jumpLeftImage;
-        }
-    }
-
-    public void hit() {
-        super.hit();
     }
 
     public void update() {
@@ -92,42 +63,13 @@ public class Player extends GameObject {
         if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
         if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
 
-
-
-
         position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
-        action = ctrl.action();
-        velocity.addScaled(direction, (MAG_ACC * DT * action.move));
+        velocity.addScaled(direction, (MAG_ACC * DT));
         velocity.mult(DRAG);
 
         if (falling)
         {
             applyGravity();
-        }
-
-        if (action.move == 1 || action.move == -1) {
-            moving = true;
-        } else {
-            moving = false;
-        }
-
-        if (action.move == 1 && canJump)
-        {
-            currentImage = runRightImage;
-        } else if (action.move == -1 && canJump)
-        {
-            currentImage = runLeftImage;
-        } else if (action.move == 1 && !canJump)
-        {
-            currentImage = jumpRightImage;
-        } else if (action.move == -1 && !canJump)
-        {
-            currentImage = jumpLeftImage;
-        }
-
-        if (action.jump && canJump) {
-            jump();
-            canJump = false;
         }
 
         height = currentImage.getHeight();
@@ -143,17 +85,8 @@ public class Player extends GameObject {
             Block b = game.blocks.get(i);
             if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
             {
-                canJump = true;
                 falling = false;
                 velocity.y = 0;
-                if (currentImage == jumpRightImage)
-                {
-                    currentImage = runRightImage;
-                } else if (currentImage == jumpLeftImage)
-                {
-                    currentImage = runLeftImage;
-                }
-                //position.y = b.position.y - height;
                 return true;
             } else
             {
@@ -174,17 +107,20 @@ public class Player extends GameObject {
         for (int i = 0; i < game.blocks.size(); i++)
         {
             Block b = game.blocks.get(i);
-            if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
+            if (getBoundsLeft().intersects(b.getBoundsRight()))
             {
                 velocity.x = 0;
+                direction.mult(-1);
                 position.x = b.position.x + b.width;
                 System.out.println("L collision");
+
                 return true;
             }
 
-            if (getBoundsRight().intersects(b.getBoundsLeft()) && velocity.x > 0)
+            if (getBoundsRight().intersects(b.getBoundsLeft()))
             {
                 velocity.x = 0;
+                direction.mult(-1);
                 position.x = b.position.x - width;
                 System.out.println("R collision");
                 return true;
@@ -203,7 +139,7 @@ public class Player extends GameObject {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
         g.scale(1, 1);
-        g.setColor(COLOR);
+        //g.setColor(COLOR);
         //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
