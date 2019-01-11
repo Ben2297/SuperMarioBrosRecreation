@@ -10,7 +10,6 @@ public abstract class GameObject {
     public Vector2D position;
     public Vector2D velocity;
     public boolean dead;
-    public double radius;
     public double height;
     public double width;
     public double prevX;

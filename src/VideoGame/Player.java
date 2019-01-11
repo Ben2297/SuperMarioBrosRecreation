@@ -11,17 +11,13 @@ import java.io.IOException;
 import static VideoGame.Constants.*;
 
 public class Player extends GameObject {
-    private static final int HEIGHT = 32;
+    private static final double MAG_ACC = 1500;
 
-    private static final int WIDTH = 26;
+    private static final double DRAG = 0.93;
 
-    private static final double MAG_ACC = 1000;
+    private static final double JUMP_STRENGTH = 150;
 
-    private static final double DRAG = 0.94;
-
-    public static final double JUMP_STRENGTH = 200;
-
-    public static final double GRAVITY = 1.8;
+    private static final double GRAVITY = 1.8;
 
     private static final Color COLOR = Color.red;
 
@@ -29,13 +25,13 @@ public class Player extends GameObject {
     private Vector2D jumpDirection;
     private boolean moving;
     private boolean falling;
-    public boolean canJump;
-    BufferedImage runRightImage;
-    BufferedImage runLeftImage;
-    BufferedImage jumpRightImage;
-    BufferedImage jumpLeftImage;
-    BufferedImage currentImage;
-    VideoGame.Action action;
+    private boolean canJump;
+    private BufferedImage runRightImage;
+    private BufferedImage runLeftImage;
+    private BufferedImage jumpRightImage;
+    private BufferedImage jumpLeftImage;
+    private BufferedImage currentImage;
+    private VideoGame.Action action;
     Game game;
 
     private Controller ctrl;
@@ -54,8 +50,6 @@ public class Player extends GameObject {
         velocity.set(vel);
         moving = false;
         dead = false;
-        height = HEIGHT;
-        width = WIDTH;
         falling = true;
         this.game = game;
 
@@ -72,6 +66,8 @@ public class Player extends GameObject {
         }
 
         currentImage = runRightImage;
+        height = currentImage.getHeight();
+        width = currentImage.getWidth();
     }
 
     private void jump() {
@@ -134,7 +130,10 @@ public class Player extends GameObject {
             canJump = false;
         }
 
-        System.out.println(falling);
+        height = currentImage.getHeight();
+        width = currentImage.getWidth();
+
+        System.out.println(velocity.y);
     }
 
     public boolean hasVerticalCollision()
@@ -161,7 +160,7 @@ public class Player extends GameObject {
                 falling = true;
             }
 
-            if (getBoundsTop().intersects(b.getBoundsBottom()) && velocity.y < 0)
+            if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
             {
                 velocity.y = 0;
                 return true;
@@ -175,7 +174,7 @@ public class Player extends GameObject {
         for (int i = 0; i < game.blocks.size(); i++)
         {
             Block b = game.blocks.get(i);
-            if (getBounds().intersects(b.getBoundsRight()) && velocity.x < 0)
+            if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
             {
                 velocity.x = 0;
                 position.x = b.position.x + b.width;
@@ -183,7 +182,7 @@ public class Player extends GameObject {
                 return true;
             }
 
-            if (getBounds().intersects(b.getBoundsLeft()) && velocity.x > 0)
+            if (getBoundsRight().intersects(b.getBoundsLeft()) && velocity.x > 0)
             {
                 velocity.x = 0;
                 position.x = b.position.x - width;
@@ -203,8 +202,6 @@ public class Player extends GameObject {
     public void draw(Graphics2D g) {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
-        double rot = direction.angle() + Math.PI / 2;
-        //g.rotate(rot);
         g.scale(1, 1);
         g.setColor(COLOR);
         //g.fillRect(0, 0, (int)width, (int)height);

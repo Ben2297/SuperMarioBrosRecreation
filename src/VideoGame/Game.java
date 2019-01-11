@@ -96,7 +96,7 @@ public class Game {
     private void constructGrid() {
         double xValue = FRAME_WIDTH / GRID_WIDTH ;
         double yValue = FRAME_HEIGHT / GRID_HEIGHT;
-        double xTotal = 40;
+        double xTotal = 0;
         double yTotal = 0;
 
         for (int x = 0; x < GRID_WIDTH; x++)
