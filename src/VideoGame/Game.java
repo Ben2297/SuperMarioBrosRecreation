@@ -13,6 +13,7 @@ import static VideoGame.Constants.*;
 public class Game {
     public List<GameObject> objects;
     public List<Block> blocks;
+    public List<Enemy> enemies;
     private Player player;
     private Keys ctrl;
     private int score = 0;
@@ -25,6 +26,7 @@ public class Game {
     private Game() {
         objects = new ArrayList<>();
         blocks = new ArrayList<>();
+        enemies = new ArrayList<>();
         ctrl = new Keys();
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
         constructGrid();
@@ -132,6 +134,7 @@ public class Game {
         for (int i = 0; i < level.getEnemies().size(); i++)
         {
             objects.add(level.getEnemies().get(i));
+            enemies.add(level.getEnemies().get(i));
         }
     }
 }

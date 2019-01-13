@@ -23,18 +23,25 @@ public class Player extends GameObject {
 
     private Vector2D direction;
     private Vector2D jumpDirection;
+    private boolean facingRight = true;
     private boolean moving;
     private boolean falling;
     private boolean canJump;
     private BufferedImage runRightImage;
+    private BufferedImage runRightImage1;
+    private BufferedImage runRightImage2;
+    private BufferedImage runRightImage3;
     private BufferedImage runLeftImage;
+    private BufferedImage runLeftImage1;
+    private BufferedImage runLeftImage2;
+    private BufferedImage runLeftImage3;
     private BufferedImage jumpRightImage;
     private BufferedImage jumpLeftImage;
     private BufferedImage currentImage;
     private VideoGame.Action action;
-    Game game;
-
+    private Game game;
     private Controller ctrl;
+    private long lastAnimationProcessed = 0;
 
     public Player(Controller ctrl, Vector2D pos, Game game) {
         this.ctrl = ctrl;
@@ -56,10 +63,12 @@ public class Player extends GameObject {
         try
         {
             runRightImage = ImageIO.read(new File("MarioRunRight.png"));
+            runRightImage1 = ImageIO.read(new File("MarioRunRight1.png"));
+            runRightImage2 = ImageIO.read(new File("MarioRunRight2.png"));
+            runRightImage3 = ImageIO.read(new File("MarioRunRight3.png"));
             runLeftImage = ImageIO.read(new File("MarioRunLeft.png"));
             jumpRightImage = ImageIO.read(new File("MarioJumpRight.png"));
             jumpLeftImage = ImageIO.read(new File("MarioJumpLeft.png"));
-
         } catch (IOException ie)
         {
 
@@ -91,7 +100,7 @@ public class Player extends GameObject {
 
         if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
         if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
-
+        hasEnemyCollision();
 
 
 
@@ -111,9 +120,33 @@ public class Player extends GameObject {
             moving = false;
         }
 
+        if (action.move == 1)
+        {
+            facingRight = true;
+        } else if (action.move == -1)
+        {
+            facingRight = false;
+        }
+
         if (action.move == 1 && canJump)
         {
-            currentImage = runRightImage;
+            if (currentImage == runRightImage)
+            {
+                currentImage = runRightImage1;
+                lastAnimationProcessed = System.currentTimeMillis();
+            } else if (currentImage == runRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 150)
+            {
+                currentImage = runRightImage2;
+                lastAnimationProcessed = System.currentTimeMillis();
+            } else if (currentImage == runRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 150)
+            {
+                currentImage = runRightImage3;
+                lastAnimationProcessed = System.currentTimeMillis();
+            } else if (currentImage == runRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 150)
+            {
+                currentImage = runRightImage1;
+                lastAnimationProcessed = System.currentTimeMillis();
+            }
         } else if (action.move == -1 && canJump)
         {
             currentImage = runLeftImage;
@@ -178,7 +211,6 @@ public class Player extends GameObject {
             {
                 velocity.x = 0;
                 position.x = b.position.x + b.width;
-                System.out.println("L collision");
                 return true;
             }
 
@@ -186,12 +218,23 @@ public class Player extends GameObject {
             {
                 velocity.x = 0;
                 position.x = b.position.x - width;
-                System.out.println("R collision");
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void hasEnemyCollision()
+    {
+        for (int i = 0; i < game.enemies.size(); i++)
+        {
+            Enemy e = game.enemies.get(i);
+            if (getBoundsBottom().intersects(e.getBoundsTop()))
+            {
+                jump();
+            }
+        }
     }
 
     private void applyGravity()
