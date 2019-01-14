@@ -103,8 +103,12 @@ public class Player extends GameObject {
         prevX = position.x;
         prevY = position.y;
 
-        if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
-        if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
+        if (!hasHorizontalCollision())
+        {
+            position.x += (velocity.x * DT);
+            if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
+        }
+        //if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
         hasEnemyCollision();
 
 
@@ -213,7 +217,7 @@ public class Player extends GameObject {
                 {
                     currentImage = runLeftImage;
                 }
-                //position.y = b.position.y - height;
+                position.y = b.position.y - height;
                 return true;
             } else
             {
@@ -279,10 +283,10 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
         //g.draw(getBounds());
-        //g.draw(getBoundsRight());
-        //g.draw(getBoundsLeft());
-        //g.draw(getBoundsTop());
-        //g.draw(getBoundsBottom());
+//        g.draw(getBoundsRight());
+//        g.draw(getBoundsLeft());
+//        g.draw(getBoundsTop());
+//        g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }
 }
