@@ -62,8 +62,8 @@ public class Level {
                     } else if ((char)i == '2')
                     {
                         enemyPosition.set(grid[x][y]);
-                        Enemy enemy = new Enemy(enemyPosition, game);
-                        enemies.add(enemy);
+                        Goomba goomba = new Goomba(enemyPosition, game);
+                        enemies.add(goomba);
                     }
                     if (x < 24)
                     {

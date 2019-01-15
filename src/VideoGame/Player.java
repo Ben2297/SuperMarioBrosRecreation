@@ -11,13 +11,13 @@ import java.io.IOException;
 import static VideoGame.Constants.*;
 
 public class Player extends GameObject {
-    private static final double MAG_ACC = 1600;
+    private static final double MAG_ACC = 1700;
 
-    private static final double DRAG = 0.92;
+    private static final double DRAG = 0.9;
 
-    private static final double JUMP_STRENGTH = 100;
+    private static final double JUMP_STRENGTH = 110;
 
-    private static final double GRAVITY = 1.8;
+    private static final double GRAVITY = 2;
 
     private static final Color COLOR = Color.red;
 
@@ -37,6 +37,7 @@ public class Player extends GameObject {
     private BufferedImage runLeftImage3;
     private BufferedImage jumpRightImage;
     private BufferedImage jumpLeftImage;
+    private BufferedImage deadImage;
     private BufferedImage currentImage;
     private VideoGame.Action action;
     private Game game;
@@ -74,6 +75,8 @@ public class Player extends GameObject {
 
             jumpRightImage = ImageIO.read(new File("MarioJumpRight.png"));
             jumpLeftImage = ImageIO.read(new File("MarioJumpLeft.png"));
+
+            deadImage = ImageIO.read(new File("MarioDead.png"));
         } catch (IOException ie)
         {
 
@@ -95,108 +98,117 @@ public class Player extends GameObject {
         }
     }
 
-    public void hit() {
+    public void hit()
+    {
+        currentImage = deadImage;
+        velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
         super.hit();
     }
 
     public void update() {
-        prevX = position.x;
-        prevY = position.y;
 
-        if (!hasHorizontalCollision())
+        if (!dead)
+        {
+            if (!hasHorizontalCollision())
+            {
+                position.x += (velocity.x * DT);
+                if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
+            }
+            hasEnemyCollision();
+
+
+
+            position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
+            action = ctrl.action();
+            velocity.addScaled(direction, (MAG_ACC * DT * action.move));
+            velocity.mult(DRAG);
+
+            if (falling)
+            {
+                applyGravity();
+            }
+
+            if (action.move == 1 && canJump)
+            {
+                facingRight = true;
+                if (currentImage == runLeftImage || currentImage == runRightImage)
+                {
+                    currentImage = runRightImage1;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                } else if (currentImage == runRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                {
+                    currentImage = runRightImage2;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                } else if (currentImage == runRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                {
+                    currentImage = runRightImage3;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                } else if (currentImage == runRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                {
+                    currentImage = runRightImage1;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                }
+            } else if (action.move == -1 && canJump)
+            {
+                facingRight = false;
+                if (currentImage == runLeftImage || currentImage == runRightImage)
+                {
+                    currentImage = runLeftImage1;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                } else if (currentImage == runLeftImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                {
+                    currentImage = runLeftImage2;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                } else if (currentImage == runLeftImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                {
+                    currentImage = runLeftImage3;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                } else if (currentImage == runLeftImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                {
+                    currentImage = runLeftImage1;
+                    lastAnimationProcessed = System.currentTimeMillis();
+                }
+            } else if (action.move == 1 && !canJump)
+            {
+                facingRight = true;
+                currentImage = jumpRightImage;
+            } else if (action.move == -1 && !canJump)
+            {
+                facingRight = false;
+                currentImage = jumpLeftImage;
+            } else
+            {
+                if (facingRight && canJump)
+                {
+                    currentImage = runRightImage;
+                } else if (!facingRight && canJump)
+                {
+                    currentImage = runLeftImage;
+                } else if (facingRight && !canJump)
+                {
+                    currentImage = jumpRightImage;
+                } else if (!facingRight && !canJump)
+                {
+                    currentImage = jumpLeftImage;
+                }
+            }
+
+            if (action.jump && canJump && !falling)
+            {
+                jump();
+                canJump = false;
+            }
+
+            height = currentImage.getHeight();
+            width = currentImage.getWidth();
+        } else
         {
             position.x += (velocity.x * DT);
-            if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
-        }
-        hasEnemyCollision();
-
-
-
-        position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
-        action = ctrl.action();
-        velocity.addScaled(direction, (MAG_ACC * DT * action.move));
-        velocity.mult(DRAG);
-
-        if (falling)
-        {
+            position.y += (velocity.y * DT);
+            velocity.mult(DRAG);
             applyGravity();
         }
 
-        if (action.move == 1 && canJump)
-        {
-            facingRight = true;
-            if (currentImage == runLeftImage || currentImage == runRightImage)
-            {
-                currentImage = runRightImage1;
-                lastAnimationProcessed = System.currentTimeMillis();
-            } else if (currentImage == runRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-            {
-                currentImage = runRightImage2;
-                lastAnimationProcessed = System.currentTimeMillis();
-            } else if (currentImage == runRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-            {
-                currentImage = runRightImage3;
-                lastAnimationProcessed = System.currentTimeMillis();
-            } else if (currentImage == runRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-            {
-                currentImage = runRightImage1;
-                lastAnimationProcessed = System.currentTimeMillis();
-            }
-        } else if (action.move == -1 && canJump)
-        {
-            facingRight = false;
-            if (currentImage == runLeftImage || currentImage == runRightImage)
-            {
-                currentImage = runLeftImage1;
-                lastAnimationProcessed = System.currentTimeMillis();
-            } else if (currentImage == runLeftImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-            {
-                currentImage = runLeftImage2;
-                lastAnimationProcessed = System.currentTimeMillis();
-            } else if (currentImage == runLeftImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-            {
-                currentImage = runLeftImage3;
-                lastAnimationProcessed = System.currentTimeMillis();
-            } else if (currentImage == runLeftImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-            {
-                currentImage = runLeftImage1;
-                lastAnimationProcessed = System.currentTimeMillis();
-            }
-        } else if (action.move == 1 && !canJump)
-        {
-            facingRight = true;
-            currentImage = jumpRightImage;
-        } else if (action.move == -1 && !canJump)
-        {
-            facingRight = false;
-            currentImage = jumpLeftImage;
-        } else
-        {
-            if (facingRight && canJump)
-            {
-                currentImage = runRightImage;
-            } else if (!facingRight && canJump)
-            {
-                currentImage = runLeftImage;
-            } else if (facingRight && !canJump)
-            {
-                currentImage = jumpRightImage;
-            } else if (!facingRight && !canJump)
-            {
-                currentImage = jumpLeftImage;
-            }
-        }
-
-        if (action.jump && canJump && !falling)
-        {
-            jump();
-            canJump = false;
-        }
-
-        height = currentImage.getHeight();
-        width = currentImage.getWidth();
-
-        //System.out.println(falling);
     }
 
     public boolean hasVerticalCollision()
@@ -264,6 +276,15 @@ public class Player extends GameObject {
             {
                 jump();
                 canJump = false;
+            } else if (getBoundsLeft().intersects(e.getBoundsRight()))
+            {
+                hit();
+            } else if (getBoundsRight().intersects(e.getBoundsLeft()))
+            {
+                hit();
+            } else if (getBoundsTop().intersects(e.getBoundsBottom()))
+            {
+                hit();
             }
         }
     }

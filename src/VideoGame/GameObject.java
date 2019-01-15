@@ -25,16 +25,6 @@ public abstract class GameObject {
         dead = true;
     }
 
-    // Checks if game object is hit
-    public boolean collisionHandling(GameObject other) {
-        /*if (this.getClass() != other.getClass() && this.overlap(other)) {
-            //this.hit();
-            //other.hit();
-            System.out.println("hit");
-        }*/
-        return false;
-    }
-
     public Rectangle getBounds()
     {
         return new Rectangle((int)(position.x + velocity.x * DT), (int)(position.y + velocity.y * DT), (int)width, (int)height);

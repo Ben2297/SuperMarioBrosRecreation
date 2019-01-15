@@ -17,7 +17,7 @@ public class Game {
     private Player player;
     private Keys ctrl;
     private int score = 0;
-    public int lives = 3;
+    public int lives = 0;
     public int levelNumber = 1;
     private static BufferedImage myImage;
     private Vector2D[][] grid;
@@ -83,7 +83,8 @@ public class Game {
                 player.dead = false;
                 alive.add(player);
             } else {
-                System.exit(0);
+                alive.add(player);
+                //System.exit(0);
             }
         }
         if (score != 0 && score % 10000 == 0) {
