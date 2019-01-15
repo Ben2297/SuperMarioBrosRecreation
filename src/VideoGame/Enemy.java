@@ -9,16 +9,13 @@ public abstract class Enemy extends GameObject{
     public Vector2D direction;
     public Vector2D jumpDirection;
     public boolean falling;
-
     Game game;
 
     public Enemy() {
         super();
     }
 
-    public void update() {
-
-    }
+    public void update() { super.update(); }
 
     public boolean hasVerticalCollision()
     {

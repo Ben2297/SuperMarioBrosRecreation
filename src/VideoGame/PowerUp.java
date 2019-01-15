@@ -13,57 +13,47 @@ import static VideoGame.Constants.DT;
 import static VideoGame.Constants.FRAME_HEIGHT;
 import static VideoGame.Constants.FRAME_WIDTH;
 
-public class Goomba extends Enemy {
+public class PowerUp extends GameObject {
 
-    private static final double MAG_ACC = 700;
+    private static final double MAG_ACC = 1000;
 
     private static final double DRAG = 0.93;
 
     private static final double GRAVITY = 1.8;
 
-    private BufferedImage goombaImage1;
-    private BufferedImage goombaImage2;
+    private BufferedImage superMushroomImage;
+    public boolean falling;
+    public Vector2D direction;
+    public Vector2D jumpDirection;
+    Game game;
 
-    public Goomba(Vector2D pos, Game game)
+    public PowerUp(Vector2D pos, Game game)
     {
+        this.game = game;
         Vector2D vel = new Vector2D();
         vel.set(0, 0);
+        position.set(pos);
+        velocity.set(vel);
         direction = new Vector2D();
         direction.set(1, 0);
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
-        position.set(pos);
-        velocity.set(vel);
         dead = false;
-        falling = true;
-        this.game = game;
 
         try
         {
-            goombaImage1 = ImageIO.read(new File("Goomba1.png"));
-            goombaImage2 = ImageIO.read(new File("Goomba2.png"));
+            superMushroomImage = ImageIO.read(new File("SuperMushroom.png"));
         } catch (IOException ie)
         {
             System.out.println("Image read failed");
         }
 
-        currentImage = goombaImage1;
+        currentImage = superMushroomImage;
         height = currentImage.getHeight();
         width = currentImage.getWidth();
     }
 
     public void update() {
-        if(System.currentTimeMillis() - lastAnimationProcessed > 300) {
-            if (currentImage == goombaImage1)
-            {
-                currentImage = goombaImage2;
-            } else if (currentImage == goombaImage2)
-            {
-                currentImage = goombaImage1;
-            }
-            lastAnimationProcessed = System.currentTimeMillis();
-        }
-
         if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
         if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
 
@@ -80,6 +70,58 @@ public class Goomba extends Enemy {
         width = currentImage.getWidth();
 
         //System.out.println(velocity.y);
+    }
+
+    public boolean hasVerticalCollision()
+    {
+        for (int i = 0; i < game.blocks.size(); i++)
+        {
+            Block b = game.blocks.get(i);
+            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
+            {
+                falling = false;
+                velocity.y = 0;
+                return true;
+            } else
+            {
+                falling = true;
+            }
+
+            if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
+            {
+                velocity.y = 0;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasHorizontalCollision()
+    {
+        for (int i = 0; i < game.blocks.size(); i++)
+        {
+            Block b = game.blocks.get(i);
+            if (getBoundsLeft().intersects(b.getBoundsRight()))
+            {
+                //velocity.x = 0;
+                velocity.x = velocity.x * -1;
+                direction.mult(-1);
+                position.x = b.position.x + b.width;
+
+                return true;
+            }
+
+            if (getBoundsRight().intersects(b.getBoundsLeft()))
+            {
+                //velocity.x = 0;
+                velocity.x = velocity.x * -1;
+                direction.mult(-1);
+                position.x = b.position.x - width;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void applyGravity()

@@ -3,6 +3,7 @@ package VideoGame;
 import Utilities.Vector2D;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static VideoGame.Constants.*;
 
@@ -14,10 +15,14 @@ public abstract class GameObject {
     public double width;
     public double prevX;
     public double prevY;
+    public BufferedImage currentImage;
 
     // Constructs a new game object
     public GameObject() {
         super();
+        position = new Vector2D();
+        velocity = new Vector2D();
+
     }
 
     // Updates a hit game object to dead

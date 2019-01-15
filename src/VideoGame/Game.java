@@ -14,6 +14,7 @@ public class Game {
     public List<GameObject> objects;
     public List<Block> blocks;
     public List<Enemy> enemies;
+    public List<PowerUp> powerUps;
     private Player player;
     private Keys ctrl;
     private int score = 0;
@@ -27,6 +28,7 @@ public class Game {
         objects = new ArrayList<>();
         blocks = new ArrayList<>();
         enemies = new ArrayList<>();
+        powerUps = new ArrayList<>();
         ctrl = new Keys();
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
         constructGrid();
@@ -136,6 +138,12 @@ public class Game {
         {
             objects.add(level.getEnemies().get(i));
             enemies.add(level.getEnemies().get(i));
+        }
+
+        for (int i = 0; i < level.getPowerUps().size(); i++)
+        {
+            objects.add(level.getPowerUps().get(i));
+            powerUps.add(level.getPowerUps().get(i));
         }
     }
 }

@@ -15,10 +15,9 @@ public class Block extends GameObject {
     private static final int WIDTH = 40;
 
     private Vector2D direction;
-    private Color blockColor;
     BufferedImage image;
 
-    public Block(Vector2D pos, Color col)
+    public Block(Vector2D pos)
     {
         direction = new Vector2D();
         direction.set(1, 0);
@@ -28,7 +27,6 @@ public class Block extends GameObject {
         velocity.set(0, 0);
         height = HEIGHT;
         width = WIDTH;
-        blockColor = col;
         try
         {
             image = ImageIO.read(new File("Bricks.png"));
@@ -43,7 +41,6 @@ public class Block extends GameObject {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
         g.scale(1, 1);
-        g.setColor(blockColor);
         //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.drawImage(image, (int)position.x, (int)position.y, null);

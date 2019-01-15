@@ -38,7 +38,6 @@ public class Player extends GameObject {
     private BufferedImage jumpRightImage;
     private BufferedImage jumpLeftImage;
     private BufferedImage deadImage;
-    private BufferedImage currentImage;
     private VideoGame.Action action;
     private Game game;
     private Controller ctrl;
@@ -52,9 +51,7 @@ public class Player extends GameObject {
         direction.set(1, 0);
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
-        position = new Vector2D();
         position.set(pos);
-        velocity = new Vector2D();
         velocity.set(vel);
         moving = false;
         dead = false;
@@ -115,8 +112,7 @@ public class Player extends GameObject {
                 if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
             }
             hasEnemyCollision();
-
-
+            hasPowerUpCollision();
 
             position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
             action = ctrl.action();
@@ -285,6 +281,18 @@ public class Player extends GameObject {
             } else if (getBoundsTop().intersects(e.getBoundsBottom()))
             {
                 hit();
+            }
+        }
+    }
+
+    private void hasPowerUpCollision()
+    {
+        for (int i = 0; i < game.powerUps.size(); i++)
+        {
+            PowerUp p = game.powerUps.get(i);
+            if (getBounds().intersects(p.getBounds()))
+            {
+                p.hit();
             }
         }
     }

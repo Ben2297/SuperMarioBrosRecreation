@@ -13,6 +13,7 @@ public class Level {
     private int levelNumber;
     private List<Block> blocks;
     private List<Enemy> enemies;
+    private List<PowerUp> powerUps;
     private String levelString;
     private FileReader fileReader;
     private Vector2D[][] grid;
@@ -23,6 +24,7 @@ public class Level {
         this.game = game;
         blocks = new ArrayList<>();
         enemies = new ArrayList<>();
+        powerUps = new ArrayList<>();
         this.levelNumber = levelNumber;
         String levelNumString = Integer.toString(levelNumber);
         levelString = "Level" + levelNumString + ".txt";
@@ -47,6 +49,7 @@ public class Level {
         int y = GRID_HEIGHT - 1;
         Vector2D blockPosition = new Vector2D();
         Vector2D enemyPosition = new Vector2D();
+        Vector2D powerUpPosition = new Vector2D();
 
         try {
             while ((i = fileReader.read()) != -1)
@@ -57,13 +60,18 @@ public class Level {
                     if ((char)i == '1')
                     {
                         blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, Color.orange);
+                        Block block = new Block(blockPosition);
                         blocks.add(block);
                     } else if ((char)i == '2')
                     {
                         enemyPosition.set(grid[x][y]);
                         Goomba goomba = new Goomba(enemyPosition, game);
                         enemies.add(goomba);
+                    } else if ((char)i == '3')
+                    {
+                        powerUpPosition.set(grid[x][y]);
+                        PowerUp powerUp = new PowerUp(powerUpPosition, game);
+                        powerUps.add(powerUp);
                     }
                     if (x < 24)
                     {
@@ -103,4 +111,6 @@ public class Level {
     {
         return enemies;
     }
+
+    public List<PowerUp> getPowerUps() { return powerUps; }
 }
