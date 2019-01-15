@@ -108,7 +108,6 @@ public class Player extends GameObject {
             position.x += (velocity.x * DT);
             if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
         }
-        //if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
         hasEnemyCollision();
 
 
