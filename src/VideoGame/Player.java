@@ -27,6 +27,8 @@ public class Player extends GameObject {
     private boolean moving;
     private boolean falling;
     private boolean canJump;
+    private boolean superMario = false;
+
     private BufferedImage runRightImage;
     private BufferedImage runRightImage1;
     private BufferedImage runRightImage2;
@@ -38,6 +40,18 @@ public class Player extends GameObject {
     private BufferedImage jumpRightImage;
     private BufferedImage jumpLeftImage;
     private BufferedImage deadImage;
+
+    private BufferedImage superRunRightImage;
+    private BufferedImage superRunRightImage1;
+    private BufferedImage superRunRightImage2;
+    private BufferedImage superRunRightImage3;
+    private BufferedImage superRunLeftImage;
+    private BufferedImage superRunLeftImage1;
+    private BufferedImage superRunLeftImage2;
+    private BufferedImage superRunLeftImage3;
+    private BufferedImage superJumpRightImage;
+    private BufferedImage superJumpLeftImage;
+
     private VideoGame.Action action;
     private Game game;
     private Controller ctrl;
@@ -74,6 +88,20 @@ public class Player extends GameObject {
             jumpLeftImage = ImageIO.read(new File("MarioJumpLeft.png"));
 
             deadImage = ImageIO.read(new File("MarioDead.png"));
+
+            superRunRightImage = ImageIO.read(new File("SuperMarioRunRight.png"));
+            superRunRightImage1 = ImageIO.read(new File("SuperMarioRunRight1.png"));
+            superRunRightImage2 = ImageIO.read(new File("SuperMarioRunRight2.png"));
+            superRunRightImage3 = ImageIO.read(new File("SuperMarioRunRight3.png"));
+
+            superRunLeftImage = ImageIO.read(new File("SuperMarioRunLeft.png"));
+            superRunLeftImage1 = ImageIO.read(new File("SuperMarioRunLeft1.png"));
+            superRunLeftImage2 = ImageIO.read(new File("SuperMarioRunLeft2.png"));
+            superRunLeftImage3 = ImageIO.read(new File("SuperMarioRunLeft3.png"));
+
+            superJumpRightImage = ImageIO.read(new File("SuperMarioJumpRight.png"));
+            superJumpLeftImage = ImageIO.read(new File("SuperMarioJumpLeft.png"));
+
         } catch (IOException ie)
         {
 
@@ -92,6 +120,12 @@ public class Player extends GameObject {
         } else if (currentImage == runLeftImage)
         {
             currentImage = jumpLeftImage;
+        } else if (currentImage == superRunRightImage)
+        {
+            currentImage = superJumpRightImage;
+        } else if (currentImage == superRunLeftImage)
+        {
+            currentImage = superJumpLeftImage;
         }
     }
 
@@ -124,68 +158,139 @@ public class Player extends GameObject {
                 applyGravity();
             }
 
-            if (action.move == 1 && canJump)
+            if (!superMario)
             {
-                facingRight = true;
-                if (currentImage == runLeftImage || currentImage == runRightImage)
+                if (action.move == 1 && canJump)
                 {
-                    currentImage = runRightImage1;
-                    lastAnimationProcessed = System.currentTimeMillis();
-                } else if (currentImage == runRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    facingRight = true;
+                    if (currentImage == runLeftImage || currentImage == runRightImage)
+                    {
+                        currentImage = runRightImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == runRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = runRightImage2;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == runRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = runRightImage3;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == runRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = runRightImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    }
+                } else if (action.move == -1 && canJump)
                 {
-                    currentImage = runRightImage2;
-                    lastAnimationProcessed = System.currentTimeMillis();
-                } else if (currentImage == runRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    facingRight = false;
+                    if (currentImage == runLeftImage || currentImage == runRightImage)
+                    {
+                        currentImage = runLeftImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == runLeftImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = runLeftImage2;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == runLeftImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = runLeftImage3;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == runLeftImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = runLeftImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    }
+                } else if (action.move == 1 && !canJump)
                 {
-                    currentImage = runRightImage3;
-                    lastAnimationProcessed = System.currentTimeMillis();
-                } else if (currentImage == runRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    facingRight = true;
+                    currentImage = jumpRightImage;
+                } else if (action.move == -1 && !canJump)
                 {
-                    currentImage = runRightImage1;
-                    lastAnimationProcessed = System.currentTimeMillis();
+                    facingRight = false;
+                    currentImage = jumpLeftImage;
+                } else
+                {
+                    if (facingRight && canJump)
+                    {
+                        currentImage = runRightImage;
+                    } else if (!facingRight && canJump)
+                    {
+                        currentImage = runLeftImage;
+                    } else if (facingRight && !canJump)
+                    {
+                        currentImage = jumpRightImage;
+                    } else if (!facingRight && !canJump)
+                    {
+                        currentImage = jumpLeftImage;
+                    }
                 }
-            } else if (action.move == -1 && canJump)
-            {
-                facingRight = false;
-                if (currentImage == runLeftImage || currentImage == runRightImage)
-                {
-                    currentImage = runLeftImage1;
-                    lastAnimationProcessed = System.currentTimeMillis();
-                } else if (currentImage == runLeftImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-                {
-                    currentImage = runLeftImage2;
-                    lastAnimationProcessed = System.currentTimeMillis();
-                } else if (currentImage == runLeftImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-                {
-                    currentImage = runLeftImage3;
-                    lastAnimationProcessed = System.currentTimeMillis();
-                } else if (currentImage == runLeftImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-                {
-                    currentImage = runLeftImage1;
-                    lastAnimationProcessed = System.currentTimeMillis();
-                }
-            } else if (action.move == 1 && !canJump)
-            {
-                facingRight = true;
-                currentImage = jumpRightImage;
-            } else if (action.move == -1 && !canJump)
-            {
-                facingRight = false;
-                currentImage = jumpLeftImage;
             } else
             {
-                if (facingRight && canJump)
+                if (action.move == 1 && canJump)
                 {
-                    currentImage = runRightImage;
-                } else if (!facingRight && canJump)
+                    facingRight = true;
+                    if (currentImage == runLeftImage || currentImage == runRightImage ||
+                            currentImage == superRunLeftImage | currentImage == superRunRightImage)
+                    {
+                        currentImage = superRunRightImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == superRunRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = superRunRightImage2;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == superRunRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = superRunRightImage3;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == superRunRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = superRunRightImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    }
+                } else if (action.move == -1 && canJump)
                 {
-                    currentImage = runLeftImage;
-                } else if (facingRight && !canJump)
+                    facingRight = false;
+                    if (currentImage == runLeftImage || currentImage == runRightImage ||
+                            currentImage == superRunLeftImage | currentImage == superRunRightImage)
+                    {
+                        currentImage = superRunLeftImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == superRunLeftImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = superRunLeftImage2;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == superRunLeftImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = superRunLeftImage3;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    } else if (currentImage == superRunLeftImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                    {
+                        currentImage = superRunLeftImage1;
+                        lastAnimationProcessed = System.currentTimeMillis();
+                    }
+                } else if (action.move == 1 && !canJump)
                 {
-                    currentImage = jumpRightImage;
-                } else if (!facingRight && !canJump)
+                    facingRight = true;
+                    currentImage = superJumpRightImage;
+                } else if (action.move == -1 && !canJump)
                 {
-                    currentImage = jumpLeftImage;
+                    facingRight = false;
+                    currentImage = superJumpLeftImage;
+                } else
+                {
+                    if (facingRight && canJump)
+                    {
+                        currentImage = superRunRightImage;
+                    } else if (!facingRight && canJump)
+                    {
+                        currentImage = superRunLeftImage;
+                    } else if (facingRight && !canJump)
+                    {
+                        currentImage = superJumpRightImage;
+                    } else if (!facingRight && !canJump)
+                    {
+                        currentImage = superJumpLeftImage;
+                    }
                 }
             }
 
@@ -205,6 +310,7 @@ public class Player extends GameObject {
             applyGravity();
         }
 
+        System.out.println(canJump);
     }
 
     public boolean hasVerticalCollision()
@@ -223,6 +329,12 @@ public class Player extends GameObject {
                 } else if (currentImage == jumpLeftImage)
                 {
                     currentImage = runLeftImage;
+                } else if (currentImage == superJumpRightImage)
+                {
+                    currentImage = superRunRightImage;
+                } else if (currentImage == superJumpLeftImage)
+                {
+                    currentImage = superRunLeftImage;
                 }
                 position.y = b.position.y - height;
                 return true;
@@ -293,6 +405,10 @@ public class Player extends GameObject {
             if (getBounds().intersects(p.getBounds()))
             {
                 p.hit();
+                game.powerUps.remove(p);
+                superMario = true;
+                jump();
+                canJump = false;
             }
         }
     }
@@ -310,7 +426,7 @@ public class Player extends GameObject {
         //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
-        //g.draw(getBounds());
+        g.draw(getBounds());
 //        g.draw(getBoundsRight());
 //        g.draw(getBoundsLeft());
 //        g.draw(getBoundsTop());

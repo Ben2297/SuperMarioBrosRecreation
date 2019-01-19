@@ -73,12 +73,20 @@ public class Game {
     private void update() {
         List<GameObject> alive = new ArrayList<>();
 
-        for (GameObject o : objects) {
+        for (GameObject o : objects)
+        {
             o.update();
             if (!o.dead) {
                 alive.add(o);
             }
         }
+
+        for (GameObject o : objects) {
+            if (o.dead && o.getClass() == PowerUp.class) {
+                powerUps.add((PowerUp) o);
+            }
+        }
+
         if (player.dead) {
             if (lives > 0) {
                 lives -= 1;
@@ -89,9 +97,11 @@ public class Game {
                 //System.exit(0);
             }
         }
+
         if (score != 0 && score % 10000 == 0) {
             lives += 1;
         }
+
         synchronized (Game.class) {
             objects.clear();
             objects.addAll(alive);
