@@ -386,13 +386,38 @@ public class Player extends GameObject {
                 canJump = false;
             } else if (getBoundsLeft().intersects(e.getBoundsRight()))
             {
-                hit();
+                if (!superMario)
+                {
+                    hit();
+                } else
+                {
+                    superMario = false;
+                    jump();
+                    canJump = false;
+                }
+
             } else if (getBoundsRight().intersects(e.getBoundsLeft()))
             {
-                hit();
+                if (!superMario)
+                {
+                    hit();
+                } else
+                {
+                    superMario = false;
+                    jump();
+                    canJump = false;
+                }
             } else if (getBoundsTop().intersects(e.getBoundsBottom()))
             {
-                hit();
+                if (!superMario)
+                {
+                    hit();
+                } else
+                {
+                    superMario = false;
+                    jump();
+                    canJump = false;
+                }
             }
         }
     }
@@ -423,10 +448,10 @@ public class Player extends GameObject {
         g.translate(position.x, position.y);
         g.scale(1, 1);
         g.setColor(COLOR);
-        //g.fillRect(0, 0, (int)width, (int)height);
+//        g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
-        g.draw(getBounds());
+//        g.draw(getBounds());
 //        g.draw(getBoundsRight());
 //        g.draw(getBoundsLeft());
 //        g.draw(getBoundsTop());
