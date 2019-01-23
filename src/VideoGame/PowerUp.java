@@ -57,7 +57,7 @@ public class PowerUp extends GameObject {
         if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
         if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
 
-        position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
+        //position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
         velocity.addScaled(direction, (MAG_ACC * DT));
         velocity.mult(DRAG);
 

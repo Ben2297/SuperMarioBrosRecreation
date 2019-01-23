@@ -148,7 +148,7 @@ public class Player extends GameObject {
             hasEnemyCollision();
             hasPowerUpCollision();
 
-            position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
+            //position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
             action = ctrl.action();
             velocity.addScaled(direction, (MAG_ACC * DT * action.move));
             velocity.mult(DRAG);
@@ -430,7 +430,7 @@ public class Player extends GameObject {
             if (getBounds().intersects(p.getBounds()))
             {
                 p.hit();
-                game.powerUps.remove(p);
+                //game.powerUps.remove(p);
                 superMario = true;
                 jump();
                 canJump = false;

@@ -3,6 +3,7 @@ package VideoGame;
 import Utilities.JEasyFrame;
 import Utilities.Vector2D;
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class Game {
     private static BufferedImage myImage;
     private Vector2D[][] grid;
     private Level level;
+    private static Camera camera;
 
     private Game() {
         objects = new ArrayList<>();
@@ -33,22 +35,24 @@ public class Game {
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
-        playerStartPosition.set(grid[0][2]);
+        playerStartPosition.set(grid[0][10]);
         player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
         level = new Level(1, grid, this);
         buildLevel();
+        //camera = new Camera(player);
     }
 
     public static void main(String[] args) throws Exception {
         Game game = new Game();
+        camera = new Camera();
 
         try {
             myImage = ImageIO.read(new File("Background.png"));
         } catch (IOException e) {
             System.out.println("Incorrect file name");
         }
-        View view = new View(game, myImage);
+        View view = new View(game, myImage, camera);
         new JEasyFrame(view, "CE301 Game").addKeyListener(game.ctrl);
 
         final int FPS = 60;
@@ -81,8 +85,10 @@ public class Game {
             }
         }
 
+        camera.update(player);
+
         for (GameObject o : objects) {
-            if (o.dead && o.getClass() == PowerUp.class) {
+            if (!o.dead && o.getClass() == PowerUp.class) {
                 powerUps.add((PowerUp) o);
             }
         }
