@@ -8,10 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import static VideoGame.Constants.DT;
-import static VideoGame.Constants.FRAME_HEIGHT;
-import static VideoGame.Constants.FRAME_WIDTH;
 
 public class Goomba extends Enemy {
 
@@ -29,7 +26,7 @@ public class Goomba extends Enemy {
         Vector2D vel = new Vector2D();
         vel.set(0, 0);
         direction = new Vector2D();
-        direction.set(1, 0);
+        direction.set(-1, 0);
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
         position.set(pos);
@@ -67,7 +64,6 @@ public class Goomba extends Enemy {
         if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
         if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
 
-        //position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
         velocity.addScaled(direction, (MAG_ACC * DT));
         velocity.mult(DRAG);
 
@@ -78,8 +74,6 @@ public class Goomba extends Enemy {
 
         height = currentImage.getHeight();
         width = currentImage.getWidth();
-
-        //System.out.println(velocity.y);
     }
 
     private void applyGravity()

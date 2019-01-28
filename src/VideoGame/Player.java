@@ -15,7 +15,7 @@ public class Player extends GameObject {
 
     private static final double DRAG = 0.9;
 
-    private static final double JUMP_STRENGTH = 110;
+    private static final double JUMP_STRENGTH = 150;
 
     private static final double GRAVITY = 2;
 
@@ -138,6 +138,8 @@ public class Player extends GameObject {
 
     public void update() {
 
+        hasEnemyCollision();
+
         if (!dead)
         {
             if (!hasHorizontalCollision())
@@ -145,10 +147,8 @@ public class Player extends GameObject {
                 position.x += (velocity.x * DT);
                 if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
             }
-            hasEnemyCollision();
             hasPowerUpCollision();
 
-            //position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
             action = ctrl.action();
             velocity.addScaled(direction, (MAG_ACC * DT * action.move));
             velocity.mult(DRAG);
@@ -309,8 +309,6 @@ public class Player extends GameObject {
             velocity.mult(DRAG);
             applyGravity();
         }
-
-        System.out.println(canJump);
     }
 
     public boolean hasVerticalCollision()

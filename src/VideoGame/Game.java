@@ -35,7 +35,7 @@ public class Game {
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
-        playerStartPosition.set(grid[0][10]);
+        playerStartPosition.set(grid[0][2]);
         player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
         level = new Level(1, grid, this);
@@ -87,6 +87,8 @@ public class Game {
 
         camera.update(player);
 
+        powerUps.clear();
+
         for (GameObject o : objects) {
             if (!o.dead && o.getClass() == PowerUp.class) {
                 powerUps.add((PowerUp) o);
@@ -115,12 +117,12 @@ public class Game {
     }
 
     private void constructGrid() {
-        double xValue = FRAME_WIDTH / GRID_WIDTH ;
+        double xValue = FRAME_WIDTH / 25 ;
         double yValue = FRAME_HEIGHT / GRID_HEIGHT;
         double xTotal = 0;
         double yTotal = 0;
 
-        for (int x = 0; x < GRID_WIDTH; x++)
+        for (int x = 0; x < (GRID_WIDTH); x++)
         {
             for (int y = 0; y < GRID_HEIGHT; y++)
             {

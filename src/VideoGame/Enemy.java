@@ -48,17 +48,14 @@ public abstract class Enemy extends GameObject{
             Block b = game.blocks.get(i);
             if (getBoundsLeft().intersects(b.getBoundsRight()))
             {
-                //velocity.x = 0;
                 velocity.x = velocity.x * -1;
                 direction.mult(-1);
                 position.x = b.position.x + b.width;
-
                 return true;
             }
 
             if (getBoundsRight().intersects(b.getBoundsLeft()))
             {
-                //velocity.x = 0;
                 velocity.x = velocity.x * -1;
                 direction.mult(-1);
                 position.x = b.position.x - width;

@@ -1,7 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -57,23 +56,32 @@ public class Level {
                 System.out.print((char) i);
                 if (Character.isDigit((char)i))
                 {
-                    if ((char)i == '1')
-                    {
+                    if ((char)i == '1') {
                         blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition);
+                        Block block = new Block(blockPosition, 1);
                         blocks.add(block);
                     } else if ((char)i == '2')
+                    {
+                        blockPosition.set(grid[x][y]);
+                        Block block = new Block(blockPosition, 2);
+                        blocks.add(block);
+                    } else if ((char)i == '3')
+                    {
+                        blockPosition.set(grid[x][y]);
+                        Block block = new Block(blockPosition, 3);
+                        blocks.add(block);
+                    } else if ((char)i == '3')
                     {
                         enemyPosition.set(grid[x][y]);
                         Goomba goomba = new Goomba(enemyPosition, game);
                         enemies.add(goomba);
-                    } else if ((char)i == '3')
+                    } else if ((char)i == '4')
                     {
                         powerUpPosition.set(grid[x][y]);
                         PowerUp powerUp = new PowerUp(powerUpPosition, game);
                         powerUps.add(powerUp);
                     }
-                    if (x < 24)
+                    if (x < 49)
                     {
                         x += 1;
                     } else

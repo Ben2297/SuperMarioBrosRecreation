@@ -1,7 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -17,7 +16,7 @@ public class Block extends GameObject {
     private Vector2D direction;
     BufferedImage image;
 
-    public Block(Vector2D pos)
+    public Block(Vector2D pos, int type)
     {
         direction = new Vector2D();
         direction.set(1, 0);
@@ -29,7 +28,17 @@ public class Block extends GameObject {
         width = WIDTH;
         try
         {
-            image = ImageIO.read(new File("Bricks.png"));
+            if (type == 1)
+            {
+                image = ImageIO.read(new File("Bricks.png"));
+            } else if (type == 2)
+            {
+                image = ImageIO.read(new File("Ground.png"));
+            } else if (type == 3)
+            {
+                image = ImageIO.read(new File("Question.png"));
+            }
+
         } catch (IOException ie)
         {
 
