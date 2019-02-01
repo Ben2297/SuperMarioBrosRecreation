@@ -20,8 +20,20 @@ public class View extends JComponent {
         g.translate(-camera.position.x, -camera.position.y);
         g.drawImage(image, 0, 0, this);
         synchronized (Game.class) {
+
+
             for (GameObject object : game.objects) {
-                object.draw(g);
+                if (object.getClass() == PowerUp.class)
+                {
+                    object.draw(g);
+                }
+            }
+
+            for (GameObject object : game.objects) {
+                if (object.getClass() != PowerUp.class)
+                {
+                    object.draw(g);
+                }
             }
         }
     }

@@ -169,7 +169,7 @@ public class Game {
 
         for (int i = 0; i < level.getPowerUps().size(); i++)
         {
-            //objects.add(level.getPowerUps().get(i));
+            objects.add(level.getPowerUps().get(i));
             powerUps.add(level.getPowerUps().get(i));
         }
     }

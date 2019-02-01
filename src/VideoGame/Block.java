@@ -26,7 +26,8 @@ public class Block extends GameObject {
     private Vector2D jumpDirection;
     private double lowerBound;
     private int type;
-    Vector2D powerUpPosition = new Vector2D();
+    private Vector2D powerUpPosition = new Vector2D();
+    private boolean powerUpSpawned;
     Game game;
 
     public Block(Vector2D pos, int type, Game game)
@@ -42,6 +43,7 @@ public class Block extends GameObject {
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
         lowerBound = position.y;
+        powerUpSpawned = false;
         this.type = type;
         this.game = game;
 
@@ -84,14 +86,16 @@ public class Block extends GameObject {
 
     public void hit()
     {
-        if (type == 3)
+        if (type == 3 && !powerUpSpawned)
         {
             velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
 
             powerUpPosition.set(this.position);
+            powerUpPosition.x += 4;
             PowerUp powerUp = new PowerUp(powerUpPosition, game);
             game.powerUps.add(powerUp);
-            //game.toBeAdded.add(powerUp);
+            game.toBeAdded.add(powerUp);
+            powerUpSpawned = true;
         }
     }
 

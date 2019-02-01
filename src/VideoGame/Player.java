@@ -429,10 +429,8 @@ public class Player extends GameObject {
             if (getBounds().intersects(p.getBounds()))
             {
                 p.hit();
-                //game.powerUps.remove(p);
                 superMario = true;
-                jump();
-                canJump = false;
+                position.y -= (superRunRightImage.getHeight() - currentImage.getHeight());
             }
         }
     }
