@@ -8,15 +8,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static VideoGame.Constants.DT;
+
 public class Block extends GameObject {
     private static final int HEIGHT = 40;
 
     private static final int WIDTH = 40;
 
+    private static final double MAG_ACC = 300;
+
+    private static final double JUMP_STRENGTH = 40;
+
+    private static final double GRAVITY = 2.5;
+
     private Vector2D direction;
     BufferedImage image;
+    private Vector2D jumpDirection;
+    private double lowerBound;
+    private int type;
+    Vector2D powerUpPosition = new Vector2D();
+    Game game;
 
-    public Block(Vector2D pos, int type)
+    public Block(Vector2D pos, int type, Game game)
     {
         direction = new Vector2D();
         direction.set(1, 0);
@@ -26,6 +39,12 @@ public class Block extends GameObject {
         velocity.set(0, 0);
         height = HEIGHT;
         width = WIDTH;
+        jumpDirection = new Vector2D();
+        jumpDirection.set(0, -1);
+        lowerBound = position.y;
+        this.type = type;
+        this.game = game;
+
         try
         {
             if (type == 1)
@@ -42,6 +61,37 @@ public class Block extends GameObject {
         } catch (IOException ie)
         {
 
+        }
+    }
+
+    public void update()
+    {
+        if (position.y < lowerBound)
+        {
+            applyGravity();
+        } else if (position.y > lowerBound)
+        {
+            velocity.y = 0;
+        }
+
+        super.update();
+    }
+
+    private void applyGravity()
+    {
+        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+    }
+
+    public void hit()
+    {
+        if (type == 3)
+        {
+            velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+
+            powerUpPosition.set(this.position);
+            PowerUp powerUp = new PowerUp(powerUpPosition, game);
+            game.powerUps.add(powerUp);
+            //game.toBeAdded.add(powerUp);
         }
     }
 

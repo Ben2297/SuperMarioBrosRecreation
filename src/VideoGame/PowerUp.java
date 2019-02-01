@@ -8,10 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import static VideoGame.Constants.DT;
-import static VideoGame.Constants.FRAME_HEIGHT;
-import static VideoGame.Constants.FRAME_WIDTH;
 
 public class PowerUp extends GameObject {
 
@@ -25,6 +22,7 @@ public class PowerUp extends GameObject {
     public boolean falling;
     public Vector2D direction;
     public Vector2D jumpDirection;
+    private boolean inBlock;
     Game game;
 
     public PowerUp(Vector2D pos, Game game)
@@ -39,6 +37,7 @@ public class PowerUp extends GameObject {
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
         dead = false;
+        inBlock = true;
 
         try
         {
@@ -51,47 +50,67 @@ public class PowerUp extends GameObject {
         currentImage = superMushroomImage;
         height = currentImage.getHeight();
         width = currentImage.getWidth();
+
+        velocity.addScaled(jumpDirection, (MAG_ACC * DT * 10));
     }
 
     public void update() {
-        if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
-        if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
-
-        //position.wrap(FRAME_WIDTH, FRAME_HEIGHT);
-        velocity.addScaled(direction, (MAG_ACC * DT));
-        velocity.mult(DRAG);
-
-        if (falling)
+        if (inBlock)
         {
-            applyGravity();
+            position.y += (velocity.y * DT);
+            if (!hasVerticalCollision())
+            {
+                inBlock = false;
+            }
+        } else
+        {
+            if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
+            if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
+
+            velocity.addScaled(direction, (MAG_ACC * DT));
+            velocity.mult(DRAG);
+
+            if (falling)
+            {
+                applyGravity();
+            }
         }
 
         height = currentImage.getHeight();
         width = currentImage.getWidth();
-
-        //System.out.println(velocity.y);
     }
 
     public boolean hasVerticalCollision()
     {
         for (int i = 0; i < game.blocks.size(); i++)
         {
-            Block b = game.blocks.get(i);
-            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
+            if (inBlock)
             {
-                falling = false;
-                velocity.y = 0;
-                return true;
+                Block b = game.blocks.get(i);
+                if (getBounds().intersects(b.getBounds()) && velocity.y < 0)
+                {
+                    return true;
+                }
             } else
             {
-                falling = true;
+                Block b = game.blocks.get(i);
+                if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
+                {
+                    falling = false;
+                    velocity.y = 0;
+                    return true;
+                } else
+                {
+                    falling = true;
+                }
+
+                if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
+                {
+                    velocity.y = 0;
+                    return true;
+                }
             }
 
-            if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
-            {
-                velocity.y = 0;
-                return true;
-            }
         }
         return false;
     }
@@ -103,7 +122,6 @@ public class PowerUp extends GameObject {
             Block b = game.blocks.get(i);
             if (getBoundsLeft().intersects(b.getBoundsRight()))
             {
-                //velocity.x = 0;
                 velocity.x = velocity.x * -1;
                 direction.mult(-1);
                 position.x = b.position.x + b.width;
@@ -113,7 +131,6 @@ public class PowerUp extends GameObject {
 
             if (getBoundsRight().intersects(b.getBoundsLeft()))
             {
-                //velocity.x = 0;
                 velocity.x = velocity.x * -1;
                 direction.mult(-1);
                 position.x = b.position.x - width;

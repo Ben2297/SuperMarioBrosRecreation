@@ -11,13 +11,13 @@ import java.io.IOException;
 import static VideoGame.Constants.*;
 
 public class Player extends GameObject {
-    private static final double MAG_ACC = 1700;
+    private static final double MAG_ACC = 2100;
 
     private static final double DRAG = 0.9;
 
-    private static final double JUMP_STRENGTH = 150;
+    private static final double JUMP_STRENGTH = 130;
 
-    private static final double GRAVITY = 2;
+    private static final double GRAVITY = 2.5;
 
     private static final Color COLOR = Color.red;
 
@@ -344,6 +344,7 @@ public class Player extends GameObject {
             if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
             {
                 velocity.y = 0;
+                b.hit();
                 return true;
             }
         }

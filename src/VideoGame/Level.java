@@ -58,17 +58,17 @@ public class Level {
                 {
                     if ((char)i == '1') {
                         blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, 1);
+                        Block block = new Block(blockPosition, 1, game);
                         blocks.add(block);
                     } else if ((char)i == '2')
                     {
                         blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, 2);
+                        Block block = new Block(blockPosition, 2, game);
                         blocks.add(block);
                     } else if ((char)i == '3')
                     {
                         blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, 3);
+                        Block block = new Block(blockPosition, 3, game);
                         blocks.add(block);
                     } else if ((char)i == '3')
                     {

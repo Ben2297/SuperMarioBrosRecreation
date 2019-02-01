@@ -3,7 +3,6 @@ package VideoGame;
 import Utilities.JEasyFrame;
 import Utilities.Vector2D;
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +15,7 @@ public class Game {
     public List<Block> blocks;
     public List<Enemy> enemies;
     public List<PowerUp> powerUps;
+    public List<GameObject> toBeAdded;
     private Player player;
     private Keys ctrl;
     private int score = 0;
@@ -31,6 +31,7 @@ public class Game {
         blocks = new ArrayList<>();
         enemies = new ArrayList<>();
         powerUps = new ArrayList<>();
+        toBeAdded = new ArrayList<>();
         ctrl = new Keys();
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
         constructGrid();
@@ -110,9 +111,17 @@ public class Game {
             lives += 1;
         }
 
+//        for (GameObject o : toBeAdded)
+//        {
+//            alive.add(o);
+//        }
+
+        alive.addAll(toBeAdded);
+
         synchronized (Game.class) {
             objects.clear();
             objects.addAll(alive);
+            toBeAdded.clear();
         }
     }
 
@@ -160,7 +169,7 @@ public class Game {
 
         for (int i = 0; i < level.getPowerUps().size(); i++)
         {
-            objects.add(level.getPowerUps().get(i));
+            //objects.add(level.getPowerUps().get(i));
             powerUps.add(level.getPowerUps().get(i));
         }
     }
