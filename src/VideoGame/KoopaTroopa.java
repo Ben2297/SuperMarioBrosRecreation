@@ -1,15 +1,17 @@
 package VideoGame;
 
 import Utilities.Vector2D;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import static VideoGame.Constants.DT;
 
-public class Goomba extends Enemy {
+public class KoopaTroopa extends Enemy {
 
     private static final double MAG_ACC = 700;
 
@@ -17,10 +19,11 @@ public class Goomba extends Enemy {
 
     private static final double GRAVITY = 1.8;
 
-    private BufferedImage goombaImage1;
-    private BufferedImage goombaImage2;
+    private BufferedImage koopaRunLeft;
+    private BufferedImage koopaRunLeft1;
+    private BufferedImage koopaShell;
 
-    public Goomba(Vector2D pos, Game game)
+    public KoopaTroopa (Vector2D pos, Game game)
     {
         Vector2D vel = new Vector2D();
         vel.set(0, 0);
@@ -36,28 +39,34 @@ public class Goomba extends Enemy {
 
         try
         {
-            goombaImage1 = ImageIO.read(new File("Goomba1.png"));
-            goombaImage2 = ImageIO.read(new File("Goomba2.png"));
+            koopaRunLeft = ImageIO.read(new File("GreenKoopaTroopaRunLeft.png"));
+            koopaRunLeft1 = ImageIO.read(new File("GreenKoopaTroopaRunLeft1.png"));
+            koopaShell = ImageIO.read(new File("GreenKoopa TroopaShell.png"));
         } catch (IOException ie)
         {
             System.out.println("Image read failed");
         }
 
-        currentImage = goombaImage1;
+        currentImage = koopaRunLeft;
         height = currentImage.getHeight();
         width = currentImage.getWidth();
+        position.y -= (height - 40);
     }
 
     public void update() {
         if(System.currentTimeMillis() - lastAnimationProcessed > 300) {
-            if (currentImage == goombaImage1)
+            if (velocity.x < 1)
             {
-                currentImage = goombaImage2;
-            } else if (currentImage == goombaImage2)
-            {
-                currentImage = goombaImage1;
+                if (currentImage == koopaRunLeft)
+                {
+                    currentImage = koopaRunLeft1;
+                } else if (currentImage == koopaRunLeft1)
+                {
+                    currentImage = koopaRunLeft;
+                }
+                lastAnimationProcessed = System.currentTimeMillis();
             }
-            lastAnimationProcessed = System.currentTimeMillis();
+
         }
 
         if (!hasHorizontalCollision())
@@ -81,6 +90,17 @@ public class Goomba extends Enemy {
     private void applyGravity()
     {
         velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+    }
+
+    public void hit()
+    {
+        if (currentImage == koopaRunLeft || currentImage == koopaRunLeft1)
+        {
+            position.y += (currentImage.getHeight() - koopaShell.getHeight());
+            currentImage = koopaShell;
+        }
+
+        //super.hit();
     }
 
     public void draw(Graphics2D g) {

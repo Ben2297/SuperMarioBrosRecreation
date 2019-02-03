@@ -70,16 +70,21 @@ public class Level {
                         blockPosition.set(grid[x][y]);
                         Block block = new Block(blockPosition, 3, game);
                         blocks.add(block);
-                    } else if ((char)i == '3')
+                    } else if ((char)i == '4')
                     {
                         enemyPosition.set(grid[x][y]);
                         Goomba goomba = new Goomba(enemyPosition, game);
                         enemies.add(goomba);
-                    } else if ((char)i == '4')
+                    } else if ((char)i == '5')
                     {
                         powerUpPosition.set(grid[x][y]);
                         PowerUp powerUp = new PowerUp(powerUpPosition, game);
                         powerUps.add(powerUp);
+                    } else if ((char)i == '6')
+                    {
+                        enemyPosition.set(grid[x][y]);
+                        KoopaTroopa koopaTroopa = new KoopaTroopa(enemyPosition, game);
+                        enemies.add(koopaTroopa);
                     }
                     if (x < 49)
                     {

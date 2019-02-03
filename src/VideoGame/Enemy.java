@@ -11,8 +11,10 @@ public abstract class Enemy extends GameObject{
     public boolean falling;
     Game game;
 
-    public Enemy() {
+    public Enemy()
+    {
         super();
+
     }
 
     public void update() { super.update(); }
@@ -26,6 +28,7 @@ public abstract class Enemy extends GameObject{
             {
                 falling = false;
                 velocity.y = 0;
+                //position.y = b.position.y - height;
                 return true;
             } else
             {

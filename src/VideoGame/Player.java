@@ -383,6 +383,11 @@ public class Player extends GameObject {
             {
                 jump();
                 canJump = false;
+                e.hit();
+                if (e.dead)
+                {
+                    game.enemies.remove(e);
+                }
             } else if (getBoundsLeft().intersects(e.getBoundsRight()))
             {
                 if (!superMario)
