@@ -56,22 +56,16 @@ public class Game {
         View view = new View(game, myImage, camera);
         new JEasyFrame(view, "CE301 Game").addKeyListener(game.ctrl);
 
-        final int FPS = 60;
-        final int SKIP_TICKS = 1000 / FPS;
-        final int MAX_FRAMESKIP = 10;
-        double next_game_tick = System.currentTimeMillis();
-        int loops;
+        long remainder;
+        final int interval = 1000 / 60;
+        boolean gameIsRunning = true;
 
-        boolean game_is_running = true;
-
-        while (game_is_running) {
-            loops = 0;
-            while( System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) {
-                game.update();
-                next_game_tick += SKIP_TICKS;
-                loops++;
-            }
+        while (gameIsRunning) {
+            game.update();
             view.repaint();
+            remainder = interval - (System.currentTimeMillis() % interval);
+            Thread.sleep(remainder);
+            System.out.println(remainder);
         }
     }
 

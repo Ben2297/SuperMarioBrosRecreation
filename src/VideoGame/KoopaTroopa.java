@@ -19,6 +19,8 @@ public class KoopaTroopa extends Enemy {
 
     private static final double GRAVITY = 1.8;
 
+    private boolean moving;
+
     private BufferedImage koopaRunLeft;
     private BufferedImage koopaRunLeft1;
     private BufferedImage koopaShell;
@@ -35,6 +37,7 @@ public class KoopaTroopa extends Enemy {
         velocity.set(vel);
         dead = false;
         falling = true;
+        moving = true;
         this.game = game;
 
         try
@@ -75,8 +78,12 @@ public class KoopaTroopa extends Enemy {
             if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
         }
 
-        velocity.addScaled(direction, (MAG_ACC * DT));
-        velocity.mult(DRAG);
+        if (moving)
+        {
+            velocity.addScaled(direction, (MAG_ACC * DT));
+            velocity.mult(DRAG);
+        }
+
 
         if (falling)
         {
@@ -98,6 +105,8 @@ public class KoopaTroopa extends Enemy {
         {
             position.y += (currentImage.getHeight() - koopaShell.getHeight());
             currentImage = koopaShell;
+            velocity.x = 0;
+            moving = false;
         }
 
         //super.hit();

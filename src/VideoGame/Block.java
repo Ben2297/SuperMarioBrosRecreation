@@ -96,6 +96,10 @@ public class Block extends GameObject {
             game.powerUps.add(powerUp);
             game.toBeAdded.add(powerUp);
             powerUpSpawned = true;
+        } else if (type == 1)
+        {
+            dead = true;
+            game.blocks.remove(this);
         }
     }
 
