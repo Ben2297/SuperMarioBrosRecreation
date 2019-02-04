@@ -138,10 +138,11 @@ public class Player extends GameObject {
 
     public void update() {
 
-        hasEnemyCollision();
 
         if (!dead)
         {
+            hasEnemyCollision();
+
             if (!hasHorizontalCollision())
             {
                 position.x += (velocity.x * DT);

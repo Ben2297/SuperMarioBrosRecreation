@@ -14,7 +14,6 @@ public abstract class Enemy extends GameObject{
     public Enemy()
     {
         super();
-
     }
 
     public void update() { super.update(); }

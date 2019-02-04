@@ -1,10 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
-import java.awt.*;
-
-import static VideoGame.Constants.FRAME_HEIGHT;
 import static VideoGame.Constants.FRAME_WIDTH;
 
 public class Camera {
