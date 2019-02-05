@@ -22,7 +22,8 @@ public class Block extends GameObject {
     private static final double GRAVITY = 2.5;
 
     private Vector2D direction;
-    BufferedImage image;
+    private BufferedImage image;
+    private BufferedImage emptyBlockImage;
     private Vector2D jumpDirection;
     private double lowerBound;
     private int type;
@@ -49,6 +50,8 @@ public class Block extends GameObject {
 
         try
         {
+
+            emptyBlockImage = ImageIO.read(new File("EmptyBlock.png"));
             if (type == 1)
             {
                 image = ImageIO.read(new File("Bricks.png"));
@@ -58,11 +61,12 @@ public class Block extends GameObject {
             } else if (type == 3)
             {
                 image = ImageIO.read(new File("Question.png"));
+
             }
 
         } catch (IOException ie)
         {
-
+            System.out.println("Image file not found");
         }
     }
 
@@ -86,10 +90,11 @@ public class Block extends GameObject {
 
     public void hit()
     {
+
         if (type == 3 && !powerUpSpawned)
         {
+            image = emptyBlockImage;
             velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
-
             powerUpPosition.set(this.position);
             powerUpPosition.x += 4;
             PowerUp powerUp = new PowerUp(powerUpPosition, game);

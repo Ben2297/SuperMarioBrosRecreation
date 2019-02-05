@@ -391,26 +391,67 @@ public class Player extends GameObject {
                 }
             } else if (getBoundsLeft().intersects(e.getBoundsRight()))
             {
-                if (!superMario)
+                if (e.getClass() == KoopaTroopa.class)
                 {
-                    hit();
+                    KoopaTroopa koopaTroopa = (KoopaTroopa)e;
+                    if (koopaTroopa.getInShell())
+                    {
+                        koopaTroopa.spinLeft();
+                    } else
+                    {
+                        if (!superMario)
+                        {
+                            hit();
+                        } else
+                        {
+                            superMario = false;
+                            jump();
+                            canJump = false;
+                        }
+                    }
                 } else
                 {
-                    superMario = false;
-                    jump();
-                    canJump = false;
+                    if (!superMario)
+                    {
+                        hit();
+                    } else
+                    {
+                        superMario = false;
+                        jump();
+                        canJump = false;
+                    }
                 }
-
             } else if (getBoundsRight().intersects(e.getBoundsLeft()))
             {
-                if (!superMario)
+                if (e.getClass() == KoopaTroopa.class)
                 {
-                    hit();
+                    KoopaTroopa koopaTroopa = (KoopaTroopa)e;
+                    if (koopaTroopa.getInShell())
+                    {
+                        koopaTroopa.spinRight();
+                    } else
+                    {
+                        if (!superMario)
+                        {
+                            hit();
+                        } else
+                        {
+                            superMario = false;
+                            jump();
+                            canJump = false;
+                        }
+                    }
                 } else
                 {
-                    superMario = false;
-                    jump();
-                    canJump = false;
+                    if (!superMario)
+                    {
+                        hit();
+                    } else
+                    {
+                        superMario = false;
+                        jump();
+                        canJump = false;
+                    }
                 }
             } else if (getBoundsTop().intersects(e.getBoundsBottom()))
             {

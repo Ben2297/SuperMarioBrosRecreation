@@ -1,6 +1,7 @@
 package VideoGame;
 
 import Utilities.Vector2D;
+import sun.security.util.Resources_it;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,10 +21,14 @@ public class KoopaTroopa extends Enemy {
     private static final double GRAVITY = 1.8;
 
     private boolean moving;
+    private boolean inShell;
 
     private BufferedImage koopaRunLeft;
     private BufferedImage koopaRunLeft1;
+    private BufferedImage koopaRunRight;
+    private BufferedImage koopaRunRight1;
     private BufferedImage koopaShell;
+    private BufferedImage koopaShell1;
 
     public KoopaTroopa (Vector2D pos, Game game)
     {
@@ -38,13 +43,19 @@ public class KoopaTroopa extends Enemy {
         dead = false;
         falling = true;
         moving = true;
+        inShell = false;
         this.game = game;
 
         try
         {
             koopaRunLeft = ImageIO.read(new File("GreenKoopaTroopaRunLeft.png"));
             koopaRunLeft1 = ImageIO.read(new File("GreenKoopaTroopaRunLeft1.png"));
+
+            koopaRunRight = ImageIO.read(new File("GreenKoopaTroopaRunRight.png"));
+            koopaRunRight1 = ImageIO.read(new File("GreenKoopaTroopaRunRight1.png"));
+
             koopaShell = ImageIO.read(new File("GreenKoopa TroopaShell.png"));
+            koopaShell1 = ImageIO.read(new File("GreenKoopaTroopaShell1.png"));
         } catch (IOException ie)
         {
             System.out.println("Image read failed");
@@ -58,7 +69,7 @@ public class KoopaTroopa extends Enemy {
 
     public void update() {
         if(System.currentTimeMillis() - lastAnimationProcessed > 300) {
-            if (velocity.x < 1)
+            if (velocity.x < 0)
             {
                 if (currentImage == koopaRunLeft)
                 {
@@ -66,6 +77,16 @@ public class KoopaTroopa extends Enemy {
                 } else if (currentImage == koopaRunLeft1)
                 {
                     currentImage = koopaRunLeft;
+                }
+                lastAnimationProcessed = System.currentTimeMillis();
+            } else if (velocity.x > 0)
+            {
+                if (currentImage == koopaRunRight )
+                {
+                    currentImage = koopaRunRight1;
+                } else if (currentImage == koopaRunRight1)
+                {
+                    currentImage = koopaRunRight;
                 }
                 lastAnimationProcessed = System.currentTimeMillis();
             }
@@ -80,8 +101,16 @@ public class KoopaTroopa extends Enemy {
 
         if (moving)
         {
-            velocity.addScaled(direction, (MAG_ACC * DT));
-            velocity.mult(DRAG);
+            if (inShell)
+            {
+                velocity.addScaled(direction, (MAG_ACC * DT * 3));
+                velocity.mult(DRAG);
+            } else
+            {
+                velocity.addScaled(direction, (MAG_ACC * DT));
+                velocity.mult(DRAG);
+            }
+
         }
 
 
@@ -107,9 +136,31 @@ public class KoopaTroopa extends Enemy {
             currentImage = koopaShell;
             velocity.x = 0;
             moving = false;
+            inShell = true;
+        } else if (inShell)
+        {
+              currentImage = koopaShell1;
+              moving = true;
         }
 
         //super.hit();
+    }
+
+    public boolean getInShell()
+    {
+        return inShell;
+    }
+
+    public void spinLeft()
+    {
+        moving = true;
+        direction.set(-1, 0);
+    }
+
+    public void spinRight()
+    {
+        moving = true;
+        direction.set(1, 0);
     }
 
     public void draw(Graphics2D g) {
