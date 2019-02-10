@@ -1,8 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-import sun.security.util.Resources_it;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -105,6 +103,7 @@ public class KoopaTroopa extends Enemy {
             {
                 velocity.addScaled(direction, (MAG_ACC * DT * 3));
                 velocity.mult(DRAG);
+                hasEnemyCollision();
             } else
             {
                 velocity.addScaled(direction, (MAG_ACC * DT));
@@ -121,6 +120,18 @@ public class KoopaTroopa extends Enemy {
 
         height = currentImage.getHeight();
         width = currentImage.getWidth();
+    }
+
+    private void hasEnemyCollision()
+    {
+        for (int i = 0; i < game.enemies.size(); i++)
+        {
+            Enemy e = game.enemies.get(i);
+            if (getBounds().intersects(e.getBounds()) && e != this)
+            {
+                e.hit();
+            }
+        }
     }
 
     private void applyGravity()
