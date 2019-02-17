@@ -11,9 +11,6 @@ import java.io.IOException;
 import static VideoGame.Constants.DT;
 
 public class Block extends GameObject {
-    private static final int HEIGHT = 40;
-
-    private static final int WIDTH = 40;
 
     private static final double MAG_ACC = 300;
 
@@ -22,7 +19,6 @@ public class Block extends GameObject {
     private static final double GRAVITY = 2.5;
 
     private Vector2D direction;
-    private BufferedImage image;
     private BufferedImage emptyBlockImage;
     private Vector2D jumpDirection;
     private double lowerBound;
@@ -39,8 +35,6 @@ public class Block extends GameObject {
         position.set(pos);
         velocity = new Vector2D();
         velocity.set(0, 0);
-        height = HEIGHT;
-        width = WIDTH;
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
         lowerBound = position.y;
@@ -54,20 +48,25 @@ public class Block extends GameObject {
             emptyBlockImage = ImageIO.read(new File("EmptyBlock.png"));
             if (type == 1)
             {
-                image = ImageIO.read(new File("Bricks.png"));
+                currentImage = ImageIO.read(new File("Bricks.png"));
             } else if (type == 2)
             {
-                image = ImageIO.read(new File("Ground.png"));
+                currentImage = ImageIO.read(new File("Ground.png"));
             } else if (type == 3)
             {
-                image = ImageIO.read(new File("Question.png"));
-
+                currentImage = ImageIO.read(new File("Question.png"));
+            } else if (type == 4)
+            {
+                currentImage = ImageIO.read(new File("Pipe.png"));
             }
 
         } catch (IOException ie)
         {
             System.out.println("Image file not found");
         }
+
+        height = currentImage.getHeight();
+        width = currentImage.getWidth();
     }
 
     public void update()
@@ -93,7 +92,7 @@ public class Block extends GameObject {
 
         if (type == 3 && !powerUpSpawned)
         {
-            image = emptyBlockImage;
+            currentImage = emptyBlockImage;
             velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
             powerUpPosition.set(this.position);
             powerUpPosition.x += 4;
@@ -104,7 +103,7 @@ public class Block extends GameObject {
         } else if (type == 1)
         {
             dead = true;
-            game.blocks.remove(this);
+            game.scenery.remove(this);
         }
     }
 
@@ -115,7 +114,7 @@ public class Block extends GameObject {
         g.scale(1, 1);
         //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
-        g.drawImage(image, (int)position.x, (int)position.y, null);
+        g.drawImage(currentImage, (int)position.x, (int)position.y, null);
         //g.draw(getBounds());
 //        g.draw(getBoundsRight());
 //        g.draw(getBoundsLeft());

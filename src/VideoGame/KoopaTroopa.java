@@ -130,6 +130,7 @@ public class KoopaTroopa extends Enemy {
             if (getBounds().intersects(e.getBounds()) && e != this)
             {
                 e.hit();
+                game.enemies.remove(e);
             }
         }
     }

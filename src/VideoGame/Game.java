@@ -13,6 +13,7 @@ import static VideoGame.Constants.*;
 public class Game {
     public List<GameObject> objects;
     public List<Block> blocks;
+    public List<GameObject> scenery;
     public List<Enemy> enemies;
     public List<PowerUp> powerUps;
     public List<GameObject> toBeAdded;
@@ -29,6 +30,7 @@ public class Game {
     private Game() {
         objects = new ArrayList<>();
         blocks = new ArrayList<>();
+        scenery = new ArrayList<>();
         enemies = new ArrayList<>();
         powerUps = new ArrayList<>();
         toBeAdded = new ArrayList<>();
@@ -151,7 +153,7 @@ public class Game {
         for (int i = 0; i < level.getBlocks().size(); i++)
         {
             objects.add(level.getBlocks().get(i));
-            blocks.add(level.getBlocks().get(i));
+            scenery.add(level.getBlocks().get(i));
         }
 
         for (int i = 0; i < level.getEnemies().size(); i++)

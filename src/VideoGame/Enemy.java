@@ -20,9 +20,9 @@ public abstract class Enemy extends GameObject{
 
     public boolean hasVerticalCollision()
     {
-        for (int i = 0; i < game.blocks.size(); i++)
+        for (int i = 0; i < game.scenery.size(); i++)
         {
-            Block b = game.blocks.get(i);
+            GameObject b = game.scenery.get(i);
             if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
             {
                 falling = false;
@@ -45,9 +45,9 @@ public abstract class Enemy extends GameObject{
 
     public boolean hasHorizontalCollision()
     {
-        for (int i = 0; i < game.blocks.size(); i++)
+        for (int i = 0; i < game.scenery.size(); i++)
         {
-            Block b = game.blocks.get(i);
+            GameObject b = game.scenery.get(i);
             if (getBoundsLeft().intersects(b.getBoundsRight()))
             {
                 velocity.x = velocity.x * -1;

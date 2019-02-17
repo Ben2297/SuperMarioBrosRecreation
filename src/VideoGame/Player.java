@@ -314,9 +314,9 @@ public class Player extends GameObject {
 
     public boolean hasVerticalCollision()
     {
-        for (int i = 0; i < game.blocks.size(); i++)
+        for (int i = 0; i < game.scenery.size(); i++)
         {
-            Block b = game.blocks.get(i);
+            GameObject b = game.scenery.get(i);
             if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
             {
                 canJump = true;
@@ -354,9 +354,9 @@ public class Player extends GameObject {
 
     public boolean hasHorizontalCollision()
     {
-        for (int i = 0; i < game.blocks.size(); i++)
+        for (int i = 0; i < game.scenery.size(); i++)
         {
-            Block b = game.blocks.get(i);
+            GameObject b = game.scenery.get(i);
             if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
             {
                 velocity.x = 0;
@@ -472,10 +472,10 @@ public class Player extends GameObject {
     {
         for (int i = 0; i < game.powerUps.size(); i++)
         {
-            PowerUp p = game.powerUps.get(i);
-            if (getBounds().intersects(p.getBounds()))
+            PowerUp pu = game.powerUps.get(i);
+            if (getBounds().intersects(pu.getBounds()))
             {
-                p.hit();
+                pu.hit();
                 superMario = true;
                 position.y -= (superRunRightImage.getHeight() - currentImage.getHeight());
             }

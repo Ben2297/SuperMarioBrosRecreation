@@ -11,6 +11,7 @@ import static VideoGame.Constants.*;
 public class Level {
     private int levelNumber;
     private List<Block> blocks;
+    private List<GameObject> scenery;
     private List<Enemy> enemies;
     private List<PowerUp> powerUps;
     private String levelString;
@@ -22,6 +23,7 @@ public class Level {
     {
         this.game = game;
         blocks = new ArrayList<>();
+        scenery = new ArrayList<>();
         enemies = new ArrayList<>();
         powerUps = new ArrayList<>();
         this.levelNumber = levelNumber;
@@ -46,9 +48,7 @@ public class Level {
         int i;
         int x = 0;
         int y = GRID_HEIGHT - 1;
-        Vector2D blockPosition = new Vector2D();
-        Vector2D enemyPosition = new Vector2D();
-        Vector2D powerUpPosition = new Vector2D();
+        Vector2D objectPosition = new Vector2D();
 
         try {
             while ((i = fileReader.read()) != -1)
@@ -57,35 +57,41 @@ public class Level {
                 if (Character.isDigit((char)i))
                 {
                     if ((char)i == '1') {
-                        blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, 1, game);
-                        blocks.add(block);
+                        objectPosition.set(grid[x][y]);
+                        Block block = new Block(objectPosition, 1, game);
+                        scenery.add(block);
                     } else if ((char)i == '2')
                     {
-                        blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, 2, game);
-                        blocks.add(block);
+                        objectPosition.set(grid[x][y]);
+                        Block block = new Block(objectPosition, 2, game);
+                        scenery.add(block);
                     } else if ((char)i == '3')
                     {
-                        blockPosition.set(grid[x][y]);
-                        Block block = new Block(blockPosition, 3, game);
-                        blocks.add(block);
+                        objectPosition.set(grid[x][y]);
+                        Block block = new Block(objectPosition, 3, game);
+                        scenery.add(block);
                     } else if ((char)i == '4')
                     {
-                        enemyPosition.set(grid[x][y]);
-                        Goomba goomba = new Goomba(enemyPosition, game);
+                        objectPosition.set(grid[x][y]);
+                        Goomba goomba = new Goomba(objectPosition, game);
                         enemies.add(goomba);
                     } else if ((char)i == '5')
                     {
-                        powerUpPosition.set(grid[x][y]);
-                        PowerUp powerUp = new PowerUp(powerUpPosition, game);
+                        objectPosition.set(grid[x][y]);
+                        PowerUp powerUp = new PowerUp(objectPosition, game);
                         powerUps.add(powerUp);
                     } else if ((char)i == '6')
                     {
-                        enemyPosition.set(grid[x][y]);
-                        KoopaTroopa koopaTroopa = new KoopaTroopa(enemyPosition, game);
+                        objectPosition.set(grid[x][y]);
+                        KoopaTroopa koopaTroopa = new KoopaTroopa(objectPosition, game);
                         enemies.add(koopaTroopa);
+                    } else if ((char)i == '7')
+                    {
+                        objectPosition.set(grid[x][y]);
+                        Pipe pipe = new Pipe(objectPosition, game, 1);
+                        scenery.add(pipe);
                     }
+
                     if (x < 49)
                     {
                         x += 1;
@@ -105,6 +111,7 @@ public class Level {
         {
 
         }
+
         try
         {
             fileReader.close();
@@ -115,9 +122,9 @@ public class Level {
 
     }
 
-    public List<Block> getBlocks()
+    public List<GameObject> getBlocks()
     {
-        return blocks;
+        return scenery;
     }
 
     public List<Enemy> getEnemies()
