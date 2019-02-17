@@ -9,8 +9,6 @@ import java.util.List;
 import static VideoGame.Constants.*;
 
 public class Level {
-    private int levelNumber;
-    private List<Block> blocks;
     private List<GameObject> scenery;
     private List<Enemy> enemies;
     private List<PowerUp> powerUps;
@@ -22,11 +20,9 @@ public class Level {
     public Level (int levelNumber, Vector2D[][] grid, Game game)
     {
         this.game = game;
-        blocks = new ArrayList<>();
         scenery = new ArrayList<>();
         enemies = new ArrayList<>();
         powerUps = new ArrayList<>();
-        this.levelNumber = levelNumber;
         String levelNumString = Integer.toString(levelNumber);
         levelString = "Level" + levelNumString + ".txt";
         File file = new File(levelString);
@@ -89,6 +85,16 @@ public class Level {
                     {
                         objectPosition.set(grid[x][y]);
                         Pipe pipe = new Pipe(objectPosition, game, 1);
+                        scenery.add(pipe);
+                    } else if ((char)i == '8')
+                    {
+                        objectPosition.set(grid[x][y]);
+                        Pipe pipe = new Pipe(objectPosition, game, 2);
+                        scenery.add(pipe);
+                    } else if ((char)i == '9')
+                    {
+                        objectPosition.set(grid[x][y]);
+                        Pipe pipe = new Pipe(objectPosition, game, 3);
                         scenery.add(pipe);
                     }
 

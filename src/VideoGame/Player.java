@@ -385,6 +385,7 @@ public class Player extends GameObject {
                 jump();
                 canJump = false;
                 e.hit();
+                game.incrementScore(100);
                 if (e.dead)
                 {
                     game.enemies.remove(e);
@@ -476,6 +477,7 @@ public class Player extends GameObject {
             if (getBounds().intersects(pu.getBounds()))
             {
                 pu.hit();
+                game.incrementScore(1000);
                 superMario = true;
                 position.y -= (superRunRightImage.getHeight() - currentImage.getHeight());
             }

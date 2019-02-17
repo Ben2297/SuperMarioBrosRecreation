@@ -3,6 +3,8 @@ package VideoGame;
 import Utilities.JEasyFrame;
 import Utilities.Vector2D;
 import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,13 +23,22 @@ public class Game {
     private Keys ctrl;
     private int score = 0;
     public int lives = 0;
-    public int levelNumber = 1;
     private static BufferedImage myImage;
     private Vector2D[][] grid;
     private Level level;
     private static Camera camera;
+    public JLabel scoreText;
 
     private Game() {
+        try {
+            Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("MarioFont.ttf")).deriveFont(12f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (IOException|FontFormatException e) {
+            //Handle exception
+        }
+
         objects = new ArrayList<>();
         blocks = new ArrayList<>();
         scenery = new ArrayList<>();
@@ -36,6 +47,12 @@ public class Game {
         toBeAdded = new ArrayList<>();
         ctrl = new Keys();
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
+        scoreText = new JLabel();
+        String scoreString = String.format("%06d" , score);
+        scoreText.setText("Score: " + scoreString);
+        //scoreText.setFont(new Font("Serif", Font.PLAIN, 32));
+        scoreText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
         playerStartPosition.set(grid[0][2]);
@@ -55,8 +72,12 @@ public class Game {
         } catch (IOException e) {
             System.out.println("Incorrect file name");
         }
+
         View view = new View(game, myImage, camera);
-        new JEasyFrame(view, "CE301 Game").addKeyListener(game.ctrl);
+        JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
+        jEasyFrame.addKeyListener(game.ctrl);
+        jEasyFrame.add(game.scoreText, BorderLayout.PAGE_START);
+        //jEasyFrame.getContentPane().setLayout(null);
 
         long remainder;
         final int interval = 1000 / 60;
@@ -106,11 +127,6 @@ public class Game {
             lives += 1;
         }
 
-//        for (GameObject o : toBeAdded)
-//        {
-//            alive.add(o);
-//        }
-
         alive.addAll(toBeAdded);
 
         synchronized (Game.class) {
@@ -118,6 +134,9 @@ public class Game {
             objects.addAll(alive);
             toBeAdded.clear();
         }
+
+        String scoreString = String.format("%06d" , score);
+        scoreText.setText("Score: " + scoreString);
     }
 
     private void constructGrid() {
@@ -167,5 +186,10 @@ public class Game {
             objects.add(level.getPowerUps().get(i));
             powerUps.add(level.getPowerUps().get(i));
         }
+    }
+
+    public void incrementScore(int toAdd)
+    {
+        score += toAdd;
     }
 }

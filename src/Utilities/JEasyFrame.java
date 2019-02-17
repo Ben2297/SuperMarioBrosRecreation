@@ -9,6 +9,7 @@ public class JEasyFrame extends JFrame {
         super(title);
         this.comp = comp;
         getContentPane().add(BorderLayout.CENTER, comp);
+        getContentPane().setBackground(new Color(83, 148, 252));
         pack();
         this.setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

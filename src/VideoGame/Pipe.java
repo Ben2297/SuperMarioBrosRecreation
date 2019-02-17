@@ -34,9 +34,15 @@ public class Pipe extends GameObject
             if (type == 1)
             {
                 currentImage = ImageIO.read(new File("Pipe.png"));
+                position.y -= 40;
             } else if (type == 2)
             {
                 currentImage = ImageIO.read(new File("Pipe2.png"));
+                position.y -= 60;
+            } else if (type == 3)
+            {
+                currentImage = ImageIO.read(new File("Pipe3.png"));
+                position.y -= 80;
             }
 
         } catch (IOException ie)
