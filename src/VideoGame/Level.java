@@ -50,7 +50,7 @@ public class Level {
             while ((i = fileReader.read()) != -1)
             {
                 System.out.print((char) i);
-                if (Character.isDigit((char)i))
+                if (Character.isDigit((char)i) | Character.isLetter((char)i))
                 {
                     if ((char)i == '1') {
                         objectPosition.set(grid[x][y]);
@@ -96,9 +96,14 @@ public class Level {
                         objectPosition.set(grid[x][y]);
                         Pipe pipe = new Pipe(objectPosition, game, 3);
                         scenery.add(pipe);
+                    } else if ((char)i == 'A')
+                    {
+                        objectPosition.set(grid[x][y]);
+                        Block block = new Block(objectPosition, 5, game);
+                        scenery.add(block);
                     }
 
-                    if (x < 49)
+                    if (x < (GRID_WIDTH - 1))
                     {
                         x += 1;
                     } else

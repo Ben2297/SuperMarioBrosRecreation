@@ -58,6 +58,9 @@ public class Block extends GameObject {
             } else if (type == 4)
             {
                 currentImage = ImageIO.read(new File("Pipe.png"));
+            } else if (type == 5)
+            {
+                currentImage = ImageIO.read(new File("Block.png"));
             }
 
         } catch (IOException ie)

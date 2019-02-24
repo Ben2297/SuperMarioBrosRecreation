@@ -137,8 +137,6 @@ public class Player extends GameObject {
     }
 
     public void update() {
-
-
         if (!dead)
         {
             hasEnemyCollision();
@@ -146,8 +144,12 @@ public class Player extends GameObject {
             if (!hasHorizontalCollision())
             {
                 position.x += (velocity.x * DT);
-                if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
+                if (!hasVerticalCollision())
+                {
+                    position.y += (velocity.y * DT);
+                }
             }
+
             hasPowerUpCollision();
 
             action = ctrl.action();

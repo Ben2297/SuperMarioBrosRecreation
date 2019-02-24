@@ -88,6 +88,7 @@ public class Game {
             view.repaint();
             remainder = interval - (System.currentTimeMillis() % interval);
             Thread.sleep(remainder);
+
         }
     }
 
