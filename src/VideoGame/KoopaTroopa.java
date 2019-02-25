@@ -175,6 +175,11 @@ public class KoopaTroopa extends Enemy {
         direction.set(1, 0);
     }
 
+    public boolean getMoving()
+    {
+        return moving;
+    }
+
     public void draw(Graphics2D g) {
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);

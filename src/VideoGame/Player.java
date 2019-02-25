@@ -137,9 +137,11 @@ public class Player extends GameObject {
     }
 
     public void update() {
+
+        hasEnemyCollision();
         if (!dead)
         {
-            hasEnemyCollision();
+
 
             if (!hasHorizontalCollision())
             {
@@ -397,7 +399,7 @@ public class Player extends GameObject {
                 if (e.getClass() == KoopaTroopa.class)
                 {
                     KoopaTroopa koopaTroopa = (KoopaTroopa)e;
-                    if (koopaTroopa.getInShell())
+                    if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
                     {
                         koopaTroopa.spinLeft();
                     } else
@@ -429,7 +431,7 @@ public class Player extends GameObject {
                 if (e.getClass() == KoopaTroopa.class)
                 {
                     KoopaTroopa koopaTroopa = (KoopaTroopa)e;
-                    if (koopaTroopa.getInShell())
+                    if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
                     {
                         koopaTroopa.spinRight();
                     } else
