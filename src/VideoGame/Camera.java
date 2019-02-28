@@ -28,7 +28,5 @@ public class Camera {
         {
             position.x = player.position.x - FRAME_WIDTH / 2;
         }
-
-        //position.y = player.position.y - FRAME_HEIGHT / 2;
     }
 }

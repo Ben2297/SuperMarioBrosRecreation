@@ -10,7 +10,8 @@ import java.io.IOException;
 
 import static VideoGame.Constants.DT;
 
-public class Block extends GameObject {
+public class Block extends GameObject
+{
 
     private static final double MAG_ACC = 300;
 

@@ -17,7 +17,7 @@ public class View extends JComponent {
     @Override
     public void paintComponent(Graphics g0) {
         Graphics2D g = (Graphics2D) g0;
-        g.translate(-camera.position.x, -camera.position.y);
+        g.translate((int)-camera.position.x, (int)-camera.position.y);
         //g.drawImage(image, 0, 0, this);
         synchronized (Game.class) {
             for (GameObject object : game.objects) {

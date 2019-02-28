@@ -2,6 +2,11 @@ package VideoGame;
 
 import Utilities.JEasyFrame;
 import Utilities.Vector2D;
+import javafx.application.Application;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -22,21 +27,31 @@ public class Game {
     private Player player;
     private Keys ctrl;
     private int score = 0;
+    private int coins = 0;
     public int lives = 0;
     private static BufferedImage myImage;
     private Vector2D[][] grid;
     private Level level;
     private static Camera camera;
-    public JLabel scoreText;
+    public JLabel nameText;
+    public static JLabel scoreText;
+    private SoundManager soundManager;
+    public static JPanel panel;
+    public static Game game;
+    //public View view;
 
     private Game() {
+
+        camera = new Camera();
+
+
         try {
             Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("MarioFont.ttf")).deriveFont(12f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            //register the font
             ge.registerFont(customFont);
-        } catch (IOException|FontFormatException e) {
-            //Handle exception
+        } catch (IOException|FontFormatException e)
+        {
+
         }
 
         objects = new ArrayList<>();
@@ -47,11 +62,21 @@ public class Game {
         toBeAdded = new ArrayList<>();
         ctrl = new Keys();
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
+
+        panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(83, 148, 252));
+
+        nameText = new JLabel();
+        nameText.setText("Mario");
+        nameText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+
         scoreText = new JLabel();
         String scoreString = String.format("%06d" , score);
         scoreText.setText("Score: " + scoreString);
         //scoreText.setFont(new Font("Serif", Font.PLAIN, 32));
         scoreText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+
+        panel.add(scoreText);
 
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
@@ -61,11 +86,17 @@ public class Game {
         level = new Level(1, grid, this);
         buildLevel();
         //camera = new Camera(player);
+        //soundManager = new SoundManager();
+
     }
 
     public static void main(String[] args) throws Exception {
-        Game game = new Game();
-        camera = new Camera();
+        game = new Game();
+        final JFXPanel fxPanel = new JFXPanel();
+        String bip = "Super Mario Bros. Theme Song.wav";
+        Media hit = new Media(new File(bip).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(hit);
+        //mediaPlayer.play();
 
         try {
             myImage = ImageIO.read(new File("Background.png"));
@@ -73,10 +104,18 @@ public class Game {
             System.out.println("Incorrect file name");
         }
 
+        JLabel jLabel = new JLabel("Hey");
+        scoreText.setLocation((int)camera.position.x,(int)camera.position.y);
+        scoreText.setBounds(0, 0, 300, 100);
+
         View view = new View(game, myImage, camera);
+        view.setLayout(null);
+        view.add(scoreText);
         JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
+        //jEasyFrame.add(panel);
+
         jEasyFrame.addKeyListener(game.ctrl);
-        jEasyFrame.add(game.scoreText, BorderLayout.PAGE_START);
+        //jEasyFrame.add(game.scoreText, BorderLayout.PAGE_START);
         //jEasyFrame.getContentPane().setLayout(null);
 
         long remainder;
@@ -88,7 +127,6 @@ public class Game {
             view.repaint();
             remainder = interval - (System.currentTimeMillis() % interval);
             Thread.sleep(remainder);
-
         }
     }
 
@@ -134,10 +172,13 @@ public class Game {
             objects.clear();
             objects.addAll(alive);
             toBeAdded.clear();
+
         }
 
-        String scoreString = String.format("%06d" , score);
-        scoreText.setText("Score: " + scoreString);
+        //String scoreString = String.format("%06d" , score);
+        scoreText.setText("Score: " + score);
+        scoreText.setLocation((int)camera.position.x + 20,(int)camera.position.y);
+
     }
 
     private void constructGrid() {
@@ -192,5 +233,15 @@ public class Game {
     public void incrementScore(int toAdd)
     {
         score += toAdd;
+    }
+
+    public void coinCollected()
+    {
+        coins += 1;
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 }
