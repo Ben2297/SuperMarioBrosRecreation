@@ -33,17 +33,20 @@ public class Game {
     private Vector2D[][] grid;
     private Level level;
     private static Camera camera;
-    public JLabel nameText;
+    public static JLabel nameText;
     public static JLabel scoreText;
+    public static JLabel menuText;
     private SoundManager soundManager;
-    public static JPanel panel;
     public static Game game;
-    //public View view;
     private String scoreString;
+    private static boolean gameStarted;
 
     private Game() {
 
+        gameStarted = false;
+
         camera = new Camera();
+        camera.position.x = -1000;
 
 
         try {
@@ -64,13 +67,9 @@ public class Game {
         ctrl = new Keys();
         grid = new Vector2D[GRID_WIDTH][GRID_HEIGHT];
 
-        panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(83, 148, 252));
-
         nameText = new JLabel();
         nameText.setText("Mario");
         nameText.setFont(new Font("Press Start K", Font.PLAIN, 24));
-
         scoreText = new JLabel();
         scoreString = String.format("%06d" , score);
         scoreText.setText("Score: " + scoreString);
@@ -79,7 +78,10 @@ public class Game {
         //scoreText.setLocation((int)camera.position.x,(int)camera.position.y);
         scoreText.setBounds((int)camera.position.x + 20, (int)camera.position.y, 400, 100);
 
-        panel.add(scoreText);
+        menuText = new JLabel();
+        menuText.setText("Start Game");
+        menuText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+        menuText.setBounds(-620, 500, 400, 100);
 
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
@@ -90,6 +92,11 @@ public class Game {
         buildLevel();
         //soundManager = new SoundManager();
 
+        try {
+            myImage = ImageIO.read(new File("Background.png"));
+        } catch (IOException e) {
+            System.out.println("Incorrect file name");
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -100,22 +107,31 @@ public class Game {
         MediaPlayer mediaPlayer = new MediaPlayer(hit);
         //mediaPlayer.play();
 
-        try {
-            myImage = ImageIO.read(new File("Background.png"));
-        } catch (IOException e) {
-            System.out.println("Incorrect file name");
-        }
-
         View view = new View(game, myImage, camera);
         view.setLayout(null);
         view.add(scoreText);
+        view.add(menuText);
 
         JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
         jEasyFrame.addKeyListener(game.ctrl);
 
+        //view.setVisible(false);
+
         long remainder;
         final int interval = 1000 / 60;
         boolean gameIsRunning = true;
+
+        while (!gameStarted)
+        {
+            if (game.ctrl.action().enter)
+            {
+                gameStarted = true;
+                camera.position.x = 0;
+            }
+            view.repaint();
+            remainder = interval - (System.currentTimeMillis() % interval);
+            Thread.sleep(remainder);
+        }
 
         while (gameIsRunning) {
             game.update();

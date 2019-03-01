@@ -18,6 +18,9 @@ public class Keys extends KeyAdapter implements Controller {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
+            case KeyEvent.VK_ENTER:
+                action.enter = true;
+                break;
             case KeyEvent.VK_LEFT:
                 action.move = -1;
                 break;
@@ -36,6 +39,9 @@ public class Keys extends KeyAdapter implements Controller {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         switch (key) {
+            case KeyEvent.VK_ENTER:
+                action.enter = false;
+                break;
             case KeyEvent.VK_LEFT:
                 action.move = 0;
                 break;

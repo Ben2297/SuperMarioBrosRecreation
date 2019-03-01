@@ -51,7 +51,7 @@ public class Player extends GameObject {
     private BufferedImage superJumpRightImage;
     private BufferedImage superJumpLeftImage;
 
-    private VideoGame.Action action;
+    private Action action;
     private Game game;
     private Controller ctrl;
     private long lastAnimationProcessed = 0;
