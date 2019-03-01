@@ -24,7 +24,6 @@ public class Player extends GameObject {
     private Vector2D direction;
     private Vector2D jumpDirection;
     private boolean facingRight = true;
-    private boolean moving;
     private boolean falling;
     private boolean canJump;
     private boolean superMario = false;
@@ -67,7 +66,6 @@ public class Player extends GameObject {
         jumpDirection.set(0, -1);
         position.set(pos);
         velocity.set(vel);
-        moving = false;
         dead = false;
         falling = true;
         this.game = game;
@@ -356,7 +354,7 @@ public class Player extends GameObject {
                 if (b.getClass() == Block.class)
                 {
                     Block block = (Block)b;
-                    if (block.getType() == 3 || superMario)
+                    if (block.getType() == 3 || block.getType() == 5 || superMario)
                     {
                         b.hit();
                     }

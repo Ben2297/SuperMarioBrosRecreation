@@ -151,8 +151,16 @@ public class KoopaTroopa extends Enemy {
             inShell = true;
         } else if (inShell)
         {
-              currentImage = koopaShell1;
-              moving = true;
+            if (!moving)
+            {
+                currentImage = koopaShell1;
+                moving = true;
+            } else
+            {
+                currentImage = koopaShell;
+                velocity.x = 0;
+                moving = false;
+            }
         }
 
         //super.hit();
