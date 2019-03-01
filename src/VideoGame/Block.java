@@ -24,7 +24,7 @@ public class Block extends GameObject
     private Vector2D jumpDirection;
     private double lowerBound;
     private int type;
-    private Vector2D powerUpPosition = new Vector2D();
+    private Vector2D powerUpPosition;
     private boolean powerUpSpawned;
     Game game;
 
@@ -40,12 +40,12 @@ public class Block extends GameObject
         jumpDirection.set(0, -1);
         lowerBound = position.y;
         powerUpSpawned = false;
+        powerUpPosition = new Vector2D();
         this.type = type;
         this.game = game;
 
         try
         {
-
             emptyBlockImage = ImageIO.read(new File("EmptyBlock.png"));
             if (type == 1)
             {
@@ -53,13 +53,10 @@ public class Block extends GameObject
             } else if (type == 2)
             {
                 currentImage = ImageIO.read(new File("Ground.png"));
-            } else if (type == 3)
+            } else if (type == 3 || type == 5)
             {
                 currentImage = ImageIO.read(new File("Question.png"));
             } else if (type == 4)
-            {
-                currentImage = ImageIO.read(new File("Pipe.png"));
-            } else if (type == 5)
             {
                 currentImage = ImageIO.read(new File("Block.png"));
             }
@@ -94,8 +91,7 @@ public class Block extends GameObject
     public void hit()
     {
 
-        if (type == 3 && !powerUpSpawned)
-        {
+        if (type == 3 && !powerUpSpawned) {
             currentImage = emptyBlockImage;
             velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
             powerUpPosition.set(this.position);
@@ -104,11 +100,25 @@ public class Block extends GameObject
             game.powerUps.add(powerUp);
             game.toBeAdded.add(powerUp);
             powerUpSpawned = true;
+        } else if (type == 5 && !powerUpSpawned)
+        {
+            currentImage = emptyBlockImage;
+            velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+            powerUpPosition.set(this.position);
+            powerUpPosition.x += 12;
+            Coin coin = new Coin(powerUpPosition, game);
+            game.toBeAdded.add(coin);
+            powerUpSpawned = true;
         } else if (type == 1)
         {
             dead = true;
             game.scenery.remove(this);
         }
+    }
+
+    public int getType()
+    {
+        return type;
     }
 
     public void draw(Graphics2D g)

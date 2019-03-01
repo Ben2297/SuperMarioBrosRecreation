@@ -99,6 +99,11 @@ public class Level {
                     } else if ((char)i == 'A')
                     {
                         objectPosition.set(grid[x][y]);
+                        Block block = new Block(objectPosition, 4, game);
+                        scenery.add(block);
+                    } else if ((char)i == 'B')
+                    {
+                        objectPosition.set(grid[x][y]);
                         Block block = new Block(objectPosition, 5, game);
                         scenery.add(block);
                     }

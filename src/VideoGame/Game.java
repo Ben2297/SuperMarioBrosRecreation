@@ -39,6 +39,7 @@ public class Game {
     public static JPanel panel;
     public static Game game;
     //public View view;
+    private String scoreString;
 
     private Game() {
 
@@ -71,10 +72,12 @@ public class Game {
         nameText.setFont(new Font("Press Start K", Font.PLAIN, 24));
 
         scoreText = new JLabel();
-        String scoreString = String.format("%06d" , score);
+        scoreString = String.format("%06d" , score);
         scoreText.setText("Score: " + scoreString);
         //scoreText.setFont(new Font("Serif", Font.PLAIN, 32));
         scoreText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+        //scoreText.setLocation((int)camera.position.x,(int)camera.position.y);
+        scoreText.setBounds((int)camera.position.x + 20, (int)camera.position.y, 400, 100);
 
         panel.add(scoreText);
 
@@ -85,7 +88,6 @@ public class Game {
         objects.add(player);
         level = new Level(1, grid, this);
         buildLevel();
-        //camera = new Camera(player);
         //soundManager = new SoundManager();
 
     }
@@ -104,19 +106,12 @@ public class Game {
             System.out.println("Incorrect file name");
         }
 
-        JLabel jLabel = new JLabel("Hey");
-        scoreText.setLocation((int)camera.position.x,(int)camera.position.y);
-        scoreText.setBounds(0, 0, 300, 100);
-
         View view = new View(game, myImage, camera);
         view.setLayout(null);
         view.add(scoreText);
-        JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
-        //jEasyFrame.add(panel);
 
+        JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
         jEasyFrame.addKeyListener(game.ctrl);
-        //jEasyFrame.add(game.scoreText, BorderLayout.PAGE_START);
-        //jEasyFrame.getContentPane().setLayout(null);
 
         long remainder;
         final int interval = 1000 / 60;
@@ -166,18 +161,17 @@ public class Game {
             lives += 1;
         }
 
-        alive.addAll(toBeAdded);
-
         synchronized (Game.class) {
+            alive.addAll(toBeAdded);
             objects.clear();
             objects.addAll(alive);
             toBeAdded.clear();
 
         }
 
-        //String scoreString = String.format("%06d" , score);
-        scoreText.setText("Score: " + score);
-        scoreText.setLocation((int)camera.position.x + 20,(int)camera.position.y);
+        scoreString = String.format("%06d" , score);
+        scoreText.setText("Score: " + scoreString);
+        scoreText.setBounds((int)camera.position.x + 20, (int)camera.position.y, 400, 100);
 
     }
 

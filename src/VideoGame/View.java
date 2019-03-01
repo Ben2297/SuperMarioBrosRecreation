@@ -21,14 +21,14 @@ public class View extends JComponent {
         //g.drawImage(image, 0, 0, this);
         synchronized (Game.class) {
             for (GameObject object : game.objects) {
-                if (object.getClass() == PowerUp.class)
+                if (object.getClass() == PowerUp.class || object.getClass() == Coin.class)
                 {
                     object.draw(g);
                 }
             }
 
             for (GameObject object : game.objects) {
-                if (object.getClass() != PowerUp.class)
+                if (object.getClass() != PowerUp.class && object.getClass() != Coin.class)
                 {
                     object.draw(g);
                 }

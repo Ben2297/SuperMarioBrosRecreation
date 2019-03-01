@@ -139,17 +139,17 @@ public class Player extends GameObject {
     public void update() {
 
         hasEnemyCollision();
+
         if (!dead)
         {
-
-
             if (!hasHorizontalCollision())
             {
                 position.x += (velocity.x * DT);
-                if (!hasVerticalCollision())
-                {
-                    position.y += (velocity.y * DT);
-                }
+
+            }
+            if (!hasVerticalCollision())
+            {
+                position.y += (velocity.y * DT);
             }
 
             hasPowerUpCollision();
@@ -234,8 +234,10 @@ public class Player extends GameObject {
                 if (action.move == 1 && canJump)
                 {
                     facingRight = true;
-                    if (currentImage == runLeftImage || currentImage == runRightImage ||
-                            currentImage == superRunLeftImage | currentImage == superRunRightImage)
+                    if (currentImage == runLeftImage || currentImage == runLeftImage1 || currentImage == runLeftImage2 ||
+                        currentImage == runLeftImage3 || currentImage == runRightImage || currentImage == runRightImage1 ||
+                            currentImage == runRightImage2 || currentImage == runRightImage3 ||
+                            currentImage == superRunLeftImage || currentImage == superRunRightImage)
                     {
                         currentImage = superRunRightImage1;
                         lastAnimationProcessed = System.currentTimeMillis();
@@ -255,8 +257,10 @@ public class Player extends GameObject {
                 } else if (action.move == -1 && canJump)
                 {
                     facingRight = false;
-                    if (currentImage == runLeftImage || currentImage == runRightImage ||
-                            currentImage == superRunLeftImage | currentImage == superRunRightImage)
+                    if (currentImage == runLeftImage || currentImage == runLeftImage1 || currentImage == runLeftImage2 ||
+                            currentImage == runLeftImage3 || currentImage == runRightImage || currentImage == runRightImage1 ||
+                            currentImage == runRightImage2 || currentImage == runRightImage3 ||
+                            currentImage == superRunLeftImage || currentImage == superRunRightImage)
                     {
                         currentImage = superRunLeftImage1;
                         lastAnimationProcessed = System.currentTimeMillis();
@@ -321,7 +325,7 @@ public class Player extends GameObject {
         for (int i = 0; i < game.scenery.size(); i++)
         {
             GameObject b = game.scenery.get(i);
-            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
+            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 /*&& !hasHorizontalCollision()*/)
             {
                 canJump = true;
                 falling = false;
@@ -349,7 +353,15 @@ public class Player extends GameObject {
             if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
             {
                 velocity.y = 0;
-                b.hit();
+                if (b.getClass() == Block.class)
+                {
+                    Block block = (Block)b;
+                    if (block.getType() == 3 || superMario)
+                    {
+                        b.hit();
+                    }
+                }
+
                 return true;
             }
         }

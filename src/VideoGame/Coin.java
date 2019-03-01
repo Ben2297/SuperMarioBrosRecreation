@@ -1,16 +1,18 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.io.File;
+import java.io.IOException;
+
+import static VideoGame.Constants.DT;
 
 public class Coin extends GameObject
 {
 
-    private static final double MAG_ACC = 300;
-
-    private static final double JUMP_STRENGTH = 40;
+    private static final double MAG_ACC = 500;
 
     private static final double GRAVITY = 2.5;
 
@@ -21,13 +23,40 @@ public class Coin extends GameObject
     public Coin(Vector2D pos, Game game)
     {
         direction = new Vector2D();
-        direction.set(1, 0);
+        direction.set(0, -1);
         position = new Vector2D();
         position.set(pos);
         velocity = new Vector2D();
         velocity.set(0, 0);
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
+
+        try
+        {
+            currentImage = ImageIO.read(new File("Coin.png"));
+        } catch (IOException ie)
+        {
+            System.out.println("Image file not found");
+        }
+
+        velocity.addScaled(direction, (MAG_ACC * DT * 70));
+        height = currentImage.getHeight();
+        width = currentImage.getWidth();
+    }
+
+    public void update() {
+        position.y += (velocity.y * DT);
+        applyGravity();
+
+        if (velocity.y > 50)
+        {
+            hit();
+        }
+    }
+
+    private void applyGravity()
+    {
+        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
     }
 
     public void draw(Graphics2D g)
