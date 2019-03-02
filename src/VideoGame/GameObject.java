@@ -17,7 +17,6 @@ public abstract class GameObject {
     public double prevY;
     public BufferedImage currentImage;
 
-    // Constructs a new game object
     public GameObject() {
         super();
         position = new Vector2D();
@@ -25,7 +24,6 @@ public abstract class GameObject {
 
     }
 
-    // Updates a hit game object to dead
     public void hit() {
         dead = true;
     }

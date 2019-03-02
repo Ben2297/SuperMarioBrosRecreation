@@ -1,7 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;

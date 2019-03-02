@@ -106,6 +106,11 @@ public class Level {
                         objectPosition.set(grid[x][y]);
                         Block block = new Block(objectPosition, 5, game);
                         scenery.add(block);
+                    } else if ((char)i == 'C')
+                    {
+                        objectPosition.set(grid[x][y]);
+                        Flag flag = new Flag(objectPosition, game);
+                        scenery.add(flag);
                     }
 
                     if (x < (GRID_WIDTH - 1))

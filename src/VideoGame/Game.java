@@ -2,11 +2,9 @@ package VideoGame;
 
 import Utilities.JEasyFrame;
 import Utilities.Vector2D;
-import javafx.application.Application;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -41,6 +39,11 @@ public class Game {
     private String scoreString;
     private static boolean gameStarted;
 
+    private static MediaPlayer musicPlayer;
+    private MediaPlayer deathSound;
+    private MediaPlayer jumpSound;
+    private MediaPlayer coinSound;
+
     private Game() {
 
         gameStarted = false;
@@ -70,12 +73,13 @@ public class Game {
         nameText = new JLabel();
         nameText.setText("Mario");
         nameText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+        nameText.setBounds((int)camera.position.x + 20, (int)camera.position.y - 30, 400, 100);
+
         scoreText = new JLabel();
         scoreString = String.format("%06d" , score);
         scoreText.setText("Score: " + scoreString);
         //scoreText.setFont(new Font("Serif", Font.PLAIN, 32));
         scoreText.setFont(new Font("Press Start K", Font.PLAIN, 24));
-        //scoreText.setLocation((int)camera.position.x,(int)camera.position.y);
         scoreText.setBounds((int)camera.position.x + 20, (int)camera.position.y, 400, 100);
 
         menuText = new JLabel();
@@ -102,20 +106,20 @@ public class Game {
     public static void main(String[] args) throws Exception {
         game = new Game();
         final JFXPanel fxPanel = new JFXPanel();
-        String bip = "Super Mario Bros. Theme Song.wav";
-        Media hit = new Media(new File(bip).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(hit);
-        //mediaPlayer.play();
+        String file = "Super Mario Bros. Theme Song.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        musicPlayer = new MediaPlayer(hit);
+        //musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        musicPlayer.play();
 
         View view = new View(game, myImage, camera);
         view.setLayout(null);
         view.add(scoreText);
+        view.add(nameText);
         view.add(menuText);
 
         JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
         jEasyFrame.addKeyListener(game.ctrl);
-
-        //view.setVisible(false);
 
         long remainder;
         final int interval = 1000 / 60;
@@ -189,6 +193,7 @@ public class Game {
         scoreText.setText("Score: " + scoreString);
         scoreText.setBounds((int)camera.position.x + 20, (int)camera.position.y, 400, 100);
 
+        nameText.setBounds((int)camera.position.x + 20, (int)camera.position.y - 30, 400, 100);
     }
 
     private void constructGrid() {
@@ -247,11 +252,32 @@ public class Game {
 
     public void coinCollected()
     {
+        String file = "coin.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        coinSound = new MediaPlayer(hit);
+        coinSound.play();
         coins += 1;
     }
 
     public int getScore()
     {
         return score;
+    }
+
+    public void jumpSound()
+    {
+        String file = "jump.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        jumpSound = new MediaPlayer(hit);
+        jumpSound.play();
+    }
+
+    public void dieSound()
+    {
+        musicPlayer.stop();
+        String file = "mariodie.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        deathSound = new MediaPlayer(hit);
+        deathSound.play();
     }
 }

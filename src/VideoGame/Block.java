@@ -108,6 +108,7 @@ public class Block extends GameObject
             powerUpPosition.x += 12;
             Coin coin = new Coin(powerUpPosition, game);
             game.toBeAdded.add(coin);
+            //game.coinCollected();
             powerUpSpawned = true;
         } else if (type == 1)
         {

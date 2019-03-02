@@ -11,11 +11,13 @@ import java.io.IOException;
 import static VideoGame.Constants.*;
 
 public class Player extends GameObject {
-    private static final double MAG_ACC = 2100;
+    private static final double MAG_ACC = 2400;
+    //2100
 
     private static final double DRAG = 0.9;
 
-    private static final double JUMP_STRENGTH = 130;
+    private static final double JUMP_STRENGTH = 110;
+    //130
 
     private static final double GRAVITY = 2.5;
 
@@ -131,6 +133,7 @@ public class Player extends GameObject {
     {
         currentImage = deadImage;
         velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+        //game.dieSound();
         super.hit();
     }
 
@@ -304,6 +307,7 @@ public class Player extends GameObject {
             if (action.jump && canJump && !falling)
             {
                 jump();
+                //game.jumpSound();
                 canJump = false;
             }
 

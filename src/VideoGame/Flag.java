@@ -7,23 +7,17 @@ import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 
-import static VideoGame.Constants.DT;
 
-public class Coin extends GameObject
+public class Flag extends GameObject
 {
-
-    private static final double MAG_ACC = 700;
-
-    private static final double GRAVITY = 2.5;
-
     private Vector2D direction;
     private Vector2D jumpDirection;
     private Game game;
 
-    public Coin(Vector2D pos, Game game)
+    public Flag(Vector2D pos, Game game)
     {
         direction = new Vector2D();
-        direction.set(0, -1);
+        direction.set(1, 0);
         position = new Vector2D();
         position.set(pos);
         velocity = new Vector2D();
@@ -34,31 +28,19 @@ public class Coin extends GameObject
 
         try
         {
-            currentImage = ImageIO.read(new File("Coin.png"));
+            currentImage = ImageIO.read(new File("flag.png"));
+            position.y -= 360;
         } catch (IOException ie)
         {
             System.out.println("Image file not found");
         }
 
-        velocity.addScaled(direction, (MAG_ACC * DT * 60));
         height = currentImage.getHeight();
         width = currentImage.getWidth();
     }
 
-    public void update() {
-        position.y += (velocity.y * DT);
-        applyGravity();
-
-        if (velocity.y > 200)
-        {
-            hit();
-        }
-    }
-
-    private void applyGravity()
-    {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
-    }
+    @Override
+    public void hit() {}
 
     public void draw(Graphics2D g)
     {
