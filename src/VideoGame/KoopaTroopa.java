@@ -162,8 +162,6 @@ public class KoopaTroopa extends Enemy {
                 moving = false;
             }
         }
-
-        //super.hit();
     }
 
     public boolean getInShell()
@@ -199,7 +197,7 @@ public class KoopaTroopa extends Enemy {
         //g.draw(getBounds());
         //g.draw(getBoundsRight());
         //g.draw(getBoundsLeft());
-        //g.draw(getBoundsTop());
+        g.draw(getBoundsTop());
         //g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }

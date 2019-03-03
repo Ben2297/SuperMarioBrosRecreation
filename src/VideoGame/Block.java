@@ -99,6 +99,7 @@ public class Block extends GameObject
             PowerUp powerUp = new PowerUp(powerUpPosition, game);
             game.powerUps.add(powerUp);
             game.toBeAdded.add(powerUp);
+            game.powerupSpawnSound();
             powerUpSpawned = true;
         } else if (type == 5 && !powerUpSpawned)
         {
@@ -108,7 +109,7 @@ public class Block extends GameObject
             powerUpPosition.x += 12;
             Coin coin = new Coin(powerUpPosition, game);
             game.toBeAdded.add(coin);
-            //game.coinCollected();
+            game.coinCollected();
             powerUpSpawned = true;
         } else if (type == 1)
         {

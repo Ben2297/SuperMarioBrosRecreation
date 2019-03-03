@@ -12,12 +12,10 @@ import static VideoGame.Constants.*;
 
 public class Player extends GameObject {
     private static final double MAG_ACC = 2400;
-    //2100
 
     private static final double DRAG = 0.9;
 
-    private static final double JUMP_STRENGTH = 110;
-    //130
+    private static final double JUMP_STRENGTH = 130;
 
     private static final double GRAVITY = 2.5;
 
@@ -133,7 +131,7 @@ public class Player extends GameObject {
     {
         currentImage = deadImage;
         velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
-        //game.dieSound();
+        game.dieSound();
         super.hit();
     }
 
@@ -146,11 +144,11 @@ public class Player extends GameObject {
             if (!hasHorizontalCollision())
             {
                 position.x += (velocity.x * DT);
-
             }
             if (!hasVerticalCollision())
             {
                 position.y += (velocity.y * DT);
+
             }
 
             hasPowerUpCollision();
@@ -307,7 +305,7 @@ public class Player extends GameObject {
             if (action.jump && canJump && !falling)
             {
                 jump();
-                //game.jumpSound();
+                game.jumpSound();
                 canJump = false;
             }
 
@@ -327,45 +325,52 @@ public class Player extends GameObject {
         for (int i = 0; i < game.scenery.size(); i++)
         {
             GameObject b = game.scenery.get(i);
-            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 /*&& !hasHorizontalCollision()*/)
-            {
-                canJump = true;
-                falling = false;
-                velocity.y = 0;
-                if (currentImage == jumpRightImage)
-                {
-                    currentImage = runRightImage;
-                } else if (currentImage == jumpLeftImage)
-                {
-                    currentImage = runLeftImage;
-                } else if (currentImage == superJumpRightImage)
-                {
-                    currentImage = superRunRightImage;
-                } else if (currentImage == superJumpLeftImage)
-                {
-                    currentImage = superRunLeftImage;
-                }
-                position.y = b.position.y - height;
-                return true;
-            } else
-            {
-                falling = true;
-            }
 
-            if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
+            if (b.position.x > position.x - 100 && b.position.x < position.x + 100 &&
+                    b.position.y > position.y - 100 && b.position.y < position.y + 100)
             {
-                velocity.y = 0;
-                if (b.getClass() == Block.class)
+                if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 /*&& !hasHorizontalCollision()*/)
                 {
-                    Block block = (Block)b;
-                    if (block.getType() == 3 || block.getType() == 5 || superMario)
+                    canJump = true;
+                    falling = false;
+                    velocity.y = 0;
+                    if (currentImage == jumpRightImage)
                     {
-                        b.hit();
+                        currentImage = runRightImage;
+                    } else if (currentImage == jumpLeftImage)
+                    {
+                        currentImage = runLeftImage;
+                    } else if (currentImage == superJumpRightImage)
+                    {
+                        currentImage = superRunRightImage;
+                    } else if (currentImage == superJumpLeftImage)
+                    {
+                        currentImage = superRunLeftImage;
                     }
+                    position.y = b.position.y - height;
+                    return true;
+                } else
+                {
+                    falling = true;
                 }
 
-                return true;
+                if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
+                {
+                    velocity.y = 0;
+                    if (b.getClass() == Block.class)
+                    {
+                        Block block = (Block)b;
+                        if (block.getType() == 3 || block.getType() == 5 || superMario)
+                        {
+                            b.hit();
+                        }
+                    }
+
+                    return true;
+                }
             }
+
+
         }
         return false;
     }
@@ -375,19 +380,26 @@ public class Player extends GameObject {
         for (int i = 0; i < game.scenery.size(); i++)
         {
             GameObject b = game.scenery.get(i);
-            if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
+
+            if (b.position.x > position.x - 100 && b.position.x < position.x + 100 &&
+                    b.position.y > position.y - 100 && b.position.y < position.y + 100)
             {
-                velocity.x = 0;
-                position.x = b.position.x + b.width;
-                return true;
+                if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
+                {
+                    velocity.x = 0;
+                    position.x = b.position.x + b.width;
+                    return true;
+                }
+
+                if (getBoundsRight().intersects(b.getBoundsLeft()) && velocity.x > 0)
+                {
+                    velocity.x = 0;
+                    position.x = b.position.x - width;
+                    return true;
+                }
             }
 
-            if (getBoundsRight().intersects(b.getBoundsLeft()) && velocity.x > 0)
-            {
-                velocity.x = 0;
-                position.x = b.position.x - width;
-                return true;
-            }
+
         }
 
         return false;
@@ -398,90 +410,95 @@ public class Player extends GameObject {
         for (int i = 0; i < game.enemies.size(); i++)
         {
             Enemy e = game.enemies.get(i);
-            if (getBoundsBottom().intersects(e.getBoundsTop()))
+
+            if (e.position.x > position.x - 100 && e.position.x < position.x + 100 &&
+                    e.position.y > position.y - 100 && e.position.y < position.y + 100)
             {
-                jump();
-                canJump = false;
-                e.hit();
-                game.incrementScore(100);
-                if (e.dead)
+                if (getBoundsBottom().intersects(e.getBoundsTop()))
                 {
-                    game.enemies.remove(e);
-                }
-            } else if (getBoundsLeft().intersects(e.getBoundsRight()))
-            {
-                if (e.getClass() == KoopaTroopa.class)
-                {
-                    KoopaTroopa koopaTroopa = (KoopaTroopa)e;
-                    if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
-                    {
-                        koopaTroopa.spinLeft();
-                    } else
-                    {
-                        if (!superMario)
-                        {
-                            hit();
-                        } else
-                        {
-                            superMario = false;
-                            jump();
-                            canJump = false;
-                        }
-                    }
-                } else
-                {
-                    if (!superMario)
-                    {
-                        hit();
-                    } else
-                    {
-                        superMario = false;
-                        jump();
-                        canJump = false;
-                    }
-                }
-            } else if (getBoundsRight().intersects(e.getBoundsLeft()))
-            {
-                if (e.getClass() == KoopaTroopa.class)
-                {
-                    KoopaTroopa koopaTroopa = (KoopaTroopa)e;
-                    if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
-                    {
-                        koopaTroopa.spinRight();
-                    } else
-                    {
-                        if (!superMario)
-                        {
-                            hit();
-                        } else
-                        {
-                            superMario = false;
-                            jump();
-                            canJump = false;
-                        }
-                    }
-                } else
-                {
-                    if (!superMario)
-                    {
-                        hit();
-                    } else
-                    {
-                        superMario = false;
-                        jump();
-                        canJump = false;
-                    }
-                }
-            } else if (getBoundsTop().intersects(e.getBoundsBottom()))
-            {
-                if (!superMario)
-                {
-                    hit();
-                } else
-                {
-                    superMario = false;
                     jump();
                     canJump = false;
+                    e.hit();
+                    game.incrementScore(100);
+                    if (e.dead)
+                    {
+                        game.enemies.remove(e);
+                    }
+                } else if (getBoundsLeft().intersects(e.getBoundsRight()))
+                {
+                    if (e.getClass() == KoopaTroopa.class)
+                    {
+                        KoopaTroopa koopaTroopa = (KoopaTroopa)e;
+                        if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
+                        {
+                            koopaTroopa.spinLeft();
+                        } else
+                        {
+                            if (!superMario)
+                            {
+                                hit();
+                            } else
+                            {
+                                superMario = false;
+                                jump();
+                                canJump = false;
+                            }
+                        }
+                    } else
+                    {
+                        if (!superMario)
+                        {
+                            hit();
+                        } else
+                        {
+                            superMario = false;
+                            jump();
+                            canJump = false;
+                        }
+                    }
+                } else if (getBoundsRight().intersects(e.getBoundsLeft()))
+                {
+                    if (e.getClass() == KoopaTroopa.class)
+                    {
+                        KoopaTroopa koopaTroopa = (KoopaTroopa)e;
+                        if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
+                        {
+                            koopaTroopa.spinRight();
+                        } else
+                        {
+                            if (!superMario)
+                            {
+                                hit();
+                            } else
+                            {
+                                superMario = false;
+                                jump();
+                                canJump = false;
+                            }
+                        }
+                    } else
+                    {
+                        if (!superMario)
+                        {
+                            hit();
+                        } else
+                        {
+                            superMario = false;
+                            jump();
+                            canJump = false;
+                        }
+                    }
+                } else if (getBoundsTop().intersects(e.getBoundsBottom()))
+                {
+                    if (!superMario)
+                    {
+                        hit();
+                    } else
+                    {
+                        superMario = false;
+                        jump();
+                        canJump = false;
+                    }
                 }
             }
         }
@@ -495,6 +512,7 @@ public class Player extends GameObject {
             if (getBounds().intersects(pu.getBounds()))
             {
                 pu.hit();
+                game.powerupSound();
                 game.incrementScore(1000);
                 superMario = true;
                 position.y -= (superRunRightImage.getHeight() - currentImage.getHeight());

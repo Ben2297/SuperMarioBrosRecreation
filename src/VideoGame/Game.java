@@ -43,6 +43,8 @@ public class Game {
     private MediaPlayer deathSound;
     private MediaPlayer jumpSound;
     private MediaPlayer coinSound;
+    private MediaPlayer powerupSpawn;
+    private MediaPlayer powerup;
 
     private Game() {
 
@@ -109,7 +111,6 @@ public class Game {
         String file = "Super Mario Bros. Theme Song.wav";
         Media hit = new Media(new File(file).toURI().toString());
         musicPlayer = new MediaPlayer(hit);
-        //musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         musicPlayer.play();
 
         View view = new View(game, myImage, camera);
@@ -279,5 +280,21 @@ public class Game {
         Media hit = new Media(new File(file).toURI().toString());
         deathSound = new MediaPlayer(hit);
         deathSound.play();
+    }
+
+    public void powerupSpawnSound()
+    {
+        String file = "powerupappears.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        powerupSpawn = new MediaPlayer(hit);
+        powerupSpawn.play();
+    }
+
+    public void powerupSound()
+    {
+        String file = "powerup.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        powerup = new MediaPlayer(hit);
+        powerup.play();
     }
 }
