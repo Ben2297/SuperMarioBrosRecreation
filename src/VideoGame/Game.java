@@ -33,11 +33,15 @@ public class Game {
     private Vector2D[][] grid;
     private Level level;
     private static Camera camera;
-    public static JLabel nameText;
-    public static JLabel scoreText;
-    public static JLabel menuText;
+
+    private static JLabel nameText;
+    private static JLabel scoreText;
+    private static JLabel menuText;
+    private static JLabel coinText;
+
     public static Game game;
     private String scoreString;
+    private String coinString;
     private static boolean gameStarted;
 
     private static MediaPlayer musicPlayer;
@@ -90,6 +94,12 @@ public class Game {
         menuText.setFont(new Font("Press Start K", Font.PLAIN, 24));
         menuText.setBounds(-620, 500, 400, 100);
 
+        coinText = new JLabel();
+        coinString = String.format("%02d" , coins);
+        coinText.setText("x" + coinString);
+        coinText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+        coinText.setBounds((int)camera.position.x + 430, (int)camera.position.y, 400, 100);
+
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
         playerStartPosition.set(grid[0][2]);
@@ -120,6 +130,7 @@ public class Game {
         view.add(scoreText);
         view.add(nameText);
         view.add(menuText);
+        view.add(coinText);
 
         JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
         jEasyFrame.addKeyListener(game.ctrl);
@@ -199,6 +210,10 @@ public class Game {
         scoreText.setBounds((int)camera.position.x + 20, (int)camera.position.y, 400, 100);
 
         nameText.setBounds((int)camera.position.x + 20, (int)camera.position.y - 30, 400, 100);
+
+        coinString = String.format("%02d", coins);
+        coinText.setText("x" + coinString);
+        coinText.setBounds((int)camera.position.x + 430, (int)camera.position.y, 400, 100);
     }
 
     private void constructGrid() {
