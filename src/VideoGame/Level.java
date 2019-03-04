@@ -49,7 +49,7 @@ public class Level {
         try {
             while ((i = fileReader.read()) != -1)
             {
-                System.out.print((char) i);
+                //System.out.print((char) i);
                 if (Character.isDigit((char)i) | Character.isLetter((char)i))
                 {
                     if ((char)i == '1') {

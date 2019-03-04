@@ -12,11 +12,11 @@ import static VideoGame.Constants.DT;
 
 public class KoopaTroopa extends Enemy {
 
-    private static final double MAG_ACC = 700;
+    private double MAG_ACC = 900;
 
     private static final double DRAG = 0.93;
 
-    private static final double GRAVITY = 1.8;
+    private static final double GRAVITY = 2.5;
 
     private boolean moving;
     private boolean inShell;
@@ -101,11 +101,13 @@ public class KoopaTroopa extends Enemy {
         {
             if (inShell)
             {
+                MAG_ACC = 900;
                 velocity.addScaled(direction, (MAG_ACC * DT * 3));
                 velocity.mult(DRAG);
                 hasEnemyCollision();
             } else
             {
+                MAG_ACC = 900;
                 velocity.addScaled(direction, (MAG_ACC * DT));
                 velocity.mult(DRAG);
             }
@@ -197,7 +199,7 @@ public class KoopaTroopa extends Enemy {
         //g.draw(getBounds());
         //g.draw(getBoundsRight());
         //g.draw(getBoundsLeft());
-        g.draw(getBoundsTop());
+        //g.draw(getBoundsTop());
         //g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }

@@ -12,6 +12,7 @@ public class View extends JComponent {
     private Image image;
     private Camera camera;
     private BufferedImage menuLogoImage;
+    private BufferedImage coinImage;
 
     public View(Game game, Image image, Camera camera) {
         this.game = game;
@@ -20,6 +21,7 @@ public class View extends JComponent {
 
         try {
             menuLogoImage = ImageIO.read(new File("supermariobroslogo.png"));
+            coinImage = ImageIO.read(new File("Coin.png"));
         } catch (IOException e) {
             System.out.println("Incorrect file name");
         }
@@ -30,6 +32,7 @@ public class View extends JComponent {
         Graphics2D g = (Graphics2D) g0;
         g.translate((int)-camera.position.x, (int)-camera.position.y);
         g.drawImage(menuLogoImage, -750, 200, this);
+        g.drawImage(coinImage, (int)camera.position.x + 200, (int)camera.position.y - 30, this);
         synchronized (Game.class) {
             for (GameObject object : game.objects) {
                 if (object.getClass() == PowerUp.class || object.getClass() == Coin.class)

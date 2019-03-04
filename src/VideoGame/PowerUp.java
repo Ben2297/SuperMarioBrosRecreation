@@ -1,7 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -12,16 +11,16 @@ import static VideoGame.Constants.DT;
 
 public class PowerUp extends GameObject {
 
-    private static final double MAG_ACC = 1000;
+    private static final double MAG_ACC = 1400;
 
     private static final double DRAG = 0.93;
 
-    private static final double GRAVITY = 1.8;
+    private static final double GRAVITY = 2.5;
 
     private BufferedImage superMushroomImage;
-    public boolean falling;
-    public Vector2D direction;
-    public Vector2D jumpDirection;
+    private boolean falling;
+    private Vector2D direction;
+    private Vector2D jumpDirection;
     private boolean inBlock;
     Game game;
 
@@ -137,7 +136,6 @@ public class PowerUp extends GameObject {
                 return true;
             }
         }
-
         return false;
     }
 

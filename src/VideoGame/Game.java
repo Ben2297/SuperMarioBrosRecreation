@@ -5,6 +5,8 @@ import Utilities.Vector2D;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +36,6 @@ public class Game {
     public static JLabel nameText;
     public static JLabel scoreText;
     public static JLabel menuText;
-    private SoundManager soundManager;
     public static Game game;
     private String scoreString;
     private static boolean gameStarted;
@@ -111,6 +112,7 @@ public class Game {
         String file = "Super Mario Bros. Theme Song.wav";
         Media hit = new Media(new File(file).toURI().toString());
         musicPlayer = new MediaPlayer(hit);
+        musicPlayer.setOnEndOfMedia(() -> musicPlayer.seek(Duration.ZERO));
         musicPlayer.play();
 
         View view = new View(game, myImage, camera);
@@ -123,7 +125,7 @@ public class Game {
         jEasyFrame.addKeyListener(game.ctrl);
 
         long remainder;
-        final int interval = 1000 / 60;
+        final long interval = 1000 / 60;
         boolean gameIsRunning = true;
 
         while (!gameStarted)
@@ -136,6 +138,7 @@ public class Game {
             view.repaint();
             remainder = interval - (System.currentTimeMillis() % interval);
             Thread.sleep(remainder);
+            //System.out.println(remainder);
         }
 
         while (gameIsRunning) {
@@ -143,6 +146,7 @@ public class Game {
             view.repaint();
             remainder = interval - (System.currentTimeMillis() % interval);
             Thread.sleep(remainder);
+            //System.out.println(remainder);
         }
     }
 
@@ -216,8 +220,6 @@ public class Game {
             for (int y = GRID_HEIGHT - 1; y >= 0; y--)
             {
                 grid[x][y].set(xTotal, yTotal);
-                System.out.println(xTotal);
-                System.out.println(yTotal);
                 yTotal += yValue;
             }
             xTotal += xValue;

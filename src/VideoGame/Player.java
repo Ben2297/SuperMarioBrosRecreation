@@ -15,7 +15,7 @@ public class Player extends GameObject {
 
     private static final double DRAG = 0.9;
 
-    private static final double JUMP_STRENGTH = 130;
+    private static final double JUMP_STRENGTH = 120;
 
     private static final double GRAVITY = 2.5;
 
@@ -144,12 +144,13 @@ public class Player extends GameObject {
             if (!hasHorizontalCollision())
             {
                 position.x += (velocity.x * DT);
-            }
-            if (!hasVerticalCollision())
-            {
-                position.y += (velocity.y * DT);
+                if (!hasVerticalCollision())
+                {
+                    position.y += (velocity.y * DT);
 
+                }
             }
+
 
             hasPowerUpCollision();
 
@@ -326,8 +327,8 @@ public class Player extends GameObject {
         {
             GameObject b = game.scenery.get(i);
 
-            if (b.position.x > position.x - 100 && b.position.x < position.x + 100 &&
-                    b.position.y > position.y - 100 && b.position.y < position.y + 100)
+            if (b.position.x > position.x - 400 && b.position.x < position.x + 400 &&
+                    b.position.y > position.y - 400 && b.position.y < position.y + 400)
             {
                 if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 /*&& !hasHorizontalCollision()*/)
                 {
@@ -381,8 +382,8 @@ public class Player extends GameObject {
         {
             GameObject b = game.scenery.get(i);
 
-            if (b.position.x > position.x - 100 && b.position.x < position.x + 100 &&
-                    b.position.y > position.y - 100 && b.position.y < position.y + 100)
+            if (b.position.x > position.x - 400 && b.position.x < position.x + 400 &&
+                    b.position.y > position.y - 400 && b.position.y < position.y + 400)
             {
                 if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
                 {
@@ -398,10 +399,7 @@ public class Player extends GameObject {
                     return true;
                 }
             }
-
-
         }
-
         return false;
     }
 
@@ -410,83 +408,60 @@ public class Player extends GameObject {
         for (int i = 0; i < game.enemies.size(); i++)
         {
             Enemy e = game.enemies.get(i);
-
-            if (e.position.x > position.x - 100 && e.position.x < position.x + 100 &&
-                    e.position.y > position.y - 100 && e.position.y < position.y + 100)
+            if (e.position.x > position.x - 400 && e.position.x < position.x + 400 &&
+                    e.position.y > position.y - 400 && e.position.y < position.y + 400)
             {
                 if (getBoundsBottom().intersects(e.getBoundsTop()))
                 {
-                    jump();
-                    canJump = false;
-                    e.hit();
-                    game.incrementScore(100);
-                    if (e.dead)
+                    if (e.getClass() == KoopaTroopa.class) {
+                        KoopaTroopa koopaTroopa = (KoopaTroopa) e;
+                        if (koopaTroopa.getInShell() && !koopaTroopa.getMoving()) {
+                            if (position.x + (width / 2) < koopaTroopa.position.x + (koopaTroopa.width / 2)) {
+                                jump();
+                                canJump = false;
+                                koopaTroopa.spinRight();
+                            } else {
+                                jump();
+                                canJump = false;
+                                koopaTroopa.spinLeft();
+                            }
+                        } else
+                        {
+                            jump();
+                            canJump = false;
+                            koopaTroopa.hit();
+                        }
+                    } else
                     {
-                        game.enemies.remove(e);
+                        jump();
+                        canJump = false;
+                        e.hit();
+                        game.incrementScore(100);
+                        if (e.dead)
+                        {
+                            game.enemies.remove(e);
+                        }
                     }
                 } else if (getBoundsLeft().intersects(e.getBoundsRight()))
                 {
-                    if (e.getClass() == KoopaTroopa.class)
+                    if (!superMario)
                     {
-                        KoopaTroopa koopaTroopa = (KoopaTroopa)e;
-                        if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
-                        {
-                            koopaTroopa.spinLeft();
-                        } else
-                        {
-                            if (!superMario)
-                            {
-                                hit();
-                            } else
-                            {
-                                superMario = false;
-                                jump();
-                                canJump = false;
-                            }
-                        }
+                        hit();
                     } else
-                    {
-                        if (!superMario)
-                        {
-                            hit();
-                        } else
-                        {
-                            superMario = false;
-                            jump();
-                            canJump = false;
-                        }
+                    {   superMario = false;
+                        jump();
+                        canJump = false;
                     }
                 } else if (getBoundsRight().intersects(e.getBoundsLeft()))
                 {
-                    if (e.getClass() == KoopaTroopa.class)
+                    if (!superMario)
                     {
-                        KoopaTroopa koopaTroopa = (KoopaTroopa)e;
-                        if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
-                        {
-                            koopaTroopa.spinRight();
-                        } else
-                        {
-                            if (!superMario)
-                            {
-                                hit();
-                            } else
-                            {
-                                superMario = false;
-                                jump();
-                                canJump = false;
-                            }
-                        }
+                        hit();
                     } else
                     {
-                        if (!superMario)
-                        {
-                            hit();
-                        } else
-                        {
-                            superMario = false;
-                            jump();
-                            canJump = false;
-                        }
+                        superMario = false;
+                        jump();
+                        canJump = false;
                     }
                 } else if (getBoundsTop().intersects(e.getBoundsBottom()))
                 {
