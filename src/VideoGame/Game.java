@@ -38,11 +38,13 @@ public class Game {
     private static JLabel scoreText;
     private static JLabel menuText;
     private static JLabel coinText;
+    private static JLabel winText;
 
     public static Game game;
     private String scoreString;
     private String coinString;
     private static boolean gameStarted;
+    private boolean gameWon;
 
     private static MediaPlayer musicPlayer;
     private MediaPlayer deathSound;
@@ -92,7 +94,7 @@ public class Game {
         menuText = new JLabel();
         menuText.setText("Start Game");
         menuText.setFont(new Font("Press Start K", Font.PLAIN, 24));
-        menuText.setBounds(-620, 500, 400, 100);
+        menuText.setBounds(-695, 500, 400, 100);
 
         coinText = new JLabel();
         coinString = String.format("%02d" , coins);
@@ -100,14 +102,22 @@ public class Game {
         coinText.setFont(new Font("Press Start K", Font.PLAIN, 24));
         coinText.setBounds((int)camera.position.x + 430, (int)camera.position.y, 400, 100);
 
+        winText = new JLabel();
+        winText.setText("Congratulations!");
+        winText.setFont(new Font("Press Start K", Font.PLAIN, 24));
+        winText.setBounds((int)camera.position.x + 200, (int)camera.position.y + 100, 400, 400);
+        winText.setVisible(false);
+
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
-        playerStartPosition.set(grid[0][2]);
+        playerStartPosition.set(grid[189][2]);
         player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
         level = new Level(1, grid, this);
         buildLevel();
         //soundManager = new SoundManager();
+
+        gameWon = false;
 
         try {
             myImage = ImageIO.read(new File("Background.png"));
@@ -131,6 +141,7 @@ public class Game {
         view.add(nameText);
         view.add(menuText);
         view.add(coinText);
+        view.add(winText);
 
         JEasyFrame jEasyFrame = new JEasyFrame(view, "CE301 Game");
         jEasyFrame.addKeyListener(game.ctrl);
@@ -188,7 +199,7 @@ public class Game {
                 player.dead = false;
                 alive.add(player);
             } else {
-                alive.add(player);
+                //alive.add(player);
                 //System.exit(0);
             }
         }
@@ -207,9 +218,9 @@ public class Game {
 
         scoreString = String.format("%06d" , score);
         scoreText.setText("Score: " + scoreString);
-        scoreText.setBounds((int)camera.position.x + 20, (int)camera.position.y, 400, 100);
+        scoreText.setBounds((int)(camera.position.x + 20 + 0.5), (int)camera.position.y, 400, 100);
 
-        nameText.setBounds((int)camera.position.x + 20, (int)camera.position.y - 30, 400, 100);
+        nameText.setBounds((int)(camera.position.x + 20 + 0.5), (int)camera.position.y - 30, 400, 100);
 
         coinString = String.format("%02d", coins);
         coinText.setText("x" + coinString);
@@ -313,5 +324,12 @@ public class Game {
         Media hit = new Media(new File(file).toURI().toString());
         powerup = new MediaPlayer(hit);
         powerup.play();
+    }
+
+    public void setGameWon()
+    {
+        winText.setBounds((int)camera.position.x + 250, (int)camera.position.y - 100, 400, 400);
+        gameWon = true;
+        winText.setVisible(true);
     }
 }

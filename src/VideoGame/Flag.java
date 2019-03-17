@@ -29,6 +29,7 @@ public class Flag extends GameObject
         try
         {
             currentImage = ImageIO.read(new File("flag.png"));
+            position.x -= 30;
             position.y -= 360;
         } catch (IOException ie)
         {

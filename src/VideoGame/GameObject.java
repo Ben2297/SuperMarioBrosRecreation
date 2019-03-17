@@ -1,7 +1,6 @@
 package VideoGame;
 
 import Utilities.Vector2D;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -75,6 +74,10 @@ public abstract class GameObject {
         prevX = position.x;
         prevY = position.y;
         position.addScaled(velocity, DT);
+        if (position.y > 800 || (position.y + height) < 0)
+        {
+            this.dead = true;
+        }
     }
 
     public abstract void draw(Graphics2D g);

@@ -67,7 +67,7 @@ public class KoopaTroopa extends Enemy {
 
     public void update() {
         if(System.currentTimeMillis() - lastAnimationProcessed > 300) {
-            if (velocity.x < 0)
+            if (velocity.x < 0 && !inShell)
             {
                 if (currentImage == koopaRunLeft)
                 {
@@ -77,7 +77,7 @@ public class KoopaTroopa extends Enemy {
                     currentImage = koopaRunLeft;
                 }
                 lastAnimationProcessed = System.currentTimeMillis();
-            } else if (velocity.x > 0)
+            } else if (velocity.x > 0 && !inShell)
             {
                 if (currentImage == koopaRunRight )
                 {
@@ -173,12 +173,14 @@ public class KoopaTroopa extends Enemy {
 
     public void spinLeft()
     {
+        currentImage = koopaShell1;
         moving = true;
         direction.set(-1, 0);
     }
 
     public void spinRight()
     {
+        currentImage = koopaShell1;
         moving = true;
         direction.set(1, 0);
     }

@@ -11,7 +11,7 @@ public class Camera {
     public Camera()
     {
         position = new Vector2D();
-        position.set(0, 0);
+        position.set(0, 120);
     }
 
     public void update(Player player)
