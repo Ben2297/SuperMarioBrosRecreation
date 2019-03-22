@@ -220,25 +220,23 @@ public class Player extends GameObject {
         {
             if (!dead)
             {
-                hasEnemyCollision();
-            }
-
-            if (!dead)
-            {
-                if (!hasHorizontalCollision())
-                {
-                    position.x += (velocity.x * DT);
-                    if (!hasVerticalCollision())
-                    {
-                        position.y += (velocity.y * DT);
-                    }
-                }
-
-                hasPowerUpCollision();
-
                 action = ctrl.action();
                 velocity.addScaled(direction, (MAG_ACC * DT * action.move));
                 velocity.mult(DRAG);
+
+                hasEnemyCollision();
+
+                if (!hasHorizontalCollision())
+                {
+                    position.x += (velocity.x * DT);
+                }
+
+                if (!hasVerticalCollision())
+                {
+                    position.y += (velocity.y * DT);
+                }
+
+                hasPowerUpCollision();
 
                 if (falling)
                 {
@@ -406,6 +404,7 @@ public class Player extends GameObject {
                 gameWin();
             }
         }
+        System.out.println(position.x);
     }
 
     public boolean hasVerticalCollision()
@@ -417,7 +416,7 @@ public class Player extends GameObject {
             if (b.position.x > position.x - 400 && b.position.x < position.x + 400 &&
                     b.position.y > position.y - 400 && b.position.y < position.y + 400)
             {
-                if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 /*&& !hasHorizontalCollision()*/)
+                if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0)
                 {
                     canJump = true;
                     falling = false;
@@ -453,7 +452,6 @@ public class Player extends GameObject {
                             b.hit();
                         }
                     }
-
                     return true;
                 }
             }
@@ -506,6 +504,7 @@ public class Player extends GameObject {
         for (int i = 0; i < game.enemies.size(); i++)
         {
             Enemy e = game.enemies.get(i);
+
             if (e.position.x > position.x - 400 && e.position.x < position.x + 400 &&
                     e.position.y > position.y - 400 && e.position.y < position.y + 400)
             {
@@ -620,8 +619,8 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
 //        g.draw(getBounds());
-//        g.draw(getBoundsRight());
-//        g.draw(getBoundsLeft());
+        g.draw(getBoundsRight());
+        g.draw(getBoundsLeft());
 //        g.draw(getBoundsTop());
 //        g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);

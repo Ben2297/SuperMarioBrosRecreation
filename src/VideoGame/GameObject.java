@@ -54,16 +54,16 @@ public abstract class GameObject {
         return new Rectangle(
                 (int)(position.x + velocity.x * DT),
                 (int)(position.y + (height * 0.1f) + velocity.y * DT),
-                (int)(width * 0.1f),
+                (int)(width * 0.5f),
                 (int)(height - ((height * 0.1f) * 2))
         );
     }
 
     public Rectangle getBoundsRight() {
         return new Rectangle(
-                (int)((position.x + width - (width * 0.1f)) + velocity.x * DT),
+                (int)((position.x + width - (width * 0.5f)) + velocity.x * DT),
                 (int)(position.y + (height * 0.1f) + velocity.y * DT),
-                (int)(width * 0.1f),
+                (int)(width * 0.5f),
                 (int)(height - ((height * 0.1f) * 2))
         );
     }
