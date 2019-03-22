@@ -94,7 +94,11 @@ public class KoopaTroopa extends Enemy {
         if (!hasHorizontalCollision())
         {
             position.x += (velocity.x * DT);
-            if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
+        }
+
+        if (!hasVerticalCollision())
+        {
+            position.y += (velocity.y * DT);
         }
 
         if (moving)

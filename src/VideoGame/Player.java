@@ -434,7 +434,7 @@ public class Player extends GameObject {
                     {
                         currentImage = superRunLeftImage;
                     }
-                    position.y = b.position.y - height;
+                    position.y = b.position.y - (height - 1);
                     return true;
                 } else
                 {
@@ -512,8 +512,10 @@ public class Player extends GameObject {
                 {
                     if (e.getClass() == KoopaTroopa.class) {
                         KoopaTroopa koopaTroopa = (KoopaTroopa) e;
-                        if (koopaTroopa.getInShell() && !koopaTroopa.getMoving()) {
-                            if (position.x + (width / 2) < koopaTroopa.position.x + (koopaTroopa.width / 2)) {
+                        if (koopaTroopa.getInShell() && !koopaTroopa.getMoving())
+                        {
+                            if (position.x + (width / 2) < koopaTroopa.position.x + (koopaTroopa.width / 2))
+                            {
                                 position.y = e.position.y - height;
                                 jump();
                                 canJump = false;
@@ -619,8 +621,8 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
 //        g.draw(getBounds());
-        g.draw(getBoundsRight());
-        g.draw(getBoundsLeft());
+//        g.draw(getBoundsRight());
+//        g.draw(getBoundsLeft());
 //        g.draw(getBoundsTop());
 //        g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
