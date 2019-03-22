@@ -404,7 +404,6 @@ public class Player extends GameObject {
                 gameWin();
             }
         }
-        System.out.println(position.x);
     }
 
     public boolean hasVerticalCollision()
@@ -461,6 +460,11 @@ public class Player extends GameObject {
 
     public boolean hasHorizontalCollision()
     {
+        if ((position.x + velocity.x * DT) < 0)
+        {
+            return true;
+        }
+
         for (int i = 0; i < game.scenery.size(); i++)
         {
             GameObject b = game.scenery.get(i);
