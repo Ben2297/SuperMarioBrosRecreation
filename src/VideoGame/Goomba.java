@@ -78,6 +78,13 @@ public class Goomba extends Enemy {
             applyGravity();
         }
 
+        if (velocity.y > 50)
+        {
+            velocity.y = 0;
+            velocity.x = velocity.x * -1;
+            direction.mult(-1);
+        }
+
         height = currentImage.getHeight();
         width = currentImage.getWidth();
     }

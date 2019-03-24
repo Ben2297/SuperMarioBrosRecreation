@@ -27,7 +27,7 @@ public abstract class Enemy extends GameObject{
             {
                 falling = false;
                 velocity.y = 0;
-                //position.y = b.position.y - height;
+                position.y = b.position.y - (height - 1);
                 return true;
             } else
             {

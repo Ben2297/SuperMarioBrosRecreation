@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static VideoGame.Constants.FRAME_HEIGHT;
+import static VideoGame.Constants.FRAME_WIDTH;
+
 public class View extends JComponent {
     private Game game;
     private Image image;
@@ -36,6 +39,7 @@ public class View extends JComponent {
         Graphics2D g = (Graphics2D) g0;
         g.scale(1.2, 1.2);
         g.translate(-camera.position.x, -camera.position.y);
+        Rectangle cameraRec = new Rectangle((int)camera.position.x, (int)camera.position.y, FRAME_WIDTH, FRAME_HEIGHT);
         g.drawImage(menuLogoImage, -825, 250, this);
         g.drawImage(coinImage, (int)camera.position.x + 400, (int)camera.position.y + 30, this);
         g.drawImage(castleImage, 8000, 320, this);
@@ -44,14 +48,20 @@ public class View extends JComponent {
             for (GameObject object : game.objects) {
                 if (object.getClass() == PowerUp.class || object.getClass() == Coin.class)
                 {
-                    object.draw(g);
+                    if (object.getBounds().intersects(cameraRec))
+                    {
+                        object.draw(g);
+                    }
                 }
             }
 
             for (GameObject object : game.objects) {
                 if (object.getClass() != PowerUp.class && object.getClass() != Coin.class)
                 {
-                    object.draw(g);
+                    if (object.getBounds().intersects(cameraRec))
+                    {
+                        object.draw(g);
+                    }
                 }
             }
         }
