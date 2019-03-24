@@ -37,34 +37,34 @@ public abstract class GameObject {
                 (int)(position.x + velocity.x * DT),
                 (int)(position.y + velocity.y * DT),
                 (int)(width),
-                (int)(height * 0.2f)
+                (int)(height * 0.15f)
         );
     }
 
     public Rectangle getBoundsBottom() {
         return new Rectangle(
                 (int)(position.x + velocity.x * DT),
-                (int)((position.y + velocity.y * DT) + height - (height * 0.2f)),
+                (int)((position.y + velocity.y * DT) + height - (height * 0.15f)),
                 (int)(width),
-                (int)(height * 0.2f)
+                (int)(height * 0.15f)
         );
     }
 
     public Rectangle getBoundsLeft() {
         return new Rectangle(
                 (int)(position.x + velocity.x * DT),
-                (int)(position.y + (height * 0.2f) + velocity.y * DT),
+                (int)(position.y + (height * 0.15f) + velocity.y * DT),
                 (int)(width * 0.5f),
-                (int)(height - ((height * 0.2f) * 2))
+                (int)(height - ((height * 0.15f) * 2))
         );
     }
 
     public Rectangle getBoundsRight() {
         return new Rectangle(
                 (int)((position.x + width - (width * 0.5f)) + velocity.x * DT),
-                (int)(position.y + (height * 0.2f) + velocity.y * DT),
+                (int)(position.y + (height * 0.15f) + velocity.y * DT),
                 (int)(width * 0.5f),
-                (int)(height - ((height * 0.2f) * 2))
+                (int)(height - ((height * 0.15f) * 2))
         );
     }
 

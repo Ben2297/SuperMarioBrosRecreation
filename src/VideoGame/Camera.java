@@ -4,8 +4,6 @@ import Utilities.Vector2D;
 import static VideoGame.Constants.FRAME_WIDTH;
 
 public class Camera {
-    private boolean following = false;
-
     public Vector2D position;
 
     public Camera()
@@ -16,6 +14,8 @@ public class Camera {
 
     public void update(Player player)
     {
+        boolean following;
+
         if (player.position.x >= FRAME_WIDTH / 2)
         {
             following = true;

@@ -23,7 +23,7 @@ public abstract class Enemy extends GameObject{
         for (int i = 0; i < game.scenery.size(); i++)
         {
             GameObject b = game.scenery.get(i);
-            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0 && !hasHorizontalCollision())
+            if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0)
             {
                 falling = false;
                 velocity.y = 0;

@@ -56,7 +56,6 @@ public class Game {
     private Game() {
 
         gameStarted = false;
-
         camera = new Camera();
         camera.position.x = -1000;
 
@@ -110,7 +109,7 @@ public class Game {
 
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
-        playerStartPosition.set(grid[0][2]);
+        playerStartPosition.set(grid[41][6]);
         player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
         level = new Level(1, grid, this);

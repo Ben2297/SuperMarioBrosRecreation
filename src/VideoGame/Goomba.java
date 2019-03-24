@@ -15,7 +15,7 @@ public class Goomba extends Enemy {
 
     private static final double DRAG = 0.93;
 
-    private static final double GRAVITY = 1.8;
+    private static final double GRAVITY = 2.5;
 
     private BufferedImage goombaImage1;
     private BufferedImage goombaImage2;
@@ -63,7 +63,11 @@ public class Goomba extends Enemy {
         if (!hasHorizontalCollision())
         {
             position.x += (velocity.x * DT);
-            if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
+        }
+
+        if (!hasVerticalCollision())
+        {
+            position.y += (velocity.y * DT);
         }
 
         velocity.addScaled(direction, (MAG_ACC * DT));

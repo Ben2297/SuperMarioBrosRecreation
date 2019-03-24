@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
-
 import static VideoGame.Constants.DT;
 
 public class Coin extends GameObject
@@ -18,9 +17,8 @@ public class Coin extends GameObject
 
     private Vector2D direction;
     private Vector2D jumpDirection;
-    private Game game;
 
-    public Coin(Vector2D pos, Game game)
+    public Coin(Vector2D pos)
     {
         direction = new Vector2D();
         direction.set(0, -1);
@@ -30,7 +28,6 @@ public class Coin extends GameObject
         velocity.set(0, 0);
         jumpDirection = new Vector2D();
         jumpDirection.set(0, -1);
-        this.game = game;
 
         try
         {

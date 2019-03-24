@@ -404,6 +404,7 @@ public class Player extends GameObject {
                 gameWin();
             }
         }
+        System.out.println(falling);
     }
 
     public boolean hasVerticalCollision()
