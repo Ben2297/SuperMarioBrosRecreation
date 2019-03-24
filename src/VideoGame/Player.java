@@ -116,8 +116,10 @@ public class Player extends GameObject {
         }
 
         currentImage = runRightImage;
-        height = currentImage.getHeight();
-        width = currentImage.getWidth();
+//        height = currentImage.getHeight();
+//        width = currentImage.getWidth();
+        height = 32;
+        width = 34;
     }
 
     private void jump() {
@@ -390,8 +392,8 @@ public class Player extends GameObject {
                     canJump = false;
                 }
 
-                height = currentImage.getHeight();
-                width = currentImage.getWidth();
+//                height = currentImage.getHeight();
+//                width = currentImage.getWidth();
             } else
             {
                 position.x += (velocity.x * DT);
@@ -556,6 +558,8 @@ public class Player extends GameObject {
                         hit();
                     } else
                     {   superMario = false;
+                        height = 32;
+                        width = 34;
                         jump();
                         canJump = false;
                     }
@@ -567,8 +571,11 @@ public class Player extends GameObject {
                     } else
                     {
                         superMario = false;
+                        height = 32;
+                        width = 34;
                         jump();
                         canJump = false;
+
                     }
                 } else if (getBoundsTop().intersects(e.getBoundsBottom()))
                 {
@@ -578,6 +585,8 @@ public class Player extends GameObject {
                     } else
                     {
                         superMario = false;
+                        height = 32;
+                        width = 34;
                         jump();
                         canJump = false;
                     }
@@ -597,7 +606,10 @@ public class Player extends GameObject {
                 game.powerupSound();
                 game.incrementScore(1000);
                 superMario = true;
-                position.y -= (superRunRightImage.getHeight() - currentImage.getHeight());
+                height = 64;
+                width = 32;
+//                position.y -= (superRunRightImage.getHeight() - currentImage.getHeight());
+                position.y -= 32;
             }
         }
     }
