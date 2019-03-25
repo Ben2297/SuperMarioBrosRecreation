@@ -59,14 +59,13 @@ public class Game {
         camera = new Camera();
         camera.position.x = -1000;
 
-
         try {
             Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("MarioFont.ttf")).deriveFont(12f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
         } catch (IOException|FontFormatException e)
         {
-
+            System.out.println("Font not found");
         }
 
         objects = new ArrayList<>();
@@ -109,12 +108,11 @@ public class Game {
 
         constructGrid();
         Vector2D playerStartPosition = new Vector2D();
-        playerStartPosition.set(grid[41][6]);
+        playerStartPosition.set(grid[0][2]);
         player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
         level = new Level(1, grid, this);
         buildLevel();
-        //soundManager = new SoundManager();
 
         gameWon = false;
 
@@ -159,7 +157,6 @@ public class Game {
             view.repaint();
             remainder = interval - (System.currentTimeMillis() % interval);
             Thread.sleep(remainder);
-            //System.out.println(remainder);
         }
 
         while (gameIsRunning) {
@@ -167,7 +164,6 @@ public class Game {
             view.repaint();
             remainder = interval - (System.currentTimeMillis() % interval);
             Thread.sleep(remainder);
-            //System.out.println(remainder);
         }
     }
 
@@ -212,7 +208,6 @@ public class Game {
             objects.clear();
             objects.addAll(alive);
             toBeAdded.clear();
-
         }
 
         scoreString = String.format("%06d" , score);
@@ -224,6 +219,11 @@ public class Game {
         coinString = String.format("%02d", coins);
         coinText.setText("x" + coinString);
         coinText.setBounds((int)camera.position.x + 430, (int)camera.position.y, 400, 100);
+
+        if (player.dead)
+        {
+            resetGame();
+        }
     }
 
     private void constructGrid() {
@@ -330,5 +330,23 @@ public class Game {
         winText.setBounds((int)camera.position.x + 250, (int)camera.position.y - 100, 400, 400);
         gameWon = true;
         winText.setVisible(true);
+    }
+
+    private void resetGame()
+    {
+        objects.clear();
+        scenery.clear();
+        enemies.clear();
+        powerUps.clear();
+
+        winText.setVisible(false);
+        gameWon = false;
+        score = 0;
+        buildLevel();
+        Vector2D playerStartPosition = new Vector2D();
+        playerStartPosition.set(grid[0][2]);
+        player = new Player(ctrl, playerStartPosition, this);
+        objects.add(player);
+        camera.position.x = 0;
     }
 }
