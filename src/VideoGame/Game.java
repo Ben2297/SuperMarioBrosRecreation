@@ -342,6 +342,8 @@ public class Game {
         winText.setVisible(false);
         gameWon = false;
         score = 0;
+        coins = 0;
+        level = new Level(1, grid, this);
         buildLevel();
         Vector2D playerStartPosition = new Vector2D();
         playerStartPosition.set(grid[0][2]);

@@ -7,7 +7,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import static VideoGame.Constants.*;
 
 public class Player extends GameObject {
@@ -445,6 +444,7 @@ public class Player extends GameObject {
                 if (getBounds().intersects(b.getBoundsBottom()) && velocity.y < 0)
                 {
                     velocity.y = 0;
+                    position.y = b.position.y + b.height;
                     if (b.getClass() == Block.class)
                     {
                         Block block = (Block)b;
@@ -490,14 +490,12 @@ public class Player extends GameObject {
                 if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
                 {
                     velocity.x = 0;
-                    position.x = b.position.x + b.width;
                     return true;
                 }
 
                 if (getBoundsRight().intersects(b.getBoundsLeft()) && velocity.x > 0)
                 {
                     velocity.x = 0;
-                    position.x = b.position.x - width;
                     return true;
                 }
             }
@@ -608,7 +606,6 @@ public class Player extends GameObject {
                 superMario = true;
                 height = 64;
                 width = 32;
-//                position.y -= (superRunRightImage.getHeight() - currentImage.getHeight());
                 position.y -= 32;
             }
         }
@@ -637,10 +634,10 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
 //        g.draw(getBounds());
-//        g.draw(getBoundsRight());
-//        g.draw(getBoundsLeft());
-//        g.draw(getBoundsTop());
-//        g.draw(getBoundsBottom());
+        g.draw(getBoundsRight());
+        g.draw(getBoundsLeft());
+        g.draw(getBoundsTop());
+        g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }
 }
