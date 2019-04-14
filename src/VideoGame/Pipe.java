@@ -7,7 +7,6 @@ import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 
-
 public class Pipe extends GameObject
 {
     private Vector2D direction;

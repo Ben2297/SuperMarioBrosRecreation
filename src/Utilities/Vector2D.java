@@ -80,7 +80,7 @@ public final class Vector2D {
         return this;
     }
 
-    // weighted add - surprisingly useful
+    // weighted add
     public Vector2D addScaled(Vector2D v, double fac) {
         this.x += fac * v.x;
         this.y += fac * v.y;

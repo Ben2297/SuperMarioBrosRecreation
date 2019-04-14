@@ -10,7 +10,8 @@ import java.io.IOException;
 import static VideoGame.Constants.*;
 
 public class Player extends GameObject {
-    private static final double MAG_ACC = 2400;
+
+    private static final double ACCELERATION = 2400;
 
     private static final double DRAG = 0.9;
 
@@ -58,7 +59,6 @@ public class Player extends GameObject {
 
     private BufferedImage climbImage;
 
-    private Action action;
     private Game game;
     private Controller ctrl;
     private long lastAnimationProcessed = 0;
@@ -109,20 +109,17 @@ public class Player extends GameObject {
 
             climbImage = ImageIO.read(new File("MarioClimb.png"));
 
-        } catch (IOException ie)
-        {
-
-        }
+        } catch (IOException ie) {}
 
         currentImage = runRightImage;
 //        height = currentImage.getHeight();
 //        width = currentImage.getWidth();
         height = 32;
-        width = 34;
+        width = 32;
     }
 
     private void jump() {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * JUMP_STRENGTH));
         if (currentImage == runRightImage)
         {
             currentImage = jumpRightImage;
@@ -141,12 +138,13 @@ public class Player extends GameObject {
     public void hit()
     {
         currentImage = deadImage;
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * JUMP_STRENGTH));
         game.dieSound();
         super.hit();
     }
 
     public void update() {
+        Action action;
 
         if (endSequence)
         {
@@ -161,8 +159,8 @@ public class Player extends GameObject {
             } else if (endSequenceStage == 2)
             {
                 direction.set(1, 0);
-                velocity.addScaled(direction, (MAG_ACC * DT * 60));
-                velocity.addScaled(jumpDirection, (MAG_ACC * DT * 120));
+                velocity.addScaled(direction, (ACCELERATION * DT * 60));
+                velocity.addScaled(jumpDirection, (ACCELERATION * DT * 120));
                 currentImage = jumpRightImage;
                 height = currentImage.getHeight();
                 width = currentImage.getWidth();
@@ -194,7 +192,7 @@ public class Player extends GameObject {
                     this.dead = true;
                 } else
                 {
-                    velocity.addScaled(direction, (MAG_ACC * DT));
+                    velocity.addScaled(direction, (ACCELERATION * DT));
                     position.x += (velocity.x * DT);
                     velocity.mult(DRAG);
                     if (currentImage == runLeftImage || currentImage == runRightImage)
@@ -222,7 +220,7 @@ public class Player extends GameObject {
             if (!dead)
             {
                 action = ctrl.action();
-                velocity.addScaled(direction, (MAG_ACC * DT * action.move));
+                velocity.addScaled(direction, (ACCELERATION * DT * action.move));
                 velocity.mult(DRAG);
 
                 hasEnemyCollision();
@@ -483,7 +481,7 @@ public class Player extends GameObject {
                         return true;
                     } else
                     {
-                        return false;
+                        //return false;
                     }
                 }
 
@@ -603,17 +601,21 @@ public class Player extends GameObject {
                 pu.hit();
                 game.powerupSound();
                 game.incrementScore(1000);
-                superMario = true;
-                height = 64;
-                width = 32;
-                position.y -= 32;
+
+                if (!superMario)
+                {
+                    superMario = true;
+                    height = 64;
+                    width = 32;
+                    position.y -= 32;
+                }
             }
         }
     }
 
     private void applyGravity()
     {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * -GRAVITY));
     }
 
     private void gameWin()

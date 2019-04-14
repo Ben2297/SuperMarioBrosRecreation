@@ -11,7 +11,7 @@ import static VideoGame.Constants.DT;
 public class Coin extends GameObject
 {
 
-    private static final double MAG_ACC = 700;
+    private static final double ACCELERATION = 700;
 
     private static final double GRAVITY = 2.5;
 
@@ -37,7 +37,7 @@ public class Coin extends GameObject
             System.out.println("Image file not found");
         }
 
-        velocity.addScaled(direction, (MAG_ACC * DT * 60));
+        velocity.addScaled(direction, (ACCELERATION * DT * 60));
         height = currentImage.getHeight();
         width = currentImage.getWidth();
     }
@@ -54,7 +54,7 @@ public class Coin extends GameObject
 
     private void applyGravity()
     {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * -GRAVITY));
     }
 
     public void draw(Graphics2D g)

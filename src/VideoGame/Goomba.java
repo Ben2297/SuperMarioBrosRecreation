@@ -11,7 +11,7 @@ import static VideoGame.Constants.DT;
 
 public class Goomba extends Enemy {
 
-    private static final double MAG_ACC = 700;
+    private static final double ACCELERATION = 700;
 
     private static final double DRAG = 0.93;
 
@@ -46,6 +46,7 @@ public class Goomba extends Enemy {
         currentImage = goombaImage1;
         height = currentImage.getHeight();
         width = currentImage.getWidth();
+        position.y += 8;
     }
 
     public void update() {
@@ -70,7 +71,7 @@ public class Goomba extends Enemy {
             position.y += (velocity.y * DT);
         }
 
-        velocity.addScaled(direction, (MAG_ACC * DT));
+        velocity.addScaled(direction, (ACCELERATION * DT));
         velocity.mult(DRAG);
 
         if (falling)
@@ -91,7 +92,7 @@ public class Goomba extends Enemy {
 
     private void applyGravity()
     {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * -GRAVITY));
     }
 
     public void draw(Graphics2D g) {

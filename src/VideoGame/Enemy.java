@@ -64,7 +64,6 @@ public abstract class Enemy extends GameObject{
                 return true;
             }
         }
-
         return false;
     }
 

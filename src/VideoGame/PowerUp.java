@@ -11,7 +11,7 @@ import static VideoGame.Constants.DT;
 
 public class PowerUp extends GameObject {
 
-    private static final double MAG_ACC = 1400;
+    private static final double ACCELERATION = 1400;
 
     private static final double DRAG = 0.93;
 
@@ -50,7 +50,7 @@ public class PowerUp extends GameObject {
         height = currentImage.getHeight();
         width = currentImage.getWidth();
 
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * 10));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * 10));
     }
 
     public void update() {
@@ -66,7 +66,7 @@ public class PowerUp extends GameObject {
             if (!hasHorizontalCollision()) { position.x += (velocity.x * DT); }
             if (!hasVerticalCollision()) { position.y += (velocity.y * DT); }
 
-            velocity.addScaled(direction, (MAG_ACC * DT));
+            velocity.addScaled(direction, (ACCELERATION * DT));
             velocity.mult(DRAG);
 
             if (falling)
@@ -141,7 +141,7 @@ public class PowerUp extends GameObject {
 
     private void applyGravity()
     {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * -GRAVITY));
     }
 
     public void draw(Graphics2D g) {

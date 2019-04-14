@@ -11,7 +11,7 @@ import static VideoGame.Constants.DT;
 
 public class KoopaTroopa extends Enemy {
 
-    private double MAG_ACC = 900;
+    private double ACCELERATION = 900;
 
     private static final double DRAG = 0.93;
 
@@ -65,6 +65,7 @@ public class KoopaTroopa extends Enemy {
     }
 
     public void update() {
+
         if(System.currentTimeMillis() - lastAnimationProcessed > 300) {
             if (velocity.x < 0 && !inShell)
             {
@@ -75,7 +76,6 @@ public class KoopaTroopa extends Enemy {
                 {
                     currentImage = koopaRunLeft;
                 }
-                lastAnimationProcessed = System.currentTimeMillis();
             } else if (velocity.x > 0 && !inShell)
             {
                 if (currentImage == koopaRunRight )
@@ -85,14 +85,25 @@ public class KoopaTroopa extends Enemy {
                 {
                     currentImage = koopaRunRight;
                 }
-                lastAnimationProcessed = System.currentTimeMillis();
             }
-
+            lastAnimationProcessed = System.currentTimeMillis();
         }
 
         if (!hasHorizontalCollision())
         {
             position.x += (velocity.x * DT);
+        } else
+        {
+            if (currentImage == koopaRunLeft || currentImage == koopaRunLeft1)
+            {
+                currentImage = koopaRunRight;
+                lastAnimationProcessed = System.currentTimeMillis();
+
+            } else if (currentImage == koopaRunRight || currentImage == koopaRunRight1)
+            {
+                currentImage = koopaRunLeft;
+                lastAnimationProcessed = System.currentTimeMillis();
+            }
         }
 
         if (!hasVerticalCollision())
@@ -104,14 +115,12 @@ public class KoopaTroopa extends Enemy {
         {
             if (inShell)
             {
-                MAG_ACC = 900;
-                velocity.addScaled(direction, (MAG_ACC * DT * 3));
+                velocity.addScaled(direction, (ACCELERATION * DT * 3));
                 velocity.mult(DRAG);
                 hasEnemyCollision();
             } else
             {
-                MAG_ACC = 900;
-                velocity.addScaled(direction, (MAG_ACC * DT));
+                velocity.addScaled(direction, (ACCELERATION * DT));
                 velocity.mult(DRAG);
             }
 
@@ -121,6 +130,13 @@ public class KoopaTroopa extends Enemy {
         if (falling)
         {
             applyGravity();
+        }
+
+        if (velocity.y > 50)
+        {
+            velocity.y = 0;
+            velocity.x = velocity.x * -1;
+            direction.mult(-1);
         }
 
         height = currentImage.getHeight();
@@ -142,7 +158,7 @@ public class KoopaTroopa extends Enemy {
 
     private void applyGravity()
     {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * -GRAVITY));
     }
 
     public void hit()

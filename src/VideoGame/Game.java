@@ -6,7 +6,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;

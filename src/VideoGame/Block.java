@@ -11,7 +11,7 @@ import static VideoGame.Constants.DT;
 
 public class Block extends GameObject
 {
-    private static final double MAG_ACC = 300;
+    private static final double ACCELERATION = 300;
 
     private static final double JUMP_STRENGTH = 40;
 
@@ -83,7 +83,7 @@ public class Block extends GameObject
 
     private void applyGravity()
     {
-        velocity.addScaled(jumpDirection, (MAG_ACC * DT * -GRAVITY));
+        velocity.addScaled(jumpDirection, (ACCELERATION * DT * -GRAVITY));
     }
 
     public void hit()
@@ -91,7 +91,7 @@ public class Block extends GameObject
 
         if (type == 3 && !powerUpSpawned) {
             currentImage = emptyBlockImage;
-            velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+            velocity.addScaled(jumpDirection, (ACCELERATION * DT * JUMP_STRENGTH));
             powerUpPosition.set(this.position);
             powerUpPosition.x += 4;
             PowerUp powerUp = new PowerUp(powerUpPosition, game);
@@ -102,7 +102,7 @@ public class Block extends GameObject
         } else if (type == 5 && !powerUpSpawned)
         {
             currentImage = emptyBlockImage;
-            velocity.addScaled(jumpDirection, (MAG_ACC * DT * JUMP_STRENGTH));
+            velocity.addScaled(jumpDirection, (ACCELERATION * DT * JUMP_STRENGTH));
             powerUpPosition.set(this.position);
             powerUpPosition.x += 12;
             Coin coin = new Coin(powerUpPosition);
