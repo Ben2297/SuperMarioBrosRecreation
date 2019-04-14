@@ -58,6 +58,7 @@ public class Player extends GameObject {
     private BufferedImage superJumpLeftImage;
 
     private BufferedImage climbImage;
+    private BufferedImage superClimbImage;
 
     private Game game;
     private Controller ctrl;
@@ -108,12 +109,14 @@ public class Player extends GameObject {
             superJumpLeftImage = ImageIO.read(new File("SuperMarioJumpLeft.png"));
 
             climbImage = ImageIO.read(new File("MarioClimb.png"));
+            superClimbImage = ImageIO.read(new File("SuperMarioClimb.png"));
 
-        } catch (IOException ie) {}
+        } catch (IOException ie)
+        {
+            System.out.println("Error reading sprite");
+        }
 
         currentImage = runRightImage;
-//        height = currentImage.getHeight();
-//        width = currentImage.getWidth();
         height = 32;
         width = 32;
     }
@@ -161,10 +164,13 @@ public class Player extends GameObject {
                 direction.set(1, 0);
                 velocity.addScaled(direction, (ACCELERATION * DT * 60));
                 velocity.addScaled(jumpDirection, (ACCELERATION * DT * 120));
-                currentImage = jumpRightImage;
-                height = currentImage.getHeight();
-                width = currentImage.getWidth();
-
+                if (superMario)
+                {
+                    currentImage = superRunRightImage;
+                } else
+                {
+                    currentImage = jumpRightImage;
+                }
                 endSequenceStage = 3;
             } else if (endSequenceStage == 3)
             {
@@ -177,9 +183,13 @@ public class Player extends GameObject {
                     position.y = (720 - height);
                     velocity.x = 0;
                     velocity.y = 0;
-                    currentImage = runRightImage;
-                    height = currentImage.getHeight();
-                    width = currentImage.getWidth();
+                    if (superMario)
+                    {
+                        currentImage = superRunRightImage;
+                    } else
+                    {
+                        currentImage = runRightImage;
+                    }
                     endSequenceStage = 4;
                 }
             } else if (endSequenceStage == 4)
@@ -187,7 +197,14 @@ public class Player extends GameObject {
                 if (position.x > 8200)
                 {
                     velocity.x = 0;
-                    currentImage = runRightImage;
+                    if (superMario)
+                    {
+                        currentImage = superRunRightImage;
+                    } else
+                    {
+                        currentImage = runRightImage;
+                    }
+
                     game.setGameWon();
                     this.dead = true;
                 } else
@@ -195,25 +212,46 @@ public class Player extends GameObject {
                     velocity.addScaled(direction, (ACCELERATION * DT));
                     position.x += (velocity.x * DT);
                     velocity.mult(DRAG);
-                    if (currentImage == runLeftImage || currentImage == runRightImage)
+                    if (superMario)
                     {
-                        currentImage = runRightImage1;
-                        lastAnimationProcessed = System.currentTimeMillis();
-                    } else if (currentImage == runRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                        if (currentImage == superRunLeftImage || currentImage == superRunRightImage)
+                        {
+                            currentImage = superRunRightImage1;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        } else if (currentImage == superRunRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                        {
+                            currentImage = superRunRightImage2;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        } else if (currentImage == superRunRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                        {
+                            currentImage = superRunRightImage3;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        } else if (currentImage == superRunRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                        {
+                            currentImage = superRunRightImage1;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        }
+                    } else
                     {
-                        currentImage = runRightImage2;
-                        lastAnimationProcessed = System.currentTimeMillis();
-                    } else if (currentImage == runRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-                    {
-                        currentImage = runRightImage3;
-                        lastAnimationProcessed = System.currentTimeMillis();
-                    } else if (currentImage == runRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
-                    {
-                        currentImage = runRightImage1;
-                        lastAnimationProcessed = System.currentTimeMillis();
+                        if (currentImage == runLeftImage || currentImage == runRightImage)
+                        {
+                            currentImage = runRightImage1;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        } else if (currentImage == runRightImage1 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                        {
+                            currentImage = runRightImage2;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        } else if (currentImage == runRightImage2 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                        {
+                            currentImage = runRightImage3;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        } else if (currentImage == runRightImage3 && System.currentTimeMillis() - lastAnimationProcessed > 120)
+                        {
+                            currentImage = runRightImage1;
+                            lastAnimationProcessed = System.currentTimeMillis();
+                        }
                     }
                 }
-
             }
         } else
         {
@@ -388,9 +426,6 @@ public class Player extends GameObject {
                     game.jumpSound();
                     canJump = false;
                 }
-
-//                height = currentImage.getHeight();
-//                width = currentImage.getWidth();
             } else
             {
                 position.x += (velocity.x * DT);
@@ -479,22 +514,20 @@ public class Player extends GameObject {
                         velocity.x = 0;
                         endSequence = true;
                         return true;
-                    } else
-                    {
-                        //return false;
                     }
-                }
-
-                if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
+                } else
                 {
-                    velocity.x = 0;
-                    return true;
-                }
+                    if (getBoundsLeft().intersects(b.getBoundsRight()) && velocity.x < 0)
+                    {
+                        velocity.x = 0;
+                        return true;
+                    }
 
-                if (getBoundsRight().intersects(b.getBoundsLeft()) && velocity.x > 0)
-                {
-                    velocity.x = 0;
-                    return true;
+                    if (getBoundsRight().intersects(b.getBoundsLeft()) && velocity.x > 0)
+                    {
+                        velocity.x = 0;
+                        return true;
+                    }
                 }
             }
         }
@@ -622,7 +655,13 @@ public class Player extends GameObject {
     {
         velocity.x = 0;
         velocity.y = 150;
-        currentImage = climbImage;
+        if (superMario)
+        {
+            currentImage = superClimbImage;
+        } else
+        {
+            currentImage = climbImage;
+        }
         height = currentImage.getHeight();
         width = currentImage.getWidth();
     }

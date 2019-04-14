@@ -337,7 +337,6 @@ public class Game {
         scenery.clear();
         enemies.clear();
         powerUps.clear();
-
         winText.setVisible(false);
         gameWon = false;
         score = 0;
