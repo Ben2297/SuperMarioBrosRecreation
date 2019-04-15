@@ -149,6 +149,11 @@ public class Player extends GameObject {
     public void update() {
         Action action;
 
+        if (position.y > 800 || (position.y + height) < 0)
+        {
+            this.dead = true;
+        }
+
         if (endSequence)
         {
             if (endSequenceStage == 1)
@@ -262,6 +267,7 @@ public class Player extends GameObject {
                 velocity.mult(DRAG);
 
                 hasEnemyCollision();
+                hasPowerUpCollision();
 
                 if (!hasHorizontalCollision())
                 {
@@ -272,8 +278,6 @@ public class Player extends GameObject {
                 {
                     position.y += (velocity.y * DT);
                 }
-
-                hasPowerUpCollision();
 
                 if (falling)
                 {
@@ -432,6 +436,7 @@ public class Player extends GameObject {
                 position.y += (velocity.y * DT);
                 velocity.mult(DRAG);
                 applyGravity();
+
             }
             if (endSequence)
             {

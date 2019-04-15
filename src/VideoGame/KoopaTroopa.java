@@ -139,8 +139,12 @@ public class KoopaTroopa extends Enemy {
             direction.mult(-1);
         }
 
-        height = currentImage.getHeight();
-        width = currentImage.getWidth();
+//        height = currentImage.getHeight();
+//        width = currentImage.getWidth();
+        if (currentImage == koopaShell)
+        {
+            height = 30;
+        }
     }
 
     private void hasEnemyCollision()
@@ -165,9 +169,11 @@ public class KoopaTroopa extends Enemy {
     {
         if (currentImage == koopaRunLeft || currentImage == koopaRunLeft1)
         {
-            position.y += (currentImage.getHeight() - koopaShell.getHeight());
+            //position.y += (currentImage.getHeight() - koopaShell.getHeight());
+            position.y += 16;
             currentImage = koopaShell;
             velocity.x = 0;
+            velocity.y = 0;
             moving = false;
             inShell = true;
         } else if (inShell)
@@ -217,7 +223,7 @@ public class KoopaTroopa extends Enemy {
         //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
-        //g.draw(getBounds());
+        g.draw(getBounds());
         //g.draw(getBoundsRight());
         //g.draw(getBoundsLeft());
         //g.draw(getBoundsTop());

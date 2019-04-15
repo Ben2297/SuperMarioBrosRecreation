@@ -129,7 +129,7 @@ public class Game {
         Media hit = new Media(new File(file).toURI().toString());
         musicPlayer = new MediaPlayer(hit);
         musicPlayer.setOnEndOfMedia(() -> musicPlayer.seek(Duration.ZERO));
-        musicPlayer.play();
+        //musicPlayer.play();
 
         View view = new View(game, myImage, camera);
         view.setLayout(null);
