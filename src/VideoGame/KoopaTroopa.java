@@ -139,8 +139,6 @@ public class KoopaTroopa extends Enemy {
             direction.mult(-1);
         }
 
-//        height = currentImage.getHeight();
-//        width = currentImage.getWidth();
         if (currentImage == koopaShell)
         {
             height = 30;
@@ -169,7 +167,6 @@ public class KoopaTroopa extends Enemy {
     {
         if (currentImage == koopaRunLeft || currentImage == koopaRunLeft1)
         {
-            //position.y += (currentImage.getHeight() - koopaShell.getHeight());
             position.y += 16;
             currentImage = koopaShell;
             velocity.x = 0;

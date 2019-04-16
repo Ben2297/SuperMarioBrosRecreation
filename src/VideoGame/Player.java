@@ -557,26 +557,26 @@ public class Player extends GameObject {
                             if (position.x + (width / 2) < koopaTroopa.position.x + (koopaTroopa.width / 2))
                             {
                                 position.y = e.position.y - height;
-                                jump();
+                                velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                                 canJump = false;
                                 koopaTroopa.spinRight();
                             } else {
                                 position.y = e.position.y - height;
-                                jump();
+                                velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                                 canJump = false;
                                 koopaTroopa.spinLeft();
                             }
                         } else
                         {
                             position.y = e.position.y - height;
-                            jump();
+                            velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                             canJump = false;
                             koopaTroopa.hit();
                         }
                     } else
                     {
                         position.y = e.position.y - height;
-                        jump();
+                        velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                         canJump = false;
                         e.hit();
                         game.incrementScore(100);
@@ -594,7 +594,7 @@ public class Player extends GameObject {
                     {   superMario = false;
                         height = 32;
                         width = 34;
-                        jump();
+                        velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                         canJump = false;
                     }
                 } else if (getBoundsRight().intersects(e.getBoundsLeft()))
@@ -607,7 +607,7 @@ public class Player extends GameObject {
                         superMario = false;
                         height = 32;
                         width = 34;
-                        jump();
+                        velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                         canJump = false;
 
                     }
@@ -621,7 +621,7 @@ public class Player extends GameObject {
                         superMario = false;
                         height = 32;
                         width = 34;
-                        jump();
+                        velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                         canJump = false;
                     }
                 }
