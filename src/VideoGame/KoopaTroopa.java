@@ -126,7 +126,6 @@ public class KoopaTroopa extends Enemy {
 
         }
 
-
         if (falling)
         {
             applyGravity();
@@ -137,11 +136,17 @@ public class KoopaTroopa extends Enemy {
             velocity.y = 0;
             velocity.x = velocity.x * -1;
             direction.mult(-1);
-        }
 
-        if (currentImage == koopaShell)
-        {
-            height = 30;
+            if (currentImage == koopaRunLeft || currentImage == koopaRunLeft1)
+            {
+                currentImage = koopaRunRight;
+                lastAnimationProcessed = System.currentTimeMillis();
+
+            } else if (currentImage == koopaRunRight || currentImage == koopaRunRight1)
+            {
+                currentImage = koopaRunLeft;
+                lastAnimationProcessed = System.currentTimeMillis();
+            }
         }
     }
 
@@ -169,6 +174,7 @@ public class KoopaTroopa extends Enemy {
         {
             position.y += 16;
             currentImage = koopaShell;
+            height = 30;
             velocity.x = 0;
             velocity.y = 0;
             moving = false;
