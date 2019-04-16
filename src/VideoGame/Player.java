@@ -29,6 +29,7 @@ public class Player extends GameObject {
     private boolean superMario = false;
     private boolean endSequence = false;
     private int endSequenceStage = 1;
+    private boolean hit;
 
     private BufferedImage runRightImage;
     private BufferedImage runRightImage1;
@@ -75,6 +76,7 @@ public class Player extends GameObject {
         position.set(pos);
         velocity.set(vel);
         dead = false;
+        hit = false;
         falling = true;
         this.game = game;
 
@@ -143,7 +145,8 @@ public class Player extends GameObject {
         currentImage = deadImage;
         velocity.addScaled(jumpDirection, (ACCELERATION * DT * JUMP_STRENGTH));
         game.dieSound();
-        super.hit();
+        //super.hit();
+        hit = true;
     }
 
     public void update() {
@@ -260,7 +263,7 @@ public class Player extends GameObject {
             }
         } else
         {
-            if (!dead)
+            if (!hit)
             {
                 action = ctrl.action();
                 velocity.addScaled(direction, (ACCELERATION * DT * action.move));
@@ -436,7 +439,6 @@ public class Player extends GameObject {
                 position.y += (velocity.y * DT);
                 velocity.mult(DRAG);
                 applyGravity();
-
             }
             if (endSequence)
             {
@@ -680,10 +682,10 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
 //        g.draw(getBounds());
-        g.draw(getBoundsRight());
-        g.draw(getBoundsLeft());
-        g.draw(getBoundsTop());
-        g.draw(getBoundsBottom());
+//        g.draw(getBoundsRight());
+//        g.draw(getBoundsLeft());
+//        g.draw(getBoundsTop());
+//        g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }
 }

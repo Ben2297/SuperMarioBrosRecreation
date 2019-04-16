@@ -111,6 +111,7 @@ public class Block extends GameObject
             powerUpSpawned = true;
         } else if (type == 1)
         {
+            game.brickBreakSound();
             dead = true;
             game.scenery.remove(this);
         }

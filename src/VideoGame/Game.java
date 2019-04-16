@@ -51,6 +51,7 @@ public class Game {
     private MediaPlayer coinSound;
     private MediaPlayer powerupSpawn;
     private MediaPlayer powerup;
+    private MediaPlayer brickBreak;
 
     private Game() {
 
@@ -322,6 +323,14 @@ public class Game {
         Media hit = new Media(new File(file).toURI().toString());
         powerup = new MediaPlayer(hit);
         powerup.play();
+    }
+
+    public void brickBreakSound()
+    {
+        String file = "breakblock.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        brickBreak = new MediaPlayer(hit);
+        brickBreak.play();
     }
 
     public void setGameWon()

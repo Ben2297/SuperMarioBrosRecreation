@@ -131,7 +131,7 @@ public class KoopaTroopa extends Enemy {
             applyGravity();
         }
 
-        if (velocity.y > 50)
+        if (velocity.y > 50 && !inShell)
         {
             velocity.y = 0;
             velocity.x = velocity.x * -1;
@@ -226,7 +226,7 @@ public class KoopaTroopa extends Enemy {
         //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
-        g.draw(getBounds());
+        //g.draw(getBounds());
         //g.draw(getBoundsRight());
         //g.draw(getBoundsLeft());
         //g.draw(getBoundsTop());
