@@ -149,7 +149,6 @@ public class PowerUp extends GameObject {
         g.translate(position.x, position.y);
         g.scale(1, 1);
         //g.setColor(COLOR);
-        //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
         //g.draw(getBounds());

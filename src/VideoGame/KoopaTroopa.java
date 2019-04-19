@@ -170,7 +170,8 @@ public class KoopaTroopa extends Enemy {
 
     public void hit()
     {
-        if (currentImage == koopaRunLeft || currentImage == koopaRunLeft1)
+        if (currentImage == koopaRunLeft || currentImage == koopaRunLeft1 || currentImage == koopaRunRight ||
+                currentImage == koopaRunRight1)
         {
             position.y += 16;
             currentImage = koopaShell;
@@ -223,7 +224,6 @@ public class KoopaTroopa extends Enemy {
         g.translate(position.x, position.y);
         g.scale(1, 1);
         //g.setColor(COLOR);
-        //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
         //g.draw(getBounds());

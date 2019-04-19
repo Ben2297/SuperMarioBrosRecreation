@@ -60,7 +60,6 @@ public class Pipe extends GameObject
         AffineTransform at = g.getTransform();
         g.translate(position.x, position.y);
         g.scale(1, 1);
-        //g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
         //g.draw(getBounds());

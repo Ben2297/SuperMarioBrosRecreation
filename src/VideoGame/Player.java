@@ -145,7 +145,6 @@ public class Player extends GameObject {
         currentImage = deadImage;
         velocity.addScaled(jumpDirection, (ACCELERATION * DT * JUMP_STRENGTH));
         game.dieSound();
-        //super.hit();
         hit = true;
     }
 
@@ -678,7 +677,6 @@ public class Player extends GameObject {
         g.translate(position.x, position.y);
         g.scale(1, 1);
         g.setColor(COLOR);
-//        g.fillRect(0, 0, (int)width, (int)height);
         g.setTransform(at);
         g.setColor(Color.ORANGE);
 //        g.draw(getBounds());
