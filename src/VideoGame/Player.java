@@ -173,7 +173,7 @@ public class Player extends GameObject {
                 velocity.addScaled(jumpDirection, (ACCELERATION * DT * 120));
                 if (superMario)
                 {
-                    currentImage = superRunRightImage;
+                    currentImage = superJumpRightImage;
                 } else
                 {
                     currentImage = jumpRightImage;
@@ -597,6 +597,7 @@ public class Player extends GameObject {
                         width = 34;
                         velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                         canJump = false;
+                        game.powerDownSound();
                     }
                 } else if (getBoundsRight().intersects(e.getBoundsLeft()))
                 {
@@ -610,6 +611,7 @@ public class Player extends GameObject {
                         width = 34;
                         velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                         canJump = false;
+                        game.powerDownSound();
 
                     }
                 } else if (getBoundsTop().intersects(e.getBoundsBottom()))
@@ -624,6 +626,7 @@ public class Player extends GameObject {
                         width = 34;
                         velocity.addScaled(jumpDirection, (ACCELERATION * DT * 60));
                         canJump = false;
+                        game.powerDownSound();
                     }
                 }
             }
@@ -670,6 +673,8 @@ public class Player extends GameObject {
         }
         height = currentImage.getHeight();
         width = currentImage.getWidth();
+        game.stopMusic();
+        game.stageClearSound();
     }
 
     public void draw(Graphics2D g) {
@@ -680,10 +685,10 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
 //        g.draw(getBounds());
-        g.draw(getBoundsRight());
-        g.draw(getBoundsLeft());
-        g.draw(getBoundsTop());
-        g.draw(getBoundsBottom());
+//        g.draw(getBoundsRight());
+//        g.draw(getBoundsLeft());
+//        g.draw(getBoundsTop());
+//        g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }
 }

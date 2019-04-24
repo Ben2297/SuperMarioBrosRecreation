@@ -50,8 +50,10 @@ public class Game {
     private MediaPlayer jumpSound;
     private MediaPlayer coinSound;
     private MediaPlayer powerupSpawn;
-    private MediaPlayer powerup;
-    private MediaPlayer brickBreak;
+    private MediaPlayer powerupSound;
+    private MediaPlayer brickBreakSound;
+    private MediaPlayer powerdownSound;
+    private MediaPlayer stageClearSound;
 
     private Game() {
 
@@ -322,16 +324,37 @@ public class Game {
     {
         String file = "powerup.wav";
         Media hit = new Media(new File(file).toURI().toString());
-        powerup = new MediaPlayer(hit);
-        powerup.play();
+        powerupSound = new MediaPlayer(hit);
+        powerupSound.play();
     }
 
     public void brickBreakSound()
     {
         String file = "breakblock.wav";
         Media hit = new Media(new File(file).toURI().toString());
-        brickBreak = new MediaPlayer(hit);
-        brickBreak.play();
+        brickBreakSound = new MediaPlayer(hit);
+        brickBreakSound.play();
+    }
+
+    public void powerDownSound()
+    {
+        String file = "powerdown.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        powerdownSound = new MediaPlayer(hit);
+        powerdownSound.play();
+    }
+
+    public void stageClearSound()
+    {
+        String file = "stageclear.wav";
+        Media hit = new Media(new File(file).toURI().toString());
+        stageClearSound = new MediaPlayer(hit);
+        stageClearSound.play();
+    }
+
+    public void stopMusic()
+    {
+        musicPlayer.stop();
     }
 
     public void setGameWon()
