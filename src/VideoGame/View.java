@@ -18,6 +18,8 @@ public class View extends JComponent {
     private BufferedImage coinImage;
     private BufferedImage castleImage;
     private BufferedImage cloudImage;
+    private BufferedImage hillImage;
+    private BufferedImage bushImage;
 
     public View(Game game, Image image, Camera camera) {
         this.game = game;
@@ -29,6 +31,8 @@ public class View extends JComponent {
             coinImage = ImageIO.read(new File("Coin.png"));
             castleImage = ImageIO.read(new File("Castle.png"));
             cloudImage = ImageIO.read(new File("Cloud.png"));
+            hillImage = ImageIO.read(new File("Hill.png"));
+            bushImage = ImageIO.read(new File("Bush.png"));
         } catch (IOException e) {
             System.out.println("Incorrect file name");
         }
@@ -44,6 +48,24 @@ public class View extends JComponent {
         g.drawImage(coinImage, (int)camera.position.x + 400, (int)camera.position.y + 30, this);
         g.drawImage(castleImage, 8000, 320, this);
         g.drawImage(cloudImage, 800, 250, this);
+        g.drawImage(cloudImage, 1400, 350, this);
+        g.drawImage(cloudImage, 2400, 200, this);
+        g.drawImage(cloudImage, 3500, 150, this);
+        g.drawImage(cloudImage, 4200, 300, this);
+        g.drawImage(cloudImage, 5000, 250, this);
+        g.drawImage(cloudImage, 6000, 350, this);
+        g.drawImage(cloudImage, 6600, 200, this);
+        g.drawImage(cloudImage, 7200, 150, this);
+        g.drawImage(hillImage, 400, 660, this);
+        g.drawImage(hillImage, 2200, 660, this);
+        g.drawImage(hillImage, 4000, 660, this);
+        g.drawImage(hillImage, 7000, 660, this);
+        g.drawImage(bushImage, 200, 690, this);
+        g.drawImage(bushImage, 1000, 690, this);
+        g.drawImage(bushImage, 1800, 690, this);
+        g.drawImage(bushImage, 3000, 690, this);
+        g.drawImage(bushImage, 4200, 690, this);
+        g.drawImage(bushImage, 6700, 690, this);
         synchronized (Game.class) {
             for (GameObject object : game.objects) {
                 if (object.getClass() == PowerUp.class || object.getClass() == Coin.class)
