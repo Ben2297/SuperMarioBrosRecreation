@@ -130,7 +130,8 @@ public class Game {
         Media hit = new Media(new File(file).toURI().toString());
         musicPlayer = new MediaPlayer(hit);
         musicPlayer.setOnEndOfMedia(() -> musicPlayer.seek(Duration.ZERO));
-        //musicPlayer.play();
+        musicPlayer.play();
+
 
         View view = new View(game, myImage, camera);
         view.setLayout(null);
@@ -342,6 +343,12 @@ public class Game {
 
     private void resetGame()
     {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         objects.clear();
         scenery.clear();
         enemies.clear();
@@ -357,5 +364,6 @@ public class Game {
         player = new Player(ctrl, playerStartPosition, this);
         objects.add(player);
         camera.position.x = 0;
+        musicPlayer.play();
     }
 }

@@ -453,7 +453,7 @@ public class Player extends GameObject {
             GameObject b = game.scenery.get(i);
 
             if (b.position.x > position.x - 400 && b.position.x < position.x + 400 &&
-                    b.position.y > position.y - 400 && b.position.y < position.y + 400)
+                    b.position.y > position.y - 400 && b.position.y < position.y + 400 && b.getClass() != Flag.class)
             {
                 if (getBoundsBottom().intersects(b.getBoundsTop()) && velocity.y > 0)
                 {
@@ -680,10 +680,10 @@ public class Player extends GameObject {
         g.setTransform(at);
         g.setColor(Color.ORANGE);
 //        g.draw(getBounds());
-//        g.draw(getBoundsRight());
-//        g.draw(getBoundsLeft());
-//        g.draw(getBoundsTop());
-//        g.draw(getBoundsBottom());
+        g.draw(getBoundsRight());
+        g.draw(getBoundsLeft());
+        g.draw(getBoundsTop());
+        g.draw(getBoundsBottom());
         g.drawImage(currentImage, (int)position.x, (int)position.y, null);
     }
 }
