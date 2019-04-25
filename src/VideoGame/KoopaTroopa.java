@@ -159,6 +159,7 @@ public class KoopaTroopa extends Enemy {
             {
                 e.hit();
                 game.enemies.remove(e);
+                game.incrementScore(100);
             }
         }
     }
