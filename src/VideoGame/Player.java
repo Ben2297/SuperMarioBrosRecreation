@@ -444,6 +444,10 @@ public class Player extends GameObject {
                 gameWin();
             }
         }
+        if (hit)
+        {
+            currentImage = deadImage;
+        }
     }
 
     public boolean hasVerticalCollision()
