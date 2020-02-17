@@ -1,3 +1,0 @@
-/home/ben/Documents/Uni Work/COMP5821M/Assignment 1/COMP5821MAssign1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/ben/Documents/Uni Work/COMP5821M/Assignment 1/COMP5821MAssign1/cmake-build-debug/CMakeFiles/COMP5821MAssign1.dir
-/home/ben/Documents/Uni Work/COMP5821M/Assignment 1/COMP5821MAssign1/cmake-build-debug/CMakeFiles/edit_cache.dir
