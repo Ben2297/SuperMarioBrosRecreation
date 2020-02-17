@@ -2,90 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62da8688-376c-4e2a-992d-05625ed84604" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../Background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Block.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bricks.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bush.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Castle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Cloud.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Coin.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EmptyBlock.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Goomba1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Goomba2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GoombaSquashed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GreenKoopa TroopaShell.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GreenKoopaTroopaRunLeft.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GreenKoopaTroopaRunLeft1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GreenKoopaTroopaRunRight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GreenKoopaTroopaRunRight1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GreenKoopaTroopaShell1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Ground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Hill.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Level1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioClimb.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioDead.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioFont.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioJumpLeft.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioJumpRight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunLeft.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunLeft1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunLeft2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunLeft3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunRight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunRight1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunRight2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../MarioRunRight3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Pipe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Pipe2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Pipe3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Question.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Super Mario - Climb1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Super Mario Bros. Theme Song.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioClimb.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioFont.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioJumpLeft.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioJumpRight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunLeft.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunLeft1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunLeft2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunLeft3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunRight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunRight1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunRight2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMarioRunRight3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SuperMushroom.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../breakblock.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../capstone_project.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../coin.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flag.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../jump.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../mariodie.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../powerdown.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../powerup.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../powerupappears.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Utilities/JEasyFrame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/Utilities/Vector2D.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Action.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Block.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Camera.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Coin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Constants.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Enemy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Flag.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/GameObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Goomba.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Keys.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/KoopaTroopa.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Level.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Pipe.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/PowerUp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/VideoGame/View.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../stageclear.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../supermariobroslogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,33 +72,49 @@
       <option name="presentableId" value="Default" />
       <updated>1578676993612</updated>
     </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <created>1578677362005</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1578677362005</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="600" y="150" width="777" height="805" key="CommitChangelistDialog2" timestamp="1578677317081">
+    <state x="600" y="150" width="777" height="805" key="CommitChangelistDialog2" timestamp="1578677361732">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state x="600" y="150" width="777" height="805" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1578677317081" />
+    <state x="600" y="150" width="777" height="805" key="CommitChangelistDialog2/67.27.1853.1053@67.27.1853.1053" timestamp="1578677361732" />
     <state x="821" y="448" width="334" height="208" key="Github.ShareDialog" timestamp="1578677304967">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="821" y="448" width="334" height="208" key="Github.ShareDialog/67.27.1853.1053@67.27.1853.1053" timestamp="1578677304967" />
-    <state width="1807" height="278" key="GridCell.Tab.0.bottom" timestamp="1578677180580">
+    <state width="1807" height="278" key="GridCell.Tab.0.bottom" timestamp="1578677439496">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="278" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1578677180580" />
-    <state width="1807" height="278" key="GridCell.Tab.0.center" timestamp="1578677180580">
+    <state width="1807" height="278" key="GridCell.Tab.0.bottom/67.27.1853.1053@67.27.1853.1053" timestamp="1578677439496" />
+    <state width="1807" height="278" key="GridCell.Tab.0.center" timestamp="1578677439494">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="278" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1578677180580" />
-    <state width="1807" height="278" key="GridCell.Tab.0.left" timestamp="1578677180579">
+    <state width="1807" height="278" key="GridCell.Tab.0.center/67.27.1853.1053@67.27.1853.1053" timestamp="1578677439494" />
+    <state width="1807" height="278" key="GridCell.Tab.0.left" timestamp="1578677439493">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="278" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1578677180579" />
-    <state width="1807" height="278" key="GridCell.Tab.0.right" timestamp="1578677180580">
+    <state width="1807" height="278" key="GridCell.Tab.0.left/67.27.1853.1053@67.27.1853.1053" timestamp="1578677439493" />
+    <state width="1807" height="278" key="GridCell.Tab.0.right" timestamp="1578677439494">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
-    <state width="1807" height="278" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1578677180580" />
+    <state width="1807" height="278" key="GridCell.Tab.0.right/67.27.1853.1053@67.27.1853.1053" timestamp="1578677439494" />
+    <state x="588" y="289" width="800" height="526" key="Vcs.Push.Dialog.v2" timestamp="1578677371692">
+      <screen x="67" y="27" width="1853" height="1053" />
+    </state>
+    <state x="588" y="289" width="800" height="526" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1578677371692" />
     <state x="649" y="380" key="com.intellij.ide.util.TipDialog" timestamp="1578677001564">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
